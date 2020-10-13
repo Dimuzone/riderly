@@ -23,12 +23,14 @@ Content of the project folder:
 ├── index.html               # landing HTML file, this is what users see when you come to url
 └── README.md
 
-It has the following subfolders:
+It has the following subfolders and files:
 ├── .git                     # Folder for git repo
 ├── images                   # Folder for images
+    /blah.jpg                # 
 ├── scripts                  # Folder for scripts
-    /scripts.js              # This is where all the core functions are located
+    /blah.js                 # 
 ├── styles                   # Folder for styles
+    /blah.css                # 
 
 Firebase hosting files: 
 ├── .firebaserc...
