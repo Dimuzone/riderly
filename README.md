@@ -42,5 +42,6 @@ Tips for file naming files and folders:
 * use lowercase with no spaces
 * use dashes (not underscore) for word separation
 
-Ning Ding
-main.html
+## Collaborators
+- [Brandon Semilla](https://github.com/semibran) - profile.html
+- [Ning Ding](https://github.com/zzzbnbzzz) - main.html
