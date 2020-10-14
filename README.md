@@ -42,3 +42,6 @@ Tips for file naming files and folders:
 * use lowercase with no spaces
 * use dashes (not underscore) for word separation
 
+## Collaborators
+- [semibran](https://github.com/semibran) - Added profile.html
+
