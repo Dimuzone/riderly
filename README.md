@@ -1,19 +1,19 @@
-## My Web Application (Title)
+## BusDating
 
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Contents](#content)
 
 ## General Info
-This browser based web application to ...
-	
+This browser based web application to allows public transit users to date.
+
 ## Technologies
 Technologies used for this project:
 * HTML, CSS
 * JavaScript
 * Bootstrap 
 * ...
-	
+
 ## Content
 Content of the project folder:
 
