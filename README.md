@@ -45,3 +45,4 @@ Tips for file naming files and folders:
 ## Collaborators
 - [Brandon Semilla](https://github.com/semibran) - profile.html
 - [Ning Ding](https://github.com/zzzbnbzzz) - main.html
+- [Dimuthu Kumarapeli](http://github.com/Dimuzone) - index.html
