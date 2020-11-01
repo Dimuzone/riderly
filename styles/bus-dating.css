@@ -1,0 +1,33 @@
+/* bus-dating.css
+ * > Reset styles and variables for bus-dating
+ */
+
+:root {
+	--blue: #5e83e2;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+.header {
+	background: var(--blue);
+	color: white;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.header-icon {
+	padding: 12px;
+}
