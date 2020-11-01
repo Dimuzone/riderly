@@ -1,0 +1,27 @@
+header {
+  height: 48px;
+  background-color: #5e83e2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20pt;
+}
+
+.header-icon {
+  font-size: 40px;
+}
+
+footer {
+  height: 48px;
+  background-color: #5e83e2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20pt;
+}
+
+.footer-icon {
+  font-size: 40px;
+}
