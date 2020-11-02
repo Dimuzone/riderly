@@ -13,20 +13,14 @@
 }
 
 body {
-	font-family: sans-serif;
-}
-
-.bar.-header {
-	top: 0;
-}
-
-.bar.-footer {
-	bottom: 0;
+	font-family: "Work Sans", sans-serif;
+	background: #e5e5e5;
 }
 
 .bar {
 	background: var(--blue);
 	color: white;
+	font-weight: bold;
 	position: fixed;
 	left: 0;
 	width: 100%;
@@ -40,4 +34,12 @@ body {
 
 .bar-icon {
 	padding: 12px;
+}
+
+.bar.-header {
+	top: 0;
+}
+
+.bar.-footer {
+	bottom: 0;
 }
