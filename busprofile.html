@@ -2,27 +2,91 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
-  <title>BusDating - Bus Profile</title>
-	<meta charset="utf-8">
-	<meta name="description" content="bus dating">
-	<meta name="author" content="dimuzone, semibran, zzzbnbzzz">
-	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1"/>
-	<link href="styles/bus-dating.css" rel="stylesheet"/>
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>BusDating - Bus Profile</title>
+    <meta charset="utf-8">
+    <meta name="description" content="bus dating">
+    <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="styles/bus-dating.css" rel="stylesheet" />
+    <link href="styles/busprofile.css" rel="stylesheet" />
 </head>
 
 <body>
-  <header class="bar -header">
-    <span class="bar-icon material-icons">keyboard_backspace</span>
-    Header
-    <span class="bar-icon material-icons">favorite_border</span>
-  </header>
-  <footer class="bar -footer">
-    <span class="bar-icon material-icons">home</span>
-    <span class="bar-icon material-icons">mode_comment</span>
-    <span class="bar-icon material-icons">info</span>
-  </footer>
+    <div class="pagewrap">
+        <header class="bar -header">
+            <span class="bar-icon material-icons">keyboard_backspace</span> 49(UBC）
+            <span class="bar-icon material-icons">favorite_border</span>
+        </header>
+
+        <div class="map"><a>MAP</a></div>
+
+        <div class="report">
+            <div class="seat">
+                <span class="rselect">Seating</span>
+                <span class="status">Empty</span>
+                <span class="report-icon material-icons">
+          expand_more
+        </span>
+            </div>
+
+            <div class="arrival">
+                <span class="rselect">Arrival</span>
+                <span class="status">Very Late</span>
+                <span class="report-icon material-icons">
+          expand_more
+        </span>
+            </div>
+
+            <div class="changes">Report Changes</div>
+
+            <div class="alerts">Alerts(4)</div>
+        </div>
+
+        <div class="message">
+            Recent Message
+            <div class="room room1">
+                <span class="roomName">49(UBC)</span>
+                <span class="chat">bborbert is typing</span>
+                <div class="time">
+                    1m
+                    <span class="message-icon material-icons">
+            chevron_right
+          </span>
+                </div>
+            </div>
+
+            <div class="room room2">
+                <span class="roomName">49(UBC) #0123</span>
+                <span class="chat">davinky420: any update?</span>
+                <div class="time">
+                    1d
+                    <span class="message-icon material-icons">
+            chevron_right
+          </span>
+                </div>
+            </div>
+
+            <div class="room room3">
+                <span class="roomName">49(UBC) #0599</span>
+                <span class="chat">you: hello!</span>
+                <div class="time">
+                    1h
+                    <span class="message-icon material-icons">
+            chevron_right
+          </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="bar -footer">
+        <span class="bar-icon material-icons">home</span>
+        <span class="bar-icon material-icons">mode_comment</span>
+        <span class="bar-icon material-icons">info</span>
+    </footer>
 </body>
 
 </html>

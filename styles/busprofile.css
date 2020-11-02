@@ -1,0 +1,130 @@
+
+
+/**********Map********/
+.map {
+    background-color: green;
+    height: 250px;
+    position: relative;
+    top:48px;
+    color: white;
+    text-align: center;
+    font-size: 60pt;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/**********Report********/
+.report {
+    height: 200px;
+    position: relative;
+    top: 48px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.report > div {
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.seat {
+    background-color: yellowgreen;
+}
+
+.arrival {
+    background-color: red;
+}
+
+.seat, .arrival {
+    width: 40%;
+    height: 55px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+}
+
+.report-icon {
+    font-size: 36px;
+}
+
+.rselect {
+    color: gray;
+}
+
+.status {
+    font-size: 10pt;
+}
+
+.changes, .alerts {
+    width: 90%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.changes {
+    background-color: var(--blue);
+
+}
+
+.alerts {
+    background-color: orange;
+}
+
+/**********Message********/
+
+.message {
+    position: relative;
+    top: 48px;
+    width: 80%;
+    margin: 10px auto 0 auto;
+    color: gray;
+    margin-bottom: 60px;
+    margin-top: 20px;
+}
+
+.room {
+    background-color: var(--blue);
+    height: 65px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    border-radius: 5px;
+    color: grey;
+    margin-top: 5px;
+}
+.roomName, .chat {
+    width: 70%;
+    margin-left: 5%;
+}
+
+.roomName {
+    color: white;
+}
+
+.chat {
+    font-size: 10pt;
+}
+
+.time {
+    height: 40px;
+    width: 20%;
+    margin-right: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-icon {
+    font-size: 50px;
+}
