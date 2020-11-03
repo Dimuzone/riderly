@@ -1,4 +1,4 @@
-/**********Map********/
+/*Map and search bar*/
 .map {
     background-color: green;
     height: 200px;
@@ -35,25 +35,60 @@ ul {
     margin-right: 10px;
 }
 
+/*Nearby and favorite tabs*/
+
 .underMap {
     display: flex;
     background-color: white;
     position: relative;
     top: 50px;
-    padding:10px;
 }
 
 .undermap-nearby {
-    display: flex;
-    justify-content: center;
-    width:50%;
+    padding: 10px;
+    flex: 1;
+    text-align: center;
     color: blue;
 
 }
 
 .undermap-favorites {
+    padding: 10px;
+    flex: 1;
+    text-align: center;
+    background-color: lightgray;
+    flex-direction: column;
+    
+}
+
+/* Nearby stations */
+
+.nearby {
     display: flex;
-    justify-content: center;
-    width: 50%;
-    background-color: gray;
+    position: relative;
+    top: 50px;
+    padding: 10px;
+    flex-direction: column;
+}
+
+.nearby-header {
+    color: lightslategray;
+}
+
+.nearby-list {
+}
+
+.nearby-list-item {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+
+}
+
+.nearby-icon {
+    margin-right: 10px;
 }
