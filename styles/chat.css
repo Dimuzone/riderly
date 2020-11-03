@@ -117,5 +117,5 @@
 }
 
 .message-input:not(:placeholder-shown) + .message-send:hover {
-	background: var(--blue-darken);
+	background: var(--blue-dark);
 }
