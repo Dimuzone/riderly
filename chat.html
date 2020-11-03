@@ -9,20 +9,29 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<link href="styles/bus-dating.css" rel="stylesheet" />
 	<link href="styles/chat.css" rel="stylesheet" />
-	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	<script defer src="./scripts/h2dom.js"></script>
+	<script defer src="./scripts/chat.js"></script>
 </head>
 
 <body>
 	<header class="bar -header">
-		<span class="bar-icon material-icons">keyboard_backspace</span>
+		<a href="./index.html" class="bar-icon material-icons">keyboard_backspace</a>
 		Chat
 		<span class="bar-icon material-icons">favorite_border</span>
 	</header>
+	<main class="page -chat">
+		<div class="messages"></div>
+		<div class="message-bar">
+			<input class="message-input" placeholder="Enter a message..." />
+			<button class="message-send material-icons">arrow_upward</button>
+		</div>
+	</main>
 	<footer class="bar -footer">
 		<span class="bar-icon material-icons">home</span>
-		<span class="bar-icon material-icons">mode_comment</span>
-		<span class="bar-icon material-icons">info</span>
+		<span class="bar-icon material-icons -disabled">mode_comment</span>
+		<span class="bar-icon material-icons -disabled">report</span>
 	</footer>
 </body>
 

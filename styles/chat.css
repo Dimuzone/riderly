@@ -1,0 +1,101 @@
+.page.-chat {
+	display: flex;
+	flex-direction: column;
+}
+
+.messages {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-start;
+	padding: 32px 16px;
+}
+
+.message {
+	display: inline-block;
+	max-width: 75%;
+	padding: 8px 12px;
+	background: var(--silver);
+	color: var(--gray);
+	font-weight: 500;
+	line-height: 1.25;
+	margin-bottom: 2px;
+	border-radius: 8px;
+	position: relative;
+}
+
+.message::before {
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: calc(36px / 2 - 8px);
+	right: 100%;
+	border: 8px solid transparent;
+	border-right-color: var(--silver);
+}
+
+.message.-user {
+	background: var(--blue);
+	color: white;
+	margin-left: auto;
+}
+
+.message.-user::before {
+	right: auto;
+	left: 100%;
+	border-color: transparent;
+	border-left-color: var(--blue)
+}
+
+.message-bar {
+	display: flex;
+	margin: 4px;
+	padding: 4px;
+	border-radius: 20px;
+	background: white;
+	border: thin solid var(--silver);
+	transition: 0.125s border-color;
+}
+
+.message-bar:focus-within {
+	border-color: var(--blue);
+}
+
+.message-input {
+	flex: 1;
+	padding: 8px 16px;
+	border: none;
+	outline: none;
+	background: none;
+	font-size: 14px;
+	color: var(--jet);
+}
+
+.message-input::placeholder {
+	color: var(--silver);
+	transition: 0.125s color;
+}
+
+.message-input:focus::placeholder {
+	color: var(--blue);
+}
+
+.message-send {
+	background: var(--blue);
+	color: white;
+	width: 32px;
+	height: 32px;
+	outline: none;
+	border: none;
+	border-radius: 50%;
+	transition: 0.125s background;
+}
+
+.message-input:placeholder-shown + .message-send {
+	background: var(--silver);
+}
+
+.message-input:not(:placeholder-shown) + .message-send:hover {
+	background: var(--blue-darken);
+}
