@@ -21,9 +21,13 @@ ul {
     background-color: white;
     padding: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     color: gray;
+    height: 15%;
+    width: 80%;
+    border-radius: 6px;
+    margin-top: 10px;
     
 }
 
@@ -75,9 +79,6 @@ ul {
     color: lightslategray;
 }
 
-.nearby-list {
-}
-
 .nearby-list-item {
     display: flex;
     align-items: center;
@@ -86,6 +87,7 @@ ul {
     padding: 10px;
     border-radius: 10px;
     margin-top: 10px;
+
 
 }
 
