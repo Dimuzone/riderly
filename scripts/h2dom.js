@@ -3,7 +3,7 @@
 // TODO: revert to <=ES5 compatibility
 //
 // Exposes a subset of HTML tags from the WHATWG HTML Living Standard
-// for use as h functions, e.g. p("Hello world!")
+// for use as h functions, e.g. p([ "Hello world!" ])
 //
 (tags => {
 	const h = (tag, data, content) => {
@@ -26,11 +26,12 @@
 	}
 
 	const EMPTY_OBJ = {}
+	const EMPTY_ARR = []
 	for (let tag of tags) {
 		window[tag] = (data, content) =>
 			data === undefined || Array.isArray(data)
-				? h(tag, EMPTY_OBJ, data)
-				: h(tag, data, content)
+				? h(tag, EMPTY_OBJ, data || EMPTY_ARR)
+				: h(tag, data, content || EMPTY_ARR)
 	}
 })([
 	"main", "header", "footer", "div",
