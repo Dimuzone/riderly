@@ -3,9 +3,11 @@
  */
 
 :root {
-	--blue: #5e83e2;
-	--blue-darken: #464ec7;
-	--silver: #c4c4c4;
+	--blue: #5E83E2;
+	--blue-darken: #4669C3;
+	--green: #65A164;
+	--green-darken: #3A824E;
+	--silver: #C4C4C4;
 	--jet: #242424;
 	--font-content: "Work Sans", sans-serif;
 }
