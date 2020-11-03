@@ -1,0 +1,59 @@
+/**********Map********/
+.map {
+    background-color: green;
+    height: 200px;
+    position: relative;
+    top:48px;
+    color: white;
+    font-size: 60pt;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.search-bar {
+    top: 0;
+    position: absolute;
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: gray;
+    
+}
+
+.search-bar-text {
+    font-size: small;
+}
+
+.search-bar-icon {
+    margin-right: 10px;
+}
+
+.underMap {
+    display: flex;
+    background-color: white;
+    position: relative;
+    top: 50px;
+    padding:10px;
+}
+
+.undermap-nearby {
+    display: flex;
+    justify-content: center;
+    width:50%;
+    color: blue;
+
+}
+
+.undermap-favorites {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    background-color: gray;
+}
