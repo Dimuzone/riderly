@@ -22,12 +22,30 @@
 	line-height: 1.25;
 	margin-bottom: 2px;
 	border-radius: 8px;
+	position: relative;
+}
+
+.message::before {
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: calc(36px / 2 - 8px);
+	right: 100%;
+	border: 8px solid transparent;
+	border-right-color: var(--silver);
 }
 
 .message.-user {
 	background: var(--blue);
 	color: white;
 	margin-left: auto;
+}
+
+.message.-user::before {
+	right: auto;
+	left: 100%;
+	border-color: transparent;
+	border-left-color: var(--blue)
 }
 
 .message-bar {
