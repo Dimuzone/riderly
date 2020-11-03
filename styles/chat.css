@@ -1,8 +1,14 @@
+.page.-chat {
+	display: flex;
+	flex-direction: column;
+}
+
+.messages {
+	flex: 1;
+}
+
 .message-bar {
 	display: flex;
-	position: absolute;
-	bottom: 0;
-	width: calc(100% - 8px);
 	margin: 4px;
 	padding: 4px;
 	border-radius: 20px;
