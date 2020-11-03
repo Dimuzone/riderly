@@ -59,6 +59,19 @@ body {
 	bottom: 0;
 }
 
+.map {
+	background: var(--green);
+	color: var(--green-darken);
+	position: relative;
+	top: 48px;
+	height: 240px;
+	line-height: 240px;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 3em;
+	font-weight: bold;
+}
+
 .page {
 	position: relative;
 	top: 48px;
