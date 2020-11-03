@@ -1,20 +1,41 @@
 .page.-chat {
 	display: flex;
 	flex-direction: column;
+	position: relative;
+}
+
+.messages-wrap {
+	flex: 1;
+	overflow-y: scroll;
 }
 
 .messages {
-	flex: 1;
+	padding: 24px 16px;
+}
+
+.message-group {
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-end;
 	align-items: flex-start;
-	padding: 32px 16px;
+	margin-top: 12px;
+}
+
+.message-group.-user {
+	margin-left: auto;
+	align-items: flex-end;
+}
+
+.message-author {
+	display: block;
+	color: var(--lightgray);
+	font-size: 0.825em;
+	font-weight: 500;
+	margin-bottom: 2px;
 }
 
 .message {
+	max-width: 80%;
 	display: inline-block;
-	max-width: 75%;
 	padding: 8px 12px;
 	background: var(--silver);
 	color: var(--gray);
@@ -38,7 +59,6 @@
 .message.-user {
 	background: var(--blue);
 	color: white;
-	margin-left: auto;
 }
 
 .message.-user::before {

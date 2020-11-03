@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
 /* bus-dating.css
  * > Reset styles and variables for bus-dating
  */
@@ -8,6 +11,7 @@
 	--green: #65A164;
 	--green-darken: #3A824E;
 	--silver: #C4C4C4;
+	--lightgray: #999999;
 	--gray: #666666;
 	--jet: #242424;
 	--font-content: "Work Sans", sans-serif;
