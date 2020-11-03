@@ -4,6 +4,8 @@
 
 :root {
 	--blue: #5e83e2;
+	--silver: #c4c4c4;
+	--font-content: "Work Sans", sans-serif;
 }
 
 * {
@@ -12,8 +14,11 @@
 	box-sizing: border-box;
 }
 
+input, button, body {
+	font-family: var(--font-content);
+}
+
 body {
-	font-family: "Work Sans", sans-serif;
 	background: #e5e5e5;
 }
 
@@ -36,7 +41,10 @@ body {
 	display: inline-block;
 	width: 48px;
 	padding: 12px;
-	font-weight: normal;
+}
+
+.bar-icon.-disabled {
+	opacity: 0.5;
 }
 
 .bar.-header {
@@ -45,4 +53,10 @@ body {
 
 .bar.-footer {
 	bottom: 0;
+}
+
+.page {
+	position: relative;
+	top: 48px;
+	height: calc(100vh - 96px);
 }

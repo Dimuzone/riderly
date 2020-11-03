@@ -1,0 +1,36 @@
+.message-bar {
+	display: flex;
+	position: absolute;
+	bottom: 0;
+	width: calc(100% - 8px);
+	margin: 4px;
+	padding: 4px;
+	border-radius: 20px;
+	background: white;
+}
+
+.message-input {
+	flex: 1;
+	padding: 8px 16px;
+	border: none;
+	outline: none;
+	background: none;
+	font-size: 14px;
+}
+
+.message-input::placeholder {
+	color: var(--silver);
+}
+
+.message-input:focus::placeholder {
+	color: var(--blue);
+}
+
+.message-send {
+	border: none;
+	background: var(--blue);
+	color: white;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+}
