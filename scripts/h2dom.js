@@ -1,3 +1,10 @@
+// h2dom.js
+// HTML tag prep for optimized for browser include
+// TODO: revert to <=ES5 compatibility
+//
+// Exposes a subset of HTML tags from the WHATWG HTML Living Standard
+// for use as h functions, e.g. p("Hello world!")
+//
 (tags => {
 	const h = (tag, data, content) => {
 		let el = document.createElement(tag)
