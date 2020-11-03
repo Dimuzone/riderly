@@ -9,12 +9,13 @@ const state = {
 	]
 }
 
+const renderMessages = (messages, state) =>
+	div({ class: "messages" }, messages.map(message => renderMessage(message, state)))
+
 const renderMessage = (message, state) =>
 	message.author === state.user
 		? div({ class: "message -user" }, [ message.content ])
 		: div({ class: "message" }, [ message.content ])
 
-for (let msgdata of state.messages) {
-	let msg = renderMessage(msgdata, state)
-	el.appendChild(msg)
-}
+let messages = renderMessages(state.messages, state)
+el.parentNode.replaceChild(messages, el)
