@@ -7,6 +7,12 @@
 	padding: 4px;
 	border-radius: 20px;
 	background: white;
+	border: thin solid var(--silver);
+	transition: 0.125s border-color;
+}
+
+.message-bar:focus-within {
+	border-color: var(--blue);
 }
 
 .message-input {
@@ -16,10 +22,12 @@
 	outline: none;
 	background: none;
 	font-size: 14px;
+	color: var(--jet);
 }
 
 .message-input::placeholder {
 	color: var(--silver);
+	transition: 0.125s color;
 }
 
 .message-input:focus::placeholder {
@@ -27,10 +35,20 @@
 }
 
 .message-send {
-	border: none;
 	background: var(--blue);
 	color: white;
 	width: 32px;
 	height: 32px;
+	outline: none;
+	border: none;
 	border-radius: 50%;
+	transition: 0.125s background;
+}
+
+.message-input:placeholder-shown + .message-send {
+	background: var(--silver);
+}
+
+.message-input:not(:placeholder-shown) + .message-send:hover {
+	background: var(--blue-darken);
 }
