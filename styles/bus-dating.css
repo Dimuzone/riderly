@@ -33,7 +33,10 @@ body {
 }
 
 .bar-icon {
+	display: inline-block;
+	width: 48px;
 	padding: 12px;
+	font-weight: normal;
 }
 
 .bar.-header {
