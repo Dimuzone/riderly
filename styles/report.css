@@ -1,0 +1,51 @@
+.report {
+    position: relative;
+    top: 48px;
+    background-color: white;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    border-radius: 10px;
+    height: 158px;
+}
+
+.title {
+    background-color: var(--blue);
+    height: 32px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    line-height: 32px;
+    color: white;
+}
+
+.text {
+    text-align: center;
+    margin-left: 16px;
+    color: var(--gray);
+    margin-top: 16px;
+}
+
+.choice {
+    margin-top: 12px;
+    margin-left: 24px;
+}
+
+.radio-button {
+    margin-bottom: 8px;
+    color: var(--silver);
+}
+
+.submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 108px;
+    background-color: var(--blue);
+    border-radius: 10px;
+    float: right;
+    margin-right: 16px;
+    margin-top: 16px;
+    color: white;
+}
