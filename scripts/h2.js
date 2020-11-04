@@ -7,7 +7,8 @@
 (function (tags) {
 	var EMPTY_OBJ = {}
 	var EMPTY_ARR = []
-	for (var tag of tags) {
+	for (var i = 0; i < tags.length; i++) {
+		let tag = tags[i]
 		window[tag] = (function (h, tag) {
 			return function (data, content) {
 				return data === undefined || Array.isArray(data)
