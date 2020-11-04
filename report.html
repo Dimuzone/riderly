@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>BusDating - Bus Profile</title>
+    <meta charset="utf-8">
+    <meta name="description" content="bus dating">
+    <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
+    <link href="styles/bus-dating.css" rel="stylesheet" />
+    <link href="styles/report.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="bar -header">
+        <span class="bar-icon material-icons">keyboard_backspace</span> 49(UBC）
+        <span class="bar-icon material-icons">favorite_border</span>
+    </header>
+
+    <div class="report seat">
+        <div class="title">SEATING AVAILABILITY</div>
+        <p class="text">Is the bus empty, standing only, or full?</p>
+        <div class="choice">
+            <div class="radio-button">
+                <input type="radio" id="empty" name="drone" value="huey" checked>
+                <label for="empty">Empty</label>
+            </div>
+
+            <div class="radio-button">
+                <input type="radio" id="stand" name="drone" value="dewey">
+                <label for="stand">Standing Only</label>
+            </div>
+
+            <div class="radio-button">
+                <input type="radio" id="full" name="drone" value="louie">
+                <label for="full">Full</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="report tardiness">
+        <div class="title">TARDINESS</div>
+        <p class="text">Is the bus on time, late, or very late?</p>
+        <div class="choice">
+            <div class="radio-button">
+                <input type="radio" id="ontime" name="drone" value="huey" checked>
+                <label for="ontime">On time</label>
+            </div>
+
+            <div class="radio-button">
+                <input type="radio" id="late" name="drone" value="dewey">
+                <label for="late">Late</label>
+            </div>
+
+            <div class="radio-button">
+                <input type="radio" id="very-late" name="drone" value="louie">
+                <label for="very-late">Very late</label>
+            </div>
+        </div>
+
+        <div class="submit">Report <span class="report-icon material-icons">
+            chevron_right
+          </span></div>
+    </div>
+
+
+    <footer class="bar -footer">
+        <span class="bar-icon material-icons">home</span>
+        <span class="bar-icon material-icons">mode_comment</span>
+        <span class="bar-icon material-icons">info</span>
+    </footer>
+</body>
+
+</html>
