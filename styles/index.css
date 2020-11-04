@@ -1,22 +1,12 @@
 /*Map and search bar*/
-.map {
-    background-color: green;
-    height: 200px;
-    position: relative;
-    top:48px;
-    color: white;
-    font-size: 60pt;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-}
+
 
 ul {
     list-style-type: none;
 }
 
 .search-bar {
-    top: 0;
+    top: 48px;
     position: absolute;
     background-color: white;
     padding: 10px;
@@ -24,10 +14,11 @@ ul {
     justify-content: left;
     align-items: center;
     color: gray;
-    height: 15%;
     width: 80%;
     border-radius: 6px;
     margin-top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     
 }
 
@@ -52,7 +43,7 @@ ul {
     padding: 10px;
     flex: 1;
     text-align: center;
-    color: blue;
+    color: var(--blue);
 
 }
 
