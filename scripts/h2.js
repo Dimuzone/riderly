@@ -4,7 +4,12 @@
 // Exposes all tags from the WHATWG HTML Living Standard
 // for use as h functions, e.g. p([ "Hello world!" ])
 //
+// Also includes manifest and patch functions for:
+// (1) converting vnodes to DOM elements
+// (2) updating DOM elements to match vnodes
+//
 (function (tags) {
+	// Create contextualized h functions
 	var EMPTY_OBJ = {}
 	var EMPTY_ARR = []
 	for (var i = 0; i < tags.length; i++) {
@@ -21,6 +26,8 @@
 	window.manifest = manifest
 	window.patch = patch
 
+	// h(tag, data, [ vnode | prim ]) -> vnode
+	// Creates a vnode.
 	function h(tag, data, content) {
 		return {
 			tag: tag,
@@ -29,6 +36,8 @@
 		}
 	}
 
+	// manifest(vnode) -> Element
+	// Converts a vnode to an HTML element.
 	function manifest(node) {
 		if (node instanceof Element) return node
 		if (!node || typeof node !== "object") {
@@ -52,6 +61,8 @@
 		return element
 	}
 
+	// patch(Element, vnode)
+	// Updates an existing DOM element to match the given vnode.
 	function patch(el, node) {
 		let tag = el.tagName
 		let data = el.attributes
