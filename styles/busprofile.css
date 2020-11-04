@@ -64,11 +64,12 @@
 
 .changes {
     background-color: var(--blue);
-
+    color: var(--blue-light);
 }
 
 .alerts {
     background-color: var(--yellow);
+    color: var(--yellow-dark);
 }
 
 /**********Message********/
@@ -119,4 +120,5 @@
 
 .message-icon {
     font-size: 50px;
+    color: white;
 }
