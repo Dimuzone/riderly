@@ -94,18 +94,31 @@
     align-items: stretch;
     border-radius: 5px;
     margin-top: 5px;
+    color: var(--blue-light);
+}
+
+.room2, .room3 {
+  background-color: var(--silver);
 }
 .roomName, .chat {
     width: 70%;
     margin-left: 5%;
 }
 
-.roomName {
+.roomName1 {
     color: white;
 }
 
+.roomName2, .roomName3 {
+  color: var(--lightgray);
+}
+
 .chat {
-    font-size: 10pt;
+    font-size: 12pt;
+}
+
+.chat2, .chat3 {
+  color: var(--gray)
 }
 
 .time {
@@ -118,7 +131,19 @@
     color: var(--silver)
 }
 
+.time2, .time3 {
+  color: var(--lightgray);
+}
+
 .message-icon {
     font-size: 50px;
     color: white;
+}
+
+.message-icon1 {
+  color: var(--blue-light);
+}
+
+.message-icon2, .message-icon3 {
+  color: var(--lightgray);
 }
