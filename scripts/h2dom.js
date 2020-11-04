@@ -8,11 +8,13 @@
 	var EMPTY_OBJ = {}
 	var EMPTY_ARR = []
 	for (var tag of tags) {
-		window[tag] = function (data, content) {
-			data === undefined || Array.isArray(data)
-				? h(tag, EMPTY_OBJ, data || EMPTY_ARR)
-				: h(tag, data, content || EMPTY_ARR)
-		}
+		window[tag] = (function (h, tag) {
+			return function (data, content) {
+				return data === undefined || Array.isArray(data)
+					? h(tag, EMPTY_OBJ, data || EMPTY_ARR)
+					: h(tag, data, content || EMPTY_ARR)
+			}
+		})(h, tag)
 	}
 
 	function h(tag, data, content) {
