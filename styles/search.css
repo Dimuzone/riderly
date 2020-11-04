@@ -1,0 +1,103 @@
+ul {
+    list-style-type: none;
+}
+
+.search-bar-background {
+    background-color: white;
+    height: 50px;
+    position: relative;
+    top:48px;
+    color: white;
+    font-size: 60pt;
+    justify-content: left;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin: 20px;
+}
+
+.search-bar-text {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: small;
+    color: black;
+}
+
+.search-bar-icon {
+    margin-right: 10px;
+}
+
+.schedules {
+    position: relative;
+    display: flex;
+    top: 48px;
+    flex-direction: column;
+    padding-top: 10px;
+    margin: 20px;
+}
+
+.schedules-main-text {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.schedule-line {
+    margin-right: 10px;
+}
+
+.arrival {
+    display: flex;
+    align-content: center;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: black;
+    color: white;
+    border-radius: 8px;
+    justify-content: space-between;
+}
+
+.arrival-left-side {
+    display: flex;
+}
+
+.bottom-text {
+    font-size: 11px;
+    color: lightslategray;
+}
+
+.arrival-right-side {
+    display: flex;
+    align-items: center;
+}
+
+.arrives {
+    color: lightslategray;
+}
+
+.time {
+    color: white;
+}
+
+.good-indicator {
+    background-color:green;
+}
+
+.ok-indicator {
+    background-color: yellow;
+}
+
+.bad-indicator {
+    background-color: red;
+}
+
+.arrives-text {
+    font-size: 13px;
+}
+
+.icon {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    margin-left: 5px;
+}

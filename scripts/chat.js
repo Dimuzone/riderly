@@ -12,7 +12,7 @@ const state = {
 		{ time: null, author: "bboberts", content: "Wait" },
 		{ time: null, author: "bboberts", content: "What happened??" },
 		{ time: null, author: "instant_noodle", content: "A semi got rearended off marine right before the loop" },
-		{ time: null, author: "bboberts", content: "Ooo" },
+		{ time: null, author: "bboberts", content: "Ooo" }
 	]
 }
 
