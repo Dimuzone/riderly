@@ -19,7 +19,7 @@
 }
 
 .arrival {
-    background-color: red;
+    background-color: var(--red);
 }
 
 .seat, .arrival {
@@ -38,7 +38,7 @@
 }
 
 .rselect {
-    color: gray;
+    color: var(--gray);
 }
 
 .status {
@@ -60,7 +60,7 @@
 }
 
 .alerts {
-    background-color: orange;
+    background-color: var(--yellow);
 }
 
 /**********Message********/
@@ -70,7 +70,7 @@
     top: 48px;
     width: 80%;
     margin: 10px auto 0 auto;
-    color: gray;
+    color: var(--gray);
     margin-bottom: 60px;
     margin-top: 20px;
 }
@@ -84,7 +84,6 @@
     justify-content: center;
     align-items: stretch;
     border-radius: 5px;
-    color: grey;
     margin-top: 5px;
 }
 .roomName, .chat {
@@ -107,6 +106,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--silver)
 }
 
 .message-icon {
