@@ -15,7 +15,7 @@
 }
 
 .seat {
-    background-color: yellowgreen;
+    background-color: var(--green);
 }
 
 .arrival {
@@ -39,6 +39,14 @@
 
 .rselect {
     color: var(--gray);
+}
+
+.rseat {
+  color: var(--green-light)
+}
+
+.rarrival {
+  color: var(--red-light)
 }
 
 .status {
