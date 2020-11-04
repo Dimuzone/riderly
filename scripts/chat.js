@@ -1,11 +1,43 @@
-const wrap = document.querySelector(".messages-wrap")
-const send = document.querySelector(".message-send")
-const input = document.querySelector(".message-input")
+let textbox = null
+let wrap = null
 
-// raw application data
-const state = {
+const send = (state) => {
+	if (!textbox.value) return false
+	update({
+		...state,
+		messages: [ ...state.messages, {
+			time: null,
+			author: state.user,
+			content: textbox.value
+		}]
+	})
+	scroll()
+	textbox.value = ""
+	return true
+}
+
+const update = (state) =>
+	patch(document.querySelector(".page.-chat"),
+		main({ class: "page -chat" }, [
+			div({ class: "messages" }, [ renderMessages(state) ]),
+			div({ class: "message-bar" }, [
+				input({
+					class: "message-input",
+					placeholder: "Enter a message...",
+					onkeypress: (evt) => evt.key === "Enter" ? send(state) : true
+				}),
+				button({
+					class: "message-send material-icons",
+					onclick: _ => send(state)
+				}, [ "arrow_upward" ])
+			])
+		])
+	)
+
+// set initial state
+update({
 	user: "instant_noodle",
-	messages: [
+	messages: [ // this will be retrieved async by db
 		{ time: null, author: "instant_noodle", content: "Ambulance on the scene" },
 		{ time: null, author: "DeclanBarlow", content: "it's been 30 mins :((" },
 		{ time: null, author: "DeclanBarlow", content: "my boss is gonna talk my ear off" },
@@ -14,46 +46,11 @@ const state = {
 		{ time: null, author: "instant_noodle", content: "A semi got rearended off marine right before the loop" },
 		{ time: null, author: "bboberts", content: "Ooo" }
 	]
-}
+})
 
-// mutate state
-const actions = {
-	send: message => {
-		state.messages.push(message)
-	}
-}
-
-// calls actions in response to user interaction
-const events = {
-	mount: el => {
-		let tree = renderMessages(state.messages, state)
-		view = manifest(tree)
-		el.appendChild(view)
-		scroll()
-
-		send.onclick = events.send
-		input.onkeypress = evt => {
-			if (evt.key === "Enter") {
-				events.send()
-			}
-		}
-	},
-	send: _ => {
-		if (!input.value) return false
-		actions.send({
-			time: null,
-			author: state.user,
-			content: input.value
-		})
-		let tree = renderMessages(state.messages, state)
-		patch(view, tree)
-		scroll()
-		input.value = ""
-	}
-}
-
-let view = null
-events.mount(wrap)
+textbox = document.querySelector(".message-input")
+wrap = document.querySelector(".messages")
+scroll()
 
 function scroll() {
 	if (wrap.scrollHeight > wrap.clientHeight) {
@@ -61,21 +58,11 @@ function scroll() {
 	}
 }
 
-function renderMessage(message, state) {
-	return message.author === state.user
-		? div({ class: "message -user" }, [
-				div({ class: "message-text" }, [ message.content ])
-			])
-		: div({ class: "message" }, [
-				div({ class: "message-text" }, [ message.content ])
-			])
-}
-
-function renderMessages(messages, state) {
+function renderMessages(state) {
 	let groups = []
 	let group = null
 	let author = null
-	for (let msg of messages) {
+	for (let msg of state.messages) {
 		if (msg.author !== author) {
 			author = msg.author
 			group = author === state.user
@@ -87,9 +74,9 @@ function renderMessages(messages, state) {
 					])
 			groups.push(group)
 		}
-		let message = renderMessage(msg, state)
+		let message = div({ class: "message" }, [ msg.content ])
 		group.content.push(message)
 	}
-	let el = div({ class: "messages" }, groups)
+	let el = div({ class: "message-groups" }, groups)
 	return el
 }

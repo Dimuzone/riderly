@@ -4,12 +4,12 @@
 	position: relative;
 }
 
-.messages-wrap {
+.messages {
 	flex: 1;
 	overflow-y: scroll;
 }
 
-.messages {
+.message-groups {
 	padding: 24px 16px;
 }
 
@@ -17,6 +17,9 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+}
+
+.message-group:not(:first-child) {
 	margin-top: 12px;
 }
 
@@ -44,6 +47,7 @@
 	margin-bottom: 2px;
 	border-radius: 8px;
 	position: relative;
+	word-break: break-word;
 }
 
 .message::before {
@@ -56,12 +60,12 @@
 	border-right-color: var(--silver);
 }
 
-.message.-user {
+.message-group.-user .message {
 	background: var(--blue);
 	color: white;
 }
 
-.message.-user::before {
+.message-group.-user .message::before {
 	right: auto;
 	left: 100%;
 	border-color: transparent;

@@ -1,12 +1,11 @@
 // h2.js
-// Lightweight vdom impl optimized for browser inclusion
+// Tiny vdom impl for lightweight web interfaces.
+// Optimized for browser inclusion.
 //
 // Exposes all tags from the WHATWG HTML Living Standard
 // for use as h functions, e.g. p([ "Hello world!" ])
 //
-// Also includes manifest and patch functions for:
-// (1) converting vnodes to DOM elements
-// (2) updating DOM elements to match vnodes
+// Includes a patch function for updating DOM elements to match vnodes
 //
 (function (tags) {
 	// Create contextualized h functions
@@ -23,7 +22,6 @@
 		})(h, tag)
 	}
 
-	window.manifest = manifest
 	window.patch = patch
 
 	// h(tag, data, [ vnode | prim ]) -> vnode
