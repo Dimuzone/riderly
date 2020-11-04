@@ -19,7 +19,7 @@
 }
 
 .arrival {
-    background-color: red;
+    background-color: var(--red);
 }
 
 .seat, .arrival {
@@ -60,7 +60,7 @@
 }
 
 .alerts {
-    background-color: orange;
+    background-color: var(--yellow);
 }
 
 /**********Message********/
