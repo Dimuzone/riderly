@@ -1,7 +1,7 @@
 // h2.js
-// Lightweight vdom impl optimized for browser include
+// Lightweight vdom impl optimized for browser inclusion
 //
-// Exposes a subset of HTML tags from the WHATWG HTML Living Standard
+// Exposes all tags from the WHATWG HTML Living Standard
 // for use as h functions, e.g. p([ "Hello world!" ])
 //
 (function (tags) {
