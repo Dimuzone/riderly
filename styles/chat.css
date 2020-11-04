@@ -6,7 +6,16 @@
 
 .messages {
 	flex: 1;
+	position: relative;
+}
+
+.messages.-scroll {
 	overflow-y: scroll;
+}
+
+.messages:not(.-scroll) .message-groups {
+	position: absolute;
+	bottom: 0;
 }
 
 .message-groups {

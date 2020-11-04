@@ -1,5 +1,6 @@
 let textbox = null
 let wrap = null
+let groups = null
 
 const send = (state) => {
 	if (!textbox.value) return false
@@ -50,11 +51,15 @@ update({
 
 textbox = document.querySelector(".message-input")
 wrap = document.querySelector(".messages")
+groups = document.querySelector(".message-groups")
 scroll()
 
 function scroll() {
-	if (wrap.scrollHeight > wrap.clientHeight) {
-		wrap.scrollTop = wrap.scrollHeight - wrap.clientHeight
+	if (groups.clientHeight > wrap.clientHeight) {
+		wrap.classList.add("-scroll")
+		wrap.scrollTop = groups.clientHeight - wrap.clientHeight
+	} else {
+		wrap.classList.remove("-scroll")
 	}
 }
 
