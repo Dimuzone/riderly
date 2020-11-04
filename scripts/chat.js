@@ -1,5 +1,8 @@
 const wrap = document.querySelector(".messages-wrap")
+const send = document.querySelector(".message-send")
+const input = document.querySelector(".message-input")
 
+// raw application data
 const state = {
 	user: "instant_noodle",
 	messages: [
@@ -13,13 +16,68 @@ const state = {
 	]
 }
 
-const renderMessages = (messages, state) => {
+// mutate state
+const actions = {
+	send: message => {
+		state.messages.push(message)
+	}
+}
+
+// calls actions in response to user interaction
+const events = {
+	mount: el => {
+		let tree = renderMessages(state.messages, state)
+		view = manifest(tree)
+		el.appendChild(view)
+		scroll()
+
+		send.onclick = events.send
+		input.onkeypress = evt => {
+			if (evt.key === "Enter") {
+				events.send()
+			}
+		}
+	},
+	send: _ => {
+		if (!input.value) return false
+		actions.send({
+			time: null,
+			author: state.user,
+			content: input.value
+		})
+		let tree = renderMessages(state.messages, state)
+		patch(view, tree)
+		scroll()
+		input.value = ""
+	}
+}
+
+let view = null
+events.mount(wrap)
+
+function scroll() {
+	if (wrap.scrollHeight > wrap.clientHeight) {
+		wrap.scrollTop = wrap.scrollHeight - wrap.clientHeight
+	}
+}
+
+function renderMessage(message, state) {
+	return message.author === state.user
+		? div({ class: "message -user" }, [
+				div({ class: "message-text" }, [ message.content ])
+			])
+		: div({ class: "message" }, [
+				div({ class: "message-text" }, [ message.content ])
+			])
+}
+
+function renderMessages(messages, state) {
 	let groups = []
 	let group = null
 	let author = null
-	for (let message of messages) {
-		if (message.author !== author) {
-			author = message.author
+	for (let msg of messages) {
+		if (msg.author !== author) {
+			author = msg.author
 			group = author === state.user
 				? div({ class: "message-group -user" }, [
 						span({ class: "message-author" }, [ author + " (You)" ])
@@ -29,24 +87,9 @@ const renderMessages = (messages, state) => {
 					])
 			groups.push(group)
 		}
-		group.appendChild(renderMessage(message, state))
+		let message = renderMessage(msg, state)
+		group.content.push(message)
 	}
 	let el = div({ class: "messages" }, groups)
 	return el
-}
-
-const renderMessage = (message, state) =>
-	message.author === state.user
-		? div({ class: "message -user" }, [
-				div({ class: "message-text" }, [ message.content ])
-			])
-		: div({ class: "message" }, [
-				div({ class: "message-text" }, [ message.content ])
-			])
-
-let messages = renderMessages(state.messages, state)
-wrap.appendChild(messages)
-
-if (wrap.scrollHeight > wrap.clientHeight) {
-	wrap.scrollTop = wrap.scrollHeight - wrap.clientHeight
 }
