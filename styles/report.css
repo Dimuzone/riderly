@@ -2,12 +2,11 @@
     position: relative;
     top: 48px;
     background-color: white;
-    width: 90%;
+    width: 95%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 30px;
     border-radius: 10px;
-    height: 158px;
 }
 
 .title {
@@ -20,7 +19,6 @@
 }
 
 .text {
-    text-align: center;
     margin-left: 16px;
     color: var(--gray);
     margin-top: 16px;
@@ -34,6 +32,10 @@
 .radio-button {
     margin-bottom: 8px;
     color: var(--silver);
+}
+
+.content {
+    padding-bottom: 16px;
 }
 
 .submit {
