@@ -58,7 +58,7 @@ function scroll() {
 	if (groups.clientHeight > wrap.clientHeight) {
 		wrap.classList.add("-scroll")
 		wrap.scrollTop = groups.clientHeight - wrap.clientHeight
-	} else {
+	} else if (wrap.classList.contains("-scroll")) {
 		wrap.classList.remove("-scroll")
 	}
 }
