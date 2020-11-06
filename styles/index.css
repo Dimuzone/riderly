@@ -106,15 +106,14 @@
 
 }
 
-.stn-route-number {
+.saved-route {
+    margin-top: 2px;
     font-size: 11px;
-    font-weight: bold;
-    color: var(--color-content);
 }
 
-.stn-number {
-    font-size: 11px;
-
+.stn-route-number {
+    font-weight: bold;
+    color: var(--color-content);
 }
 
 .station-icon {
@@ -153,6 +152,7 @@
 }
 
 .user {
+    margin-top: 2px;
     display: flex;
     font-size: 12px;
 }
