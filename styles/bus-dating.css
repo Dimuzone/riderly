@@ -8,12 +8,11 @@
 /* Variable declarations */
 :root {
 	--color-bg: white;
-	--color-input: #F6F7F9;
-	--color-disable: #E8E8E8;
-	--color-silver: var(--color-disable);
-	--color-outline: #C4C4C4;
-	--color-content: #8F8F8F;
-	--color-title: #676767;
+	--color-white: #F6F7F9;
+	--color-silver: #E8E8E8;
+	--color-lightgray: #C4C4C4;
+	--color-gray: #8F8F8F;
+	--color-darkgray: #676767;
 	--color-blue: #5E83E2;
 	--color-green: #65A164;
 	--color-yellow: #EEBC3B;
@@ -21,6 +20,11 @@
 	--color-lightgreen: #DEF5DE;
 	--color-lightyellow: #FFF8E5;
 	--color-lightred: #FFE1EC;
+	--color-input: var(--color-white);
+	--color-disable: var(--color-silver);
+	--color-outline: var(--color-lightgray);
+	--color-content: var(--color-gray);
+	--color-title: var(--color-darkgray);
 	--header-height: 96px;
 	--font-stack: "Work Sans", sans-serif;
 }
