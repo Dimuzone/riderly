@@ -4,21 +4,47 @@
     width: 100%;
 }
 
+.header {
+    height: 128px;
+}
+  
+  .page.-home {
+    margin-top: 128px;
+}
+
 .search-bar {
     display: flex;
     align-items: center;
     background-color: var(--color-input);
     border-radius: 4px;
     margin-top: 5px;
-    border: thin solid var(--color-outline);
+    border: thin solid var(--color-silver);
     padding: 2px;
     font-size: small;
+    align-items: center;
 }
 
 .search-input {
-    border: none;
-    background: transparent;
-    flex: 1;
+	flex: 1;
+	margin-left: 4px;
+	padding: 12px 0;
+	outline: 0;
+	border: 0;
+	background: transparent;
+}
+
+.search-input:focus::placeholder {
+	color: var(--color-blue);
+}
+
+.search-bar:focus-within {
+	background: var(--color-bg);
+	border-color: var(--color-blue);
+	box-shadow: 0 2px 4px var(--color-darkgray);
+}
+
+.search-bar:focus-within .search-icon {
+	color: var(--color-blue);
 }
 
 .stations-section {
@@ -28,7 +54,7 @@ padding-top: 32px;
 .tabs-header {
     font-size: 0.75em;
     font-weight: bold;
-    border-bottom: thin solid var(--color-outline);
+    border-bottom: thin solid var(--color-lightgray);
     padding-bottom: 8px;
 }
 
@@ -36,7 +62,7 @@ padding-top: 32px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-bottom: thin solid var(--color-outline);
+    border-bottom: thin solid var(--color-lightgray);
 }
 
 .tab  {
@@ -46,6 +72,7 @@ padding-top: 32px;
     border-bottom: 3px solid transparent;
     padding-top: 10px;
     padding-bottom: 10px;
+    outline: 0;
 
 }
 
@@ -53,7 +80,13 @@ padding-top: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-outline);
+    color: var(--color-lightgray);
+
+}
+
+.tab.-history:focus-within {
+    color: var(--color-blue);
+    border-bottom-color: var(--color-blue);
 }
 
 .history-icons {
@@ -68,6 +101,11 @@ padding-top: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--color-lightgray);
+
+}
+
+.tab.-saved:focus-within {
     color: var(--color-blue);
     border-bottom-color: var(--color-blue);
 }
@@ -84,7 +122,7 @@ padding-top: 32px;
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    border-bottom: thin solid var(--color-outline);
+    border-bottom: thin solid var(--color-lightgray);
     align-items: center;
 }
 
@@ -95,7 +133,7 @@ padding-top: 32px;
 
 .station-text {
     font-weight: bold;
-    color: var(--color-title);
+    color: var(--color-darkgray);
 
 }
 
@@ -106,11 +144,11 @@ padding-top: 32px;
 .stn-route-number {
 
     font-weight: bold;
-    color: var(--color-content);
+    color: var(--color-gray);
 }
 
 .station-icon {
-    color: var(--color-outline);
+    color: var(--color-lightgray);
 }
 
 .recent-messages-section {
@@ -120,7 +158,7 @@ padding-top: 32px;
 .recent-messages {
     font-size: 0.75em;
     font-weight: bold;
-    border-bottom: thin solid var(--color-outline);
+    border-bottom: thin solid var(--color-lightgray);
     padding-bottom: 8px;
 }
 
@@ -129,7 +167,7 @@ padding-top: 32px;
     justify-content: space-between;
     align-items: center;
     font-size: small;
-    border-bottom: thin solid var(--color-outline);
+    border-bottom: thin solid var(--color-lightgray);
     padding: 10px;
 }
 
@@ -141,7 +179,7 @@ padding-top: 32px;
 
 .msg-route-number {
     font-weight: bold;
-    color: var(--color-title);
+    color: var(--color-darkgray);
 }
 
 .user {
@@ -150,7 +188,7 @@ padding-top: 32px;
 }
 
 .user-name {
-    color: var(--color-content);
+    color: var(--color-silver);
     font-weight: bold;
 }
 
@@ -161,5 +199,5 @@ padding-top: 32px;
 .arrow-time {
     display: flex;
     align-items: center;
-    color: var(--color-outline);
+    color: var(--color-lightgray);
 }
