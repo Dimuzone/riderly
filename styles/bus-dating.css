@@ -75,12 +75,18 @@ h2 {
 }
 
 .header {
+	background: white;
+	border-bottom: thin solid var(--color-outline);
+	position: fixed;
+	z-index: 1;
+	width: calc(100% - 30px);
+	top: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
-	margin: 0 16px;
-	padding: 32px 8px 8px;
-	border-bottom: thin solid var(--color-outline);
+	margin: 0 15px;
+	padding: 8px 8px 8px;
+	height: 96px;
 }
 
 .headings {
@@ -116,11 +122,12 @@ h2 {
 
 .page {
 	padding: 0 16px;
+	margin-top: 96px;
 }
 
 .page > p {
 	line-height: 1.5;
-	margin-top: 0.75em;
+	padding-top: 0.75em;
 }
 
 .button {
