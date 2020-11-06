@@ -1,5 +1,5 @@
-input[type="radio"] {
-	display: none;
+.page-desc {
+	padding-top: 2em;
 }
 
 .report-section {
@@ -62,6 +62,10 @@ input[type="radio"] {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	display: none;
+}
+
+input[type="radio"] {
 	display: none;
 }
 
