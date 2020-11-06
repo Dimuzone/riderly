@@ -179,6 +179,25 @@ h2 {
 	color: var(--color-blue);
 }
 
+.option {
+	border-bottom: thin solid var(--color-lightgray);
+	padding: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.option-text {
+	color: var(--color-darkgray);
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+
+.option-subtext {
+	color: var(--color-gray);
+	font-size: 0.875rem;
+}
+
 .page {
 	padding: 0 16px;
 	margin-top: var(--header-height);
