@@ -6,6 +6,19 @@ input[type="radio"] {
 	margin-top: 2em;
 }
 
+.report-header {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.report-prompt {
+	font-size: 0.75em;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
 .card {
 	background: var(--color-input);
 	color: var(--color-content);
@@ -90,4 +103,9 @@ input[type="radio"]:checked + .card.-red .card-radio {
 
 input[type="radio"]:checked + .card .card-radio .material-icons {
 	display: block;
+}
+
+.button.-submit {
+	margin-top: 32px;
+	margin-bottom: 16px;
 }

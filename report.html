@@ -26,7 +26,10 @@
 		<p class="page-desc">Is our info out of date? Let us know if seating on the bus is full or if the bus is running late.</p>
 		<form class="report-form">
 			<fieldset class="report-section seating">
-				<legend><h2 class="report-heading">Seating availability</h2></legend>
+				<legend class="report-header">
+					<h2 class="report-heading">Seating availability</h2>
+					<span class="report-prompt">Select one</span>
+				</legend>
 				<input id="empty" type="radio" name="seating" value="empty" checked />
 				<label for="empty" class="card -green">
 					<div class="card-text">
@@ -58,6 +61,46 @@
 					</div>
 				</label>
 			</fieldset>
+			<fieldset class="report-section timing">
+				<legend class="report-header">
+					<h2 class="report-heading">Timing</h2>
+					<span class="report-prompt">Select one</span>
+				</legend>
+				<input id="ontime" type="radio" name="timing" value="ontime" checked />
+				<label for="ontime" class="card -green">
+					<div class="card-text">
+						<span class="card-name">On time</span>
+						<span class="card-desc">No known delays</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
+				</label>
+				<input id="late" type="radio" name="timing" value="late" />
+				<label for="late" class="card -yellow">
+					<div class="card-text">
+						<span class="card-name">Late</span>
+						<span class="card-desc">Arriving a few minutes late</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
+				</label>
+				<input id="verylate" type="radio" name="timing" value="verylate" />
+				<label for="verylate" class="card -red">
+					<div class="card-text">
+						<span class="card-name">Very Late</span>
+						<span class="card-desc">A stall or accident has occurred</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
+				</label>
+			</fieldset>
+			<button class="button -submit">
+				Submit
+				<span class="material-icons">keyboard_arrow_right</span>
+			</button>
 		</form>
 	</main>
 </body>

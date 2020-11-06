@@ -43,6 +43,10 @@ fieldset {
 	border: none;
 }
 
+button {
+	border: none;
+}
+
 /* Project-specific styles */
 body {
 	background: var(--color-bg);
@@ -115,4 +119,16 @@ h2 {
 .page > p {
 	line-height: 1.5;
 	margin-top: 0.75em;
+}
+
+.button {
+	background: var(--color-blue);
+	color: white;
+	font-weight: bold;
+	width: 100%;
+	height: 48px;
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
