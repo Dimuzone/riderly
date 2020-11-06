@@ -72,7 +72,7 @@
 }
 
 .station.-select {
-	border-color: dodgerblue;
+	border-color: var(--blue);
 }
 
 /* selection circle */
