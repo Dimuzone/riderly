@@ -21,6 +21,7 @@
 	--color-lightgreen: #DEF5DE;
 	--color-lightyellow: #FFF8E5;
 	--color-lightred: #FFE1EC;
+	--header-height: 96px;
 	--font-stack: "Work Sans", sans-serif;
 }
 
@@ -86,7 +87,7 @@ h2 {
 	align-items: flex-end;
 	margin: 0 15px;
 	padding: 8px 8px 8px;
-	height: 96px;
+	height: var(--header-height);
 }
 
 .headings {
@@ -122,7 +123,7 @@ h2 {
 
 .page {
 	padding: 0 16px;
-	margin-top: 96px;
+	margin-top: var(--header-height);
 }
 
 .page > p {
