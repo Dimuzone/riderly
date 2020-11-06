@@ -1,70 +1,68 @@
-
 .home-text {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .search-text {
-    font-size: 32px;
-    font-weight: bold;
-    color: var(--color-darkgray);
-
+	font-size: 32px;
+	font-weight: bold;
+	color: var(--color-darkgray);
 }
 
 .back-home {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: var(--color-input);
-    border-radius: 4px;
-    margin-top: 5px;
-    border: thin solid var(--color-silver);
-    padding: 2px;
-    font-size: small;
-    align-items: center;
-    height: 32px;
+	display: flex;
+	align-items: center;
+	background-color: var(--color-input);
+	border-radius: 4px;
+	margin-top: 5px;
+	border: thin solid var(--color-silver);
+	padding: 2px;
+	font-size: small;
+	align-items: center;
+	height: 32px;
 }
 
 .search-input {
-    flex: 1;
-    margin-left: 4px;
-    padding: 12px 0;
-    outline: 0;
-    border: 0;
-    background: transparent;
+	flex: 1;
+	margin-left: 4px;
+	padding: 12px 0;
+	outline: 0;
+	border: 0;
+	background: transparent;
 }
 
 .search-input:focus::placeholder {
-    color: var(--color-blue);
+	color: var(--color-blue);
 }
 
 .search-bar:focus-within {
-    background: var(--color-bg);
-    border-color: var(--color-blue);
-    box-shadow: 0 2px 4px var(--color-darkgray);
+	background: var(--color-bg);
+	border-color: var(--color-blue);
+	box-shadow: 0 2px 4px var(--color-darkgray);
 }
 
 .search-bar:focus-within .search-icon {
-    color: var(--color-blue);
+	color: var(--color-blue);
 }
 
 .routes {
-    padding: 14px;
-    border-bottom: thin solid var(--color-lightgray);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+	padding: 14px;
+	border-bottom: thin solid var(--color-lightgray);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .route-number {
-    font-weight: bold;
-    color: var(--color-darkgray);
+	font-weight: bold;
+	color: var(--color-darkgray);
 }
 
 .route-locations {
-    font-size: 13px;
-    color: var(--color-gray);
+	font-size: 13px;
+	color: var(--color-gray);
 }
