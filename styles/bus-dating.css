@@ -1,26 +1,26 @@
 @import url(https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
-/* bus-dating.css
- * > Reset styles and variables for bus-dating
+/* bus-dating-v2.css
+ * > Reset styles and variables for BusDating
  */
 
 :root {
-	--blue: #5E83E2;
-	--blue-dark: #4669C3;
-	--blue-light: #96BAFE;
-	--green: #65A164;
-	--green-dark: #3A824E;
-	--green-light: #9DE17D;
-	--yellow: #FDD366;
-	--yellow-dark: #BD8210;
-	--red: #D72645;
-	--red-light: #FF8EA2;
-	--silver: #C4C4C4;
-	--lightgray: #999999;
-	--gray: #666666;
-	--jet: #242424;
-	--font-content: "Work Sans", sans-serif;
+	--color-bg: white;
+	--color-input: #F6F7F9;
+	--color-disable: #E8E8E8;
+	--color-outline: #C4C4C4;
+	--color-subtitle: var(--color-outline);
+	--color-content: #8F8F8F;
+	--color-title: #676767;
+	--color-blue: #5E83E2;
+	--color-green: #65A164;
+	--color-yellow: #EEBC3B;
+	--color-red: #E92554;
+	--color-lightgreen: #DEF5DE;
+	--color-lightyellow: #FFF8E5;
+	--color-lightred: #FFE1EC;
+	--font-stack: "Work Sans", sans-serif;
 }
 
 * {
@@ -29,8 +29,13 @@
 	box-sizing: border-box;
 }
 
+body {
+	background: var(--color-bg);
+	color: var(--color-content);
+}
+
 input, button, body {
-	font-family: var(--font-content);
+	font-family: var(--font-stack);
 }
 
 a {
@@ -38,58 +43,56 @@ a {
 	color: inherit;
 }
 
-body {
-	background: #e5e5e5;
+p {
+	font-size: 0.875em;
 }
 
-.bar {
-	background: var(--blue);
-	color: white;
+ul {
+	list-style: none;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	margin: 0 16px;
+	padding: 32px 8px 8px;
+	border-bottom: thin solid var(--color-outline);
+}
+
+.headings {
+	display: flex;
+	flex-direction: column;
+	order: 2;
+}
+
+.title {
+	color: var(--color-title);
+	font-size: 2em;
+	line-height: 1;
+	order: 2;
+}
+
+.subtitle {
+	color: var(--color-subtitle);
+	font-size: 1em;
+}
+
+.back {
+	color: var(--color-content);
+	font-size: 0.875em;
 	font-weight: bold;
-	position: fixed;
-	left: 0;
-	width: 100%;
-	height: 48px;
-	padding: 0 8px;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	z-index: 1;
 }
 
-.bar-icon {
-	display: inline-block;
-	width: 48px;
-	padding: 12px;
+.back .material-icons {
+	margin-left: -8px;
+	margin-right: -2px;
 }
 
-.bar-icon.-disabled {
-	opacity: 0.5;
-}
-
-.bar.-header {
-	top: 0;
-}
-
-.bar.-footer {
-	bottom: 0;
-}
-
-.map {
-	background: var(--green);
-	color: var(--green-dark);
-	position: relative;
-	top: 48px;
-	height: 240px;
-	line-height: 240px;
-	text-align: center;
-	text-transform: uppercase;
-	font-size: 3em;
-	font-weight: bold;
-}
-
-.page {
-	position: relative;
-	top: 48px;
-	height: calc(100vh - 96px);
+.page > p {
+	margin: 0 16px;
+	line-height: 1.5;
+	margin-top: 0.75em;
 }
