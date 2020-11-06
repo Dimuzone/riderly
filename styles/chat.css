@@ -3,6 +3,7 @@
 	display: flex;
 	flex-direction: column;
 	position: relative;
+	height: calc(100vh - 96px);
 }
 
 .messages {
@@ -88,16 +89,16 @@
 
 .message-bar {
 	display: flex;
-	margin: 4px;
+	margin: 16px;
 	padding: 4px;
 	border-radius: 20px;
-	background: white;
-	border: thin solid var(--color-silver);
+	background: var(--color-input);
+	border: thin solid var(--color-outline);
 	transition: 0.125s border-color;
 }
 
 .message-bar:focus-within {
-	border-color: var(--blue);
+	border-color: var(--color-blue);
 }
 
 .message-input {
@@ -107,20 +108,20 @@
 	outline: none;
 	background: none;
 	font-size: 14px;
-	color: var(--jet);
+	color: var(--color-content);
 }
 
 .message-input::placeholder {
-	color: var(--silver);
+	color: var(--color-content);
 	transition: 0.125s color;
 }
 
 .message-input:focus::placeholder {
-	color: var(--blue);
+	color: var(--color-blue);
 }
 
 .message-send {
-	background: var(--blue);
+	background: var(--color-blue);
 	color: white;
 	width: 32px;
 	height: 32px;
@@ -131,7 +132,7 @@
 }
 
 .message-input:placeholder-shown + .message-send {
-	background: var(--silver);
+	background: var(--color-outline);
 }
 
 .message-input:not(:placeholder-shown) + .message-send:hover {
