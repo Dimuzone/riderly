@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>BusDating - Bus Profile</title>
+    <title>BusDating - station Profile</title>
     <meta charset="utf-8">
     <meta name="description" content="bus dating">
     <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
@@ -13,79 +13,94 @@
 </head>
 
 <body>
-    <div class="pagewrap">
-        <header class="bar -header">
-            <span class="bar-icon material-icons">keyboard_backspace</span> 49(UBC）
-            <span class="bar-icon material-icons">favorite_border</span>
-        </header>
+    <header class="header">
+        <div class="headings">
+            <div class="star"><span class="star-icon material-icons">
+                grade
+                </span></div>
+            <h1 class="title">Central Blvd E</h1>
+            <span class="subtitle">49W - #52500</span>
+        </div>
+        <a href="./station.html" class="back">
+            <span class="material-icons">keyboard_arrow_left</span> 49W
+        </a>
+    </header>
 
-        <div class="map">Map</div>
-
-        <div class="report">
-            <div class="seat">
-                <span class="rselect rseat">Seating</span>
-                <span class="status">Empty</span>
-                <span class="report-icon material-icons">
-          expand_more
-        </span>
+    <main class="page">
+        <div class="route">
+            <div class="this-station">CENTRAL BLVD E</div>
+            <div class="station-table">
+                <div class="station"></div>
+                <div class="station -select"></div>
+                <div class="station"></div>
             </div>
-
-            <div class="arrival">
-                <span class="rselect rarrival">Arrival</span>
-                <span class="status">Very Late</span>
-                <span class="report-icon material-icons">
-          expand_more
-        </span>
+            <div class="before">
+                METROTOWN
             </div>
-
-            <div class="changes">Report Changes</div>
-
-            <div class="alerts">Alerts(4)</div>
+            <div class="after">
+                WAVERLEY AVE
+            </div>
         </div>
 
-        <div class="message">
-            Recent Message
-            <div class="room room1">
-                <span class="roomName roomName1">49(UBC)</span>
-                <span class="chat chat1">bborbert is typing...</span>
-                <div class="time time1">
-                    1m
-                    <span class="message-icon message-icon1 material-icons">
-            chevron_right
-          </span>
-                </div>
-            </div>
-
-            <div class="room room2">
-                <span class="roomName roomName2">49(UBC) #0123</span>
-                <span class="chat chat2">davinky420: any update?</span>
-                <div class="time time2">
-                    1d
-                    <span class="message-icon message-icon2 material-icons">
-            chevron_right
-          </span>
-                </div>
-            </div>
-
-            <div class="room room3">
-                <span class="roomName roomName3">49(UBC) #0599</span>
-                <span class="chat chat3">you: hello!</span>
-                <div class="time time3">
-                    1h
-                    <span class="message-icon message-icon3 material-icons">
-            chevron_right
-          </span>
-                </div>
-            </div>
-
+        <div class="info-title">
+            TRANSIT INFORMATION
+            <div class="report-button">Update <span class="update-icon material-icons">keyboard_arrow_right</span></div>
         </div>
-    </div>
 
-    <footer class="bar -footer">
-        <span class="bar-icon material-icons">home</span>
-        <span class="bar-icon material-icons">mode_comment</span>
-        <span class="bar-icon material-icons">info</span>
-    </footer>
+        <div class="info-content">
+            <div class="status">
+                <div class="seating">SEATING
+                    <div class="seating-status">Stand only</div>
+                </div>
+
+                <div class="timing">TIMING
+                    <div class="timing-status">On time</div>
+                </div>
+
+                <div class="mask">MASK USAGE
+                    <div class="mask-status">Partial</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="message-title">
+            TOP MESSAGES
+        </div>
+
+        <div class="message-content">
+            <div class="message">
+
+                <div class="likes">5 <span class="material-icons">
+                    thumb_up
+                    </span></div>
+
+                <div class="detail">
+                    <div class="text">I have been waiting for 30 mins. Where is 49???</div>
+                    <span class="message-data"><strong>Metrotown</strong> &middot; 9m ago</span>
+                </div>
+
+                <span class="msg-icon material-icons">keyboard_arrow_right</span>
+            </div>
+
+            <div class="message">
+
+                <div class="likes">2 <span class="material-icons">
+                    thumb_up
+                    </span>
+                </div>
+
+                <div class="detail">
+                    <div class="text">Three people are not wearing mask in the line!!!!</div>
+                    <span class="message-data"><strong>Central Blvd E</strong> &middot; 13m ago</span>
+                </div>
+
+                <span class="msg-icon material-icons">keyboard_arrow_right</span>
+            </div>
+        </div>
+
+        <button class="button">Join chat for Route 49W</button>
+    </main>
+
 </body>
 
 </html>
