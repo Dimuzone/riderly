@@ -4,13 +4,6 @@
     width: 100%;
 }
 
-.head {
-    display: flex;
-    margin: 0 16px;
-    padding: 32px 0px 8px;
-    border-bottom: thin solid var(--color-outline);
-}
-
 .search-bar {
     display: flex;
     align-items: center;
@@ -29,7 +22,7 @@
 }
 
 .stations-section {
-    margin-top: 32px;
+padding-top: 32px;
 }
 
 .tabs-header {
@@ -107,11 +100,11 @@
 }
 
 .saved-route {
-    margin-top: 2px;
     font-size: 11px;
 }
 
 .stn-route-number {
+
     font-weight: bold;
     color: var(--color-content);
 }
@@ -152,7 +145,6 @@
 }
 
 .user {
-    margin-top: 2px;
     display: flex;
     font-size: 12px;
 }
