@@ -86,7 +86,7 @@
     display: block;
     width: 12px;
     height: 12px;
-    background: var(--color-blue);
+    background: var(--blue);
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -128,17 +128,17 @@
 
 .seating-status {
     font-size: 1rem;
-    color: var(--color-yellow);
+    color: var(--yellow);
 }
 
 .timing-status {
     font-size: 1rem;
-    color: var(--color-green);
+    color: var(--green);
 }
 
 .mask-status {
     font-size: 1rem;
-    color: var(--color-yellow);
+    color: var(--yellow);
 }
 
 

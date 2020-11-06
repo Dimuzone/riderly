@@ -54,7 +54,7 @@
 	max-width: 80%;
 	display: inline-block;
 	padding: 8px 12px;
-	background: var(--color-silver);
+	background: var(--silver);
 	color: var(--color-content);
 	font-size: 0.875em;
 	font-weight: 500;
@@ -73,12 +73,12 @@
 	top: 0;
 	right: 100%;
 	border: 8px solid transparent;
-	border-top-color: var(--color-silver);
-	border-right-color: var(--color-silver);
+	border-top-color: var(--silver);
+	border-right-color: var(--silver);
 }
 
 .message-group.-user .message {
-	background: var(--color-blue);
+	background: var(--blue);
 	color: white;
 	border-radius: 8px;
 	border-bottom-right-radius: 0;
@@ -90,8 +90,8 @@
 	top: auto;
 	bottom: 0;
 	border-color: transparent;
-	border-left-color: var(--color-blue);
-	border-bottom-color: var(--color-blue);
+	border-left-color: var(--blue);
+	border-bottom-color: var(--blue);
 }
 
 .message-bar {
@@ -106,7 +106,7 @@
 
 .message-bar:focus-within {
 	background: white;
-	border-color: var(--color-blue);
+	border-color: var(--blue);
 }
 
 .message-input {
@@ -125,11 +125,11 @@
 }
 
 .message-input:focus::placeholder {
-	color: var(--color-blue);
+	color: var(--blue);
 }
 
 .message-send {
-	background: var(--color-blue);
+	background: var(--blue);
 	color: white;
 	width: 32px;
 	height: 32px;

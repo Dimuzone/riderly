@@ -7,24 +7,24 @@
 /* Variable declarations */
 
 :root {
-	--color-white: #F6F7F9;
-	--color-silver: #E8E8E8;
-	--color-lightgray: #C4C4C4;
-	--color-gray: #8F8F8F;
-	--color-darkgray: #676767;
-	--color-blue: #5E83E2;
-	--color-green: #65A164;
-	--color-yellow: #EEBC3B;
-	--color-red: #E92554;
-	--color-lightgreen: #DEF5DE;
-	--color-lightyellow: #FFF8E5;
-	--color-lightred: #FFE1EC;
+	--white: #F6F7F9;
+	--silver: #E8E8E8;
+	--lightgray: #C4C4C4;
+	--gray: #8F8F8F;
+	--darkgray: #676767;
+	--blue: #5E83E2;
+	--green: #65A164;
+	--yellow: #EEBC3B;
+	--red: #E92554;
+	--lightgreen: #DEF5DE;
+	--lightyellow: #FFF8E5;
+	--lightred: #FFE1EC;
 	--color-bg: white;
-	--color-input: var(--color-white);
-	--color-disable: var(--color-silver);
-	--color-outline: var(--color-lightgray);
-	--color-content: var(--color-gray);
-	--color-title: var(--color-darkgray);
+	--color-input: var(--white);
+	--color-disable: var(--silver);
+	--color-outline: var(--lightgray);
+	--color-content: var(--gray);
+	--color-title: var(--darkgray);
 	--header-height: 96px;
 	--header-height-search: 128px;
 	--font-stack: "Work Sans", sans-serif;
@@ -149,7 +149,7 @@ h2 {
 	align-items: center;
 	background-color: var(--color-input);
 	border-radius: 4px;
-	border: thin solid var(--color-silver);
+	border: thin solid var(--silver);
 	padding: 4px 8px;
 	font-size: small;
 	align-items: center;
@@ -166,21 +166,21 @@ h2 {
 }
 
 .search-input:focus::placeholder {
-	color: var(--color-blue);
+	color: var(--blue);
 }
 
 .search-bar:focus-within {
 	background: var(--color-bg);
-	border-color: var(--color-blue);
-	box-shadow: 0 2px 4px var(--color-darkgray);
+	border-color: var(--blue);
+	box-shadow: 0 2px 4px var(--darkgray);
 }
 
 .search-bar:focus-within .search-icon {
-	color: var(--color-blue);
+	color: var(--blue);
 }
 
 .option {
-	border-bottom: thin solid var(--color-lightgray);
+	border-bottom: thin solid var(--lightgray);
 	padding: 12px;
 	display: flex;
 	align-items: center;
@@ -188,13 +188,13 @@ h2 {
 }
 
 .option-text {
-	color: var(--color-darkgray);
+	color: var(--darkgray);
 	font-weight: bold;
 	margin-bottom: 2px;
 }
 
 .option-subtext {
-	color: var(--color-gray);
+	color: var(--gray);
 	font-size: 0.875rem;
 }
 
@@ -208,7 +208,7 @@ h2 {
 }
 
 .button {
-	background: var(--color-blue);
+	background: var(--blue);
 	color: white;
 	font-size: 1em;
 	font-weight: bold;

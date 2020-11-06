@@ -16,7 +16,7 @@
 .subtitle {
     display: flex;
     align-items: center;
-    color: var(--color-gray);
+    color: var(--gray);
 }
 
 .page.-home {
@@ -28,7 +28,7 @@
     align-items: center;
     background-color: var(--color-input);
     border-radius: 4px;
-    border: thin solid var(--color-silver);
+    border: thin solid var(--silver);
     font-size: small;
     align-items: center;
     height: 32px;
@@ -44,24 +44,24 @@
 }
 
 .search-input:focus::placeholder {
-    color: var(--color-blue);
+    color: var(--blue);
 }
 
 .search-bar:focus-within {
     background: var(--color-bg);
-    border-color: var(--color-blue);
-    box-shadow: 0 2px 4px var(--color-darkgray);
+    border-color: var(--blue);
+    box-shadow: 0 2px 4px var(--darkgray);
 }
 
 .search-bar:focus-within .search-icon {
-    color: var(--color-blue);
+    color: var(--blue);
 }
 
 .station-wrap {
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    border-bottom: thin solid var(--color-lightgray);
+    border-bottom: thin solid var(--lightgray);
     align-items: center;
 }
 
@@ -72,7 +72,7 @@
 
 .station-text {
     font-weight: bold;
-    color: var(--color-darkgray);
+    color: var(--darkgray);
 }
 
 .route {
@@ -81,9 +81,9 @@
 
 .stn-route-number {
     font-weight: bold;
-    color: var(--color-gray);
+    color: var(--gray);
 }
 
 .station-icon {
-    color: var(--color-lightgray);
+    color: var(--lightgray);
 }
