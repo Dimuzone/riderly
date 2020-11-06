@@ -35,6 +35,7 @@ input[type="radio"] {
 .card-radio {
 	background: var(--color-disable);
 	border: thin solid var(--color-outline);
+	color: white;
 	display: block;
 	width: 20px;
 	height: 20px;
@@ -51,17 +52,40 @@ input[type="radio"] {
 	display: none;
 }
 
-input[type="radio"]:checked + .card {
+input[type="radio"]:checked + .card.-green {
 	background: var(--color-lightgreen);
 	color: var(--color-green);
 	border-color: var(--color-green);
 	box-shadow: 0 0 0 1px var(--color-green);
 }
 
-input[type="radio"]:checked + .card .card-radio {
+input[type="radio"]:checked + .card.-green .card-radio {
 	background: var(--color-green);
 	border-color: var(--color-green);
-	color: white;
+}
+
+input[type="radio"]:checked + .card.-yellow {
+	background: var(--color-lightyellow);
+	color: var(--color-yellow);
+	border-color: var(--color-yellow);
+	box-shadow: 0 0 0 1px var(--color-yellow);
+}
+
+input[type="radio"]:checked + .card.-yellow .card-radio {
+	background: var(--color-yellow);
+	border-color: var(--color-yellow);
+}
+
+input[type="radio"]:checked + .card.-red {
+	background: var(--color-lightred);
+	color: var(--color-red);
+	border-color: var(--color-red);
+	box-shadow: 0 0 0 1px var(--color-red);
+}
+
+input[type="radio"]:checked + .card.-red .card-radio {
+	background: var(--color-red);
+	border-color: var(--color-red);
 }
 
 input[type="radio"]:checked + .card .card-radio .material-icons {
