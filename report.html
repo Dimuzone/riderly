@@ -23,26 +23,120 @@
 		</a>
 	</header>
 	<main class="page -update">
-		<p class="description">Is our info out of date? Let us know if seating on the bus is full or if the bus is running late.</p>
+		<p class="page-desc">Is our info out of date? Let us know if seating on the bus is full or if the bus is running late.</p>
 		<form class="report-form">
 			<fieldset class="report-section seating">
-				<legend><h2 class="report-heading">Seating availability</h2></legend>
+				<legend class="report-header">
+					<h2 class="report-heading">Seating availability</h2>
+					<span class="report-prompt">Select one</span>
+				</legend>
 				<input id="empty" type="radio" name="seating" value="empty" checked />
-				<label for="empty" class="card">
-					<span class="card-name">Empty</span>
-					<span class="card-text">Plenty of space for new riders</span>
+				<label for="empty" class="card -green">
+					<div class="card-text">
+						<span class="card-name">Empty</span>
+						<span class="card-desc">Plenty of space for new riders</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
 				</label>
 				<input id="standonly" type="radio" name="seating" value="standonly" />
-				<label for="standonly" class="card">
-					<span class="card-name">Standing Only</span>
-					<span class="card-text">Few seats available, if any</span>
+				<label for="standonly" class="card -yellow">
+					<div class="card-text">
+						<span class="card-name">Standing Only</span>
+						<span class="card-desc">Few seats available, if any</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
 				</label>
 				<input id="full" type="radio" name="seating" value="full" />
-				<label for="full" class="card">
-					<span class="card-name">Full</span>
-					<span class="card-text">No seating or standing room</span>
+				<label for="full" class="card -red">
+					<div class="card-text">
+						<span class="card-name">Full</span>
+						<span class="card-desc">No seating or standing room</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
 				</label>
 			</fieldset>
+			<fieldset class="report-section timing">
+				<legend class="report-header">
+					<h2 class="report-heading">Timing</h2>
+					<span class="report-prompt">Select one</span>
+				</legend>
+				<input id="ontime" type="radio" name="timing" value="ontime" checked />
+				<label for="ontime" class="card -green">
+					<div class="card-text">
+						<span class="card-name">On time</span>
+						<span class="card-desc">No known delays</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
+				</label>
+				<input id="late" type="radio" name="timing" value="late" />
+				<label for="late" class="card -yellow">
+					<div class="card-text">
+						<span class="card-name">Late</span>
+						<span class="card-desc">Arriving a few minutes late</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
+				</label>
+				<input id="verylate" type="radio" name="timing" value="verylate" />
+				<label for="verylate" class="card -red">
+					<div class="card-text">
+						<span class="card-name">Very Late</span>
+						<span class="card-desc">A stall or accident has occurred</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
+				</label>
+			</fieldset>
+			<fieldset class="report-section mask-usage">
+				<legend class="report-header">
+					<h2 class="report-heading">Mask usage</h2>
+					<span class="report-prompt">Select one</span>
+				</legend>
+				<input id="complete" type="radio" name="mask-usage" value="complete" checked />
+				<label for="complete" class="card -green">
+					<div class="card-text">
+						<span class="card-name">Complete</span>
+						<span class="card-desc">Most or all people are wearing</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
+				</label>
+				<input id="partial" type="radio" name="mask-usage" value="partial" />
+				<label for="partial" class="card -yellow">
+					<div class="card-text">
+						<span class="card-name">Late</span>
+						<span class="card-desc">Some people are wearing</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
+				</label>
+				<input id="few" type="radio" name="mask-usage" value="few" />
+				<label for="few" class="card -red">
+					<div class="card-text">
+						<span class="card-name">Few</span>
+						<span class="card-desc">Only a few people are wearing</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
+				</label>
+			</fieldset>
+			<button class="button -submit">
+				Submit
+				<span class="material-icons">keyboard_arrow_right</span>
+			</button>
 		</form>
 	</main>
 </body>

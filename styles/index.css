@@ -1,87 +1,165 @@
-/*Map and search bar*/
-
-
-ul {
-    list-style-type: none;
+.home-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .search-bar {
-    top: 48px;
-    position: absolute;
-    background-color: white;
-    padding: 10px;
     display: flex;
-    justify-content: left;
     align-items: center;
-    color: gray;
-    width: 80%;
-    border-radius: 6px;
-    margin-top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    
-}
-
-.search-bar-text {
+    background-color: var(--color-input);
+    border-radius: 4px;
+    margin-top: 5px;
+    border: thin solid var(--color-outline);
+    padding: 2px;
     font-size: small;
 }
 
-.search-bar-icon {
-    margin-right: 10px;
-}
-
-/*Nearby and favorite tabs*/
-
-.underMap {
-    display: flex;
-    background-color: white;
-    position: relative;
-    top: 50px;
-}
-
-.undermap-nearby {
-    padding: 10px;
+.search-input {
+    border: none;
+    background: transparent;
     flex: 1;
-    text-align: center;
-    color: var(--blue);
-
 }
 
-.undermap-favorites {
-    padding: 10px;
-    flex: 1;
-    text-align: center;
-    background-color: lightgray;
-    flex-direction: column;
-    
+.stations-section {
+padding-top: 32px;
 }
 
-/* Nearby stations */
+.tabs-header {
+    font-size: 0.75em;
+    font-weight: bold;
+    border-bottom: thin solid var(--color-outline);
+    padding-bottom: 8px;
+}
 
-.nearby {
+.tabs {
     display: flex;
-    position: relative;
-    top: 50px;
-    padding: 10px;
-    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: thin solid var(--color-outline);
 }
 
-.nearby-header {
-    color: lightslategray;
+.tab  {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    border-bottom: 3px solid transparent;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
 }
 
-.nearby-list-item {
+.tab.-history {
     display: flex;
     align-items: center;
-    background-color: black;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    margin-top: 10px;
+    justify-content: center;
+    color: var(--color-outline);
+}
 
+.history-icons {
+    font-size: large;
+}
+
+.history-text {
+    padding-left: 5px;
+}
+
+.tab.-saved {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-blue);
+    border-bottom-color: var(--color-blue);
+}
+
+.saved-icons {
+    font-size: large;
+}
+
+.saved-text {
+    padding-left: 5px;
+}
+
+.saved-stations {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: thin solid var(--color-outline);
+    align-items: center;
+}
+
+.station {
+    display: flex;
+    flex-direction: column;
+}
+
+.station-text {
+    font-weight: bold;
+    color: var(--color-title);
 
 }
 
-.nearby-icon {
-    margin-right: 10px;
+.saved-route {
+    font-size: 11px;
+}
+
+.stn-route-number {
+
+    font-weight: bold;
+    color: var(--color-content);
+}
+
+.station-icon {
+    color: var(--color-outline);
+}
+
+.recent-messages-section {
+    margin-top: 32px;
+}
+
+.recent-messages {
+    font-size: 0.75em;
+    font-weight: bold;
+    border-bottom: thin solid var(--color-outline);
+    padding-bottom: 8px;
+}
+
+.message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: small;
+    border-bottom: thin solid var(--color-outline);
+    padding: 10px;
+}
+
+.msg-route {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.msg-route-number {
+    font-weight: bold;
+    color: var(--color-title);
+}
+
+.user {
+    display: flex;
+    font-size: 12px;
+}
+
+.user-name {
+    color: var(--color-content);
+    font-weight: bold;
+}
+
+.user-text {
+    padding-left: 5px;
+}
+
+.arrow-time {
+    display: flex;
+    align-items: center;
+    color: var(--color-outline);
 }
