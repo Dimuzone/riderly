@@ -23,24 +23,39 @@
 		</a>
 	</header>
 	<main class="page -update">
-		<p class="description">Is our info out of date? Let us know if seating on the bus is full or if the bus is running late.</p>
+		<p class="page-desc">Is our info out of date? Let us know if seating on the bus is full or if the bus is running late.</p>
 		<form class="report-form">
 			<fieldset class="report-section seating">
 				<legend><h2 class="report-heading">Seating availability</h2></legend>
 				<input id="empty" type="radio" name="seating" value="empty" checked />
 				<label for="empty" class="card">
-					<span class="card-name">Empty</span>
-					<span class="card-text">Plenty of space for new riders</span>
+					<div class="card-text">
+						<span class="card-name">Empty</span>
+						<span class="card-desc">Plenty of space for new riders</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
 				</label>
 				<input id="standonly" type="radio" name="seating" value="standonly" />
 				<label for="standonly" class="card">
-					<span class="card-name">Standing Only</span>
-					<span class="card-text">Few seats available, if any</span>
+					<div class="card-text">
+						<span class="card-name">Standing Only</span>
+						<span class="card-desc">Few seats available, if any</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
 				</label>
 				<input id="full" type="radio" name="seating" value="full" />
 				<label for="full" class="card">
-					<span class="card-name">Full</span>
-					<span class="card-text">No seating or standing room</span>
+					<div class="card-text">
+						<span class="card-name">Full</span>
+						<span class="card-desc">No seating or standing room</span>
+					</div>
+					<div class="card-radio">
+						<span class="material-icons">check</span>
+					</div>
 				</label>
 			</fieldset>
 		</form>
