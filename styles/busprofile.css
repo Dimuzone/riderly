@@ -190,3 +190,7 @@ strong {
 .msg-icon {
     color: var(--color-outline);
 }
+
+.button {
+    margin-top: 22px;
+}
