@@ -3,12 +3,20 @@
 }
 
 .header {
-    height: 128px;
+    height: 116px;
+    padding-bottom: 0;
+}
+
+.east-icon {
+    font-size: 12px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .subtitle {
     display: flex;
     align-items: center;
+    color: var(--color-gray);
 }
 
 .page.-home {
@@ -20,12 +28,11 @@
     align-items: center;
     background-color: var(--color-input);
     border-radius: 4px;
-    margin-top: 5px;
     border: thin solid var(--color-silver);
-    padding: 2px;
     font-size: small;
     align-items: center;
     height: 32px;
+    margin-top: 0;
 }
 
 .search-input {

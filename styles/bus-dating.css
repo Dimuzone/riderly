@@ -105,8 +105,9 @@ h2 {
 }
 
 .search-bar {
-    order: 3;
+    order: 2;
     width: 100%;
+    align-self: center;
 }
 
 .headings {
