@@ -1,15 +1,18 @@
 .page.-chat {
+	padding: 0;
 	display: flex;
 	flex-direction: column;
 	position: relative;
 }
 
 .messages {
+	padding: 0 16px;
 	flex: 1;
 	position: relative;
 }
 
 .messages.-scroll {
+	overflow-x: auto;
 	overflow-y: scroll;
 }
 
@@ -20,7 +23,7 @@
 
 .message-groups {
 	width: 100%;
-	padding: 24px 16px;
+	padding: 24px 0;
 }
 
 .message-group {
@@ -40,7 +43,7 @@
 
 .message-author {
 	display: block;
-	color: var(--lightgray);
+	color: var(--color-content);
 	font-size: 0.825em;
 	font-weight: 500;
 	margin-bottom: 2px;
@@ -50,8 +53,9 @@
 	max-width: 80%;
 	display: inline-block;
 	padding: 8px 12px;
-	background: var(--silver);
-	color: var(--gray);
+	background: var(--color-silver);
+	color: var(--color-content);
+	font-size: 0.875em;
 	font-weight: 500;
 	line-height: 1.25;
 	margin-bottom: 2px;
@@ -67,11 +71,11 @@
 	bottom: calc(36px / 2 - 8px);
 	right: 100%;
 	border: 8px solid transparent;
-	border-right-color: var(--silver);
+	border-right-color: var(--color-silver);
 }
 
 .message-group.-user .message {
-	background: var(--blue);
+	background: var(--color-blue);
 	color: white;
 }
 
@@ -79,7 +83,7 @@
 	right: auto;
 	left: 100%;
 	border-color: transparent;
-	border-left-color: var(--blue)
+	border-left-color: var(--color-blue);
 }
 
 .message-bar {
@@ -88,7 +92,7 @@
 	padding: 4px;
 	border-radius: 20px;
 	background: white;
-	border: thin solid var(--silver);
+	border: thin solid var(--color-silver);
 	transition: 0.125s border-color;
 }
 

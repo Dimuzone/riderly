@@ -10,6 +10,7 @@
 	--color-bg: white;
 	--color-input: #F6F7F9;
 	--color-disable: #E8E8E8;
+	--color-silver: var(--color-disable);
 	--color-outline: #C4C4C4;
 	--color-content: #8F8F8F;
 	--color-title: #676767;
@@ -85,6 +86,7 @@ h2 {
 .headings {
 	display: flex;
 	flex-direction: column;
+	text-align: right;
 	order: 2;
 }
 
