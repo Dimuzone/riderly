@@ -52,6 +52,7 @@ update({
 textbox = document.querySelector(".message-input")
 wrap = document.querySelector(".messages")
 groups = document.querySelector(".message-groups")
+window.addEventListener("resize", scroll)
 scroll()
 
 function scroll() {

@@ -45,10 +45,6 @@
 	-webkit-overflow-scrolling: touch;
 }
 
-*, *::after, *::before {
-	box-sizing: inherit;
-}
-
 html {
 	touch-action: manipulation;
 	-webkit-text-size-adjust: none;

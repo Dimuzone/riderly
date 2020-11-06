@@ -13,10 +13,11 @@
 }
 
 .messages.-scroll {
-	overflow-y: auto;
+	overflow-y: scroll;
 }
 
 .messages:not(.-scroll) .message-groups {
+	width: calc(100% - 48px);
 	position: absolute;
 	bottom: 0;
 }
@@ -32,7 +33,7 @@
 	align-items: flex-start;
 }
 
-.message-group:not(:first-child) {
+.message-group + .message-group {
 	margin-top: 12px;
 }
 
