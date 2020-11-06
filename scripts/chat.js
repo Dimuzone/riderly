@@ -35,25 +35,22 @@ const update = (state) =>
 		])
 	)
 
-// set initial state
-update({
-	user: "instant_noodle",
-	messages: [ // this will be retrieved async by db
-		{ time: null, author: "instant_noodle", content: "Ambulance on the scene" },
-		{ time: null, author: "DeclanBarlow", content: "it's been 30 mins :((" },
-		{ time: null, author: "DeclanBarlow", content: "my boss is gonna talk my ear off" },
-		{ time: null, author: "bboberts", content: "Wait" },
-		{ time: null, author: "bboberts", content: "What happened??" },
-		{ time: null, author: "instant_noodle", content: "A semi got rearended off marine right before the loop" },
-		{ time: null, author: "bboberts", content: "Ooo" }
-	]
-})
+const mount = (messages) => {
+	update({
+		user: "instant_noodle",
+		messages: messages
+	})
+	textbox = document.querySelector(".message-input")
+	wrap = document.querySelector(".messages")
+	groups = document.querySelector(".message-groups")
+	window.addEventListener("resize", scroll)
+	scroll()
+}
 
-textbox = document.querySelector(".message-input")
-wrap = document.querySelector(".messages")
-groups = document.querySelector(".message-groups")
-window.addEventListener("resize", scroll)
-scroll()
+db.collection("chats").get().then(chats => chats.forEach(chat => {
+	if (chat.id !== "49W") return
+	mount(chat.data().messages)
+}))
 
 function scroll() {
 	if (groups.clientHeight > wrap.clientHeight) {
