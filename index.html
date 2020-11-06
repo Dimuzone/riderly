@@ -9,88 +9,123 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
 	<link href="styles/bus-dating.css" rel="stylesheet" />
 	<link href="styles/index.css" rel="stylesheet" />
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 
 </head>
 
 <body>
 
-	<!--Header-->
-	<div>
+	<header class="head">
 
-		<header class="bar -header">
-			<span class="bar-icon"></span>
-			Home
-			<span class="bar-icon material-icons">settings</span>
-		</header>
+			<div class="home-header">
 
-	</div>
+				<div class="home">
+					<h1>Home</h1>
+				</div>
 
-
-<!--Map and search bar-->
-	<div>
-		<div class="map">Map</div>
-		<div class="search-bar">
-			<span class="search-bar-icon material-icons">search</span>
-			<p class="search-bar-text">Search Locations</p>
-		</div>
-
-
-	</div>
-
-	<!--Nearby and favorite Tabs-->
-
-	<div class="underMap">
-
-		<div class="undermap-nearby">
-			<span class="material-icons">location_on</span>
-			Nearby
-		</div>
-
-		<div class="undermap-favorites">
-			<span class="material-icons">favorite_border</span>
-			Favorites
-		</div>
-
-	</div>
-
-	<!--Nearby stations-->
-	<div class="nearby">
-
-		<header class="nearby-header">Nearby Stations</header>
-		<ul>
-
-			<li  class="nearby-list-item">
-				<span class="nearby-icon material-icons">info</span>
-				Metrotown
-			</li>
-
-			<li  class="nearby-list-item">
-				<span class="nearby-icon material-icons">info</span>
-				Royal Oak
-			</li>
-
-			<li  class="nearby-list-item">
-				<span class="nearby-icon material-icons">info</span>
-				New Westminister
-			</li>
+				<div class="search-bar">
+					<span class="material-icons">search</span>
+					<input class="search-input" type="text" placeholder="Search routes" name="search"><br><br>
+				</div>
 
 		</div>
 
+	</header>
 
-	</div>
+	<main class="page -home">
+
+		<section class="stations-section">
+
+			<div class="tabs-header">
+				STATIONS
+			</div>
+
+			<div class="tabs">
+				<div class="tab -history">
+					<span class=" history-icons material-icons">schedule</span>
+					<p class="history-text">History</p>
+				</div>
+
+				<div class="tab -saved">
+					<span class="saved-icons material-icons">star</span>
+					<p class="saved-text">Saved</p>
+				</div>
+			</div>
+
+			<div class="saved-stations">
+				<div class="station">
+
+					<p class="station-text">Metrotown Station</p>
+
+					<div class="saved-route">
+						<span class="stn-route-number">Route 49E</span>
+						 &middot
+						<span class="stn-number">60195 &middot Bay 11</span>
+					</div>
+
+				</div>
+				
+				<div>
+					<span class="station-icon material-icons">chevron_right</span>
+				</div>
+			</div>
+
+			<div class="saved-stations">
+				<div class="station">
+
+					<p class="station-text">UBC Exchange</p>
+
+					<div class="saved-route">
+						<span class="stn-route-number">Route 49W</span>
+						 &middot
+						<span class="stn-number">60358</span>
+					</div>
+
+				</div>
+				
+				<div>
+					<span class="station-icon material-icons">chevron_right</span>
+				</div>
+			</div>
+
+		</section>
+
+		<section class="recent-messages-section">
+
+			<div class="recent-messages">
+				RECENT MESSAGES
+			</div>
+
+			<div class="message">
+				<div class="msg-route">
+					<div class="msg-route-number">Route 49W (Metrotown to UBC)</div>
+					<div class="user">
+						<div class="user-name">davinky420: </div>
+						<span class="user-text">Hello world!</span>
+					</div>
+				</div>
+				<div class="arrow-time">
+					2h<span class="message-icon material-icons">chevron_right</span>
+				</div>
+			</div>
+
+			<div class="message">
+				<div class="msg-route">
+					<div class="msg-route-number">Route 49E (UBC to Metrotown)</div>
+					<div class="user">
+						<div class="user-name">davinky420: </div>
+						<span class="user-text">Hello world!</span>
+					</div>
+				</div>
+				<div class="arrow-time">
+					2h<span class="message-icon material-icons">chevron_right</span>
+				</div>
+			</div>
 
 
+		</section>
 
-<!--Footer-->
-	<div>
-		<footer class="bar -footer">
-			<span class="bar-icon material-icons">home</span>
-			<span class="bar-icon material-icons">mode_comment</span>
-			<span class="bar-icon material-icons">info</span>
-		</footer>
-	</div>
+	</main>
 
 </body>
 
