@@ -33,14 +33,29 @@
 /* Reset styles */
 
 * {
+	position: relative;
 	margin: 0;
 	padding: 0;
+	border: 0;
+	color: inherit;
+	font: inherit;
+	text-align: inherit;
+	text-decoration: inherit;
 	box-sizing: border-box;
+	-webkit-overflow-scrolling: touch;
 }
 
-a {
-	text-decoration: none;
-	color: inherit;
+*, *::after, *::before {
+	box-sizing: inherit;
+}
+
+html {
+	touch-action: manipulation;
+	-webkit-text-size-adjust: none;
+}
+
+body {
+	-webkit-font-smoothing: subpixel-antialiased;
 }
 
 ul {
@@ -72,6 +87,7 @@ p {
 
 h1, h2 {
 	color: var(--color-title);
+	font-weight: bold;
 }
 
 h1 {
@@ -88,9 +104,9 @@ h2 {
 	position: fixed;
 	top: 0;
 	z-index: 1;
+	margin: 0 15px;
 	width: calc(100% - 30px);
 	height: var(--header-height);
-	margin: 0 15px;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
@@ -140,7 +156,7 @@ h2 {
 	height: var(--header-height-search);
 }
 
-.header.-search + .page {
+.header.-search+.page {
 	margin-top: var(--header-height-search);
 }
 
@@ -203,7 +219,7 @@ h2 {
 	margin-top: var(--header-height);
 }
 
-.page > p {
+.page>p {
 	line-height: 1.5;
 }
 
