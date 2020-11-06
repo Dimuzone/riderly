@@ -1,103 +1,70 @@
-ul {
-    list-style-type: none;
-}
 
-.search-bar-background {
-    background-color: white;
-    height: 50px;
-    position: relative;
-    top:48px;
-    color: white;
-    font-size: 60pt;
-    justify-content: left;
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    margin: 20px;
-}
-
-.search-bar-text {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    font-size: small;
-    color: black;
-}
-
-.search-bar-icon {
-    margin-right: 10px;
-}
-
-.schedules {
-    position: relative;
-    display: flex;
-    top: 48px;
-    flex-direction: column;
-    padding-top: 10px;
-    margin: 20px;
-}
-
-.schedules-main-text {
-    font-size: 23px;
+.home-text {
     font-weight: bold;
 }
 
-.schedule-line {
-    margin-right: 10px;
+.search-text {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--color-darkgray);
+
 }
 
-.arrival {
-    display: flex;
-    align-content: center;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: black;
-    color: white;
-    border-radius: 8px;
-    justify-content: space-between;
-}
-
-.arrival-left-side {
-    display: flex;
-}
-
-.bottom-text {
-    font-size: 11px;
-    color: lightslategray;
-}
-
-.arrival-right-side {
+.back-home {
     display: flex;
     align-items: center;
 }
 
-.arrives {
-    color: lightslategray;
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-input);
+    border-radius: 4px;
+    margin-top: 5px;
+    border: thin solid var(--color-silver);
+    padding: 2px;
+    font-size: small;
+    align-items: center;
+    height: 32px;
 }
 
-.time {
-    color: white;
+.search-input {
+    flex: 1;
+    margin-left: 4px;
+    padding: 12px 0;
+    outline: 0;
+    border: 0;
+    background: transparent;
 }
 
-.good-indicator {
-    background-color:green;
+.search-input:focus::placeholder {
+    color: var(--color-blue);
 }
 
-.ok-indicator {
-    background-color: yellow;
+.search-bar:focus-within {
+    background: var(--color-bg);
+    border-color: var(--color-blue);
+    box-shadow: 0 2px 4px var(--color-darkgray);
 }
 
-.bad-indicator {
-    background-color: red;
+.search-bar:focus-within .search-icon {
+    color: var(--color-blue);
 }
 
-.arrives-text {
+.routes {
+    padding: 14px;
+    border-bottom: thin solid var(--color-lightgray);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.route-number {
+    font-weight: bold;
+    color: var(--color-darkgray);
+}
+
+.route-locations {
     font-size: 13px;
-}
-
-.icon {
-    height: 12px;
-    width: 12px;
-    border-radius: 50%;
-    margin-left: 5px;
+    color: var(--color-gray);
 }

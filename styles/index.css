@@ -22,6 +22,7 @@
     padding: 2px;
     font-size: small;
     align-items: center;
+    height: 32px;
 }
 
 .search-input {
