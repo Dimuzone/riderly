@@ -7,7 +7,7 @@
 }
 
 .messages {
-	padding: 0 16px;
+	padding: 0 24px;
 	flex: 1;
 	position: relative;
 }
@@ -61,6 +61,7 @@
 	line-height: 1.25;
 	margin-bottom: 2px;
 	border-radius: 8px;
+	border-top-left-radius: 0;
 	position: relative;
 	word-break: break-word;
 }
@@ -69,22 +70,28 @@
 	content: "";
 	display: block;
 	position: absolute;
-	bottom: calc(36px / 2 - 8px);
+	top: 0;
 	right: 100%;
 	border: 8px solid transparent;
+	border-top-color: var(--color-silver);
 	border-right-color: var(--color-silver);
 }
 
 .message-group.-user .message {
 	background: var(--color-blue);
 	color: white;
+	border-radius: 8px;
+	border-bottom-right-radius: 0;
 }
 
 .message-group.-user .message::before {
 	right: auto;
 	left: 100%;
+	top: auto;
+	bottom: 0;
 	border-color: transparent;
 	border-left-color: var(--color-blue);
+	border-bottom-color: var(--color-blue);
 }
 
 .message-bar {
