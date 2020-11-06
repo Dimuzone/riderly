@@ -5,145 +5,160 @@
  * > Reset styles and variables for BusDating
  */
 
+
 /* Variable declarations */
+
 :root {
-	--color-bg: white;
-	--color-white: #F6F7F9;
-	--color-silver: #E8E8E8;
-	--color-lightgray: #C4C4C4;
-	--color-gray: #8F8F8F;
-	--color-darkgray: #676767;
-	--color-blue: #5E83E2;
-	--color-green: #65A164;
-	--color-yellow: #EEBC3B;
-	--color-red: #E92554;
-	--color-lightgreen: #DEF5DE;
-	--color-lightyellow: #FFF8E5;
-	--color-lightred: #FFE1EC;
-	--color-input: var(--color-white);
-	--color-disable: var(--color-silver);
-	--color-outline: var(--color-lightgray);
-	--color-content: var(--color-gray);
-	--color-title: var(--color-darkgray);
-	--header-height: 96px;
-	--font-stack: "Work Sans", sans-serif;
+    --color-bg: white;
+    --color-white: #F6F7F9;
+    --color-silver: #E8E8E8;
+    --color-lightgray: #C4C4C4;
+    --color-gray: #8F8F8F;
+    --color-darkgray: #676767;
+    --color-blue: #5E83E2;
+    --color-green: #65A164;
+    --color-yellow: #EEBC3B;
+    --color-red: #E92554;
+    --color-lightgreen: #DEF5DE;
+    --color-lightyellow: #FFF8E5;
+    --color-lightred: #FFE1EC;
+    --color-input: var(--color-white);
+    --color-disable: var(--color-silver);
+    --color-outline: var(--color-lightgray);
+    --color-content: var(--color-gray);
+    --color-title: var(--color-darkgray);
+    --header-height: 96px;
+    --font-stack: "Work Sans", sans-serif;
 }
 
+
 /* Reset styles */
+
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 a {
-	text-decoration: none;
-	color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 ul {
-	list-style: none;
+    list-style: none;
 }
 
 fieldset {
-	border: none;
+    border: none;
 }
 
 button {
-	border: none;
+    border: none;
 }
+
 
 /* Project-specific styles */
+
 body {
-	background: var(--color-bg);
-	color: var(--color-content);
+    background: var(--color-bg);
+    color: var(--color-content);
 }
 
-input, button, body {
-	font-family: var(--font-stack);
+input,
+button,
+body {
+    font-family: var(--font-stack);
 }
 
 p {
-	font-size: 0.875em;
+    font-size: 0.875em;
 }
 
-h1, h2 {
-	color: var(--color-title);
+h1,
+h2 {
+    color: var(--color-title);
 }
 
 h1 {
-	font-size: 2em;
+    font-size: 2em;
 }
 
 h2 {
-	font-size: 1.125em;
+    font-size: 1.125em;
 }
 
 .header {
-	background: white;
-	border-bottom: thin solid var(--color-outline);
-	position: fixed;
-	z-index: 1;
-	width: calc(100% - 30px);
-	top: 0;
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-end;
-	margin: 0 15px;
-	padding: 8px 8px 8px;
-	height: var(--header-height);
+    background: white;
+    border-bottom: thin solid var(--color-outline);
+    position: fixed;
+    z-index: 1;
+    width: calc(100% - 30px);
+    top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 0 15px;
+    padding: 8px 8px 8px;
+    height: var(--header-height);
+}
+
+.search-bar {
+    order: 3;
+    width: 100%;
 }
 
 .headings {
-	display: flex;
-	flex-direction: column;
-	text-align: right;
-	order: 2;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    order: 2;
 }
 
 .title {
-	line-height: 1;
-	order: 2;
+    line-height: 1;
+    order: 2;
 }
 
 .subtitle {
-	color: var(--color-outline);
-	font-size: 1em;
-	font-weight: bold;
+    color: var(--color-outline);
+    font-size: 1em;
+    font-weight: bold;
 }
 
 .back {
-	color: var(--color-content);
-	font-size: 0.875em;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
+    color: var(--color-content);
+    font-size: 0.875em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
 }
 
 .back .material-icons {
-	margin-left: -8px;
-	margin-right: -2px;
+    margin-left: -8px;
+    margin-right: -2px;
 }
 
 .page {
-	padding: 0 16px;
-	margin-top: var(--header-height);
+    padding: 0 16px;
+    margin-top: var(--header-height);
 }
 
-.page > p {
-	line-height: 1.5;
-	padding-top: 0.75em;
+.page>p {
+    line-height: 1.5;
+    padding-top: 0.75em;
 }
 
 .button {
-	background: var(--color-blue);
-	color: white;
-	font-size: 1em;
-	font-weight: bold;
-	width: 100%;
-	height: 48px;
-	border-radius: 8px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    background: var(--color-blue);
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
