@@ -5,12 +5,12 @@
  * > Reset styles and variables for BusDating
  */
 
+/* Variable declarations */
 :root {
 	--color-bg: white;
 	--color-input: #F6F7F9;
 	--color-disable: #E8E8E8;
 	--color-outline: #C4C4C4;
-	--color-subtitle: var(--color-outline);
 	--color-content: #8F8F8F;
 	--color-title: #676767;
 	--color-blue: #5E83E2;
@@ -23,12 +23,27 @@
 	--font-stack: "Work Sans", sans-serif;
 }
 
+/* Reset styles */
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
 
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+ul {
+	list-style: none;
+}
+
+fieldset {
+	border: none;
+}
+
+/* Project-specific styles */
 body {
 	background: var(--color-bg);
 	color: var(--color-content);
@@ -38,17 +53,20 @@ input, button, body {
 	font-family: var(--font-stack);
 }
 
-a {
-	text-decoration: none;
-	color: inherit;
-}
-
 p {
 	font-size: 0.875em;
 }
 
-ul {
-	list-style: none;
+h1, h2 {
+	color: var(--color-title);
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 1.125em;
 }
 
 .header {
@@ -67,15 +85,14 @@ ul {
 }
 
 .title {
-	color: var(--color-title);
-	font-size: 2em;
 	line-height: 1;
 	order: 2;
 }
 
 .subtitle {
-	color: var(--color-subtitle);
+	color: var(--color-outline);
 	font-size: 1em;
+	font-weight: bold;
 }
 
 .back {
@@ -91,8 +108,11 @@ ul {
 	margin-right: -2px;
 }
 
+.page {
+	padding: 0 16px;
+}
+
 .page > p {
-	margin: 0 16px;
 	line-height: 1.5;
 	margin-top: 0.75em;
 }

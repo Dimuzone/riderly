@@ -1,39 +1,39 @@
-.header {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-end;
-	margin: 0 16px;
-	padding: 32px 8px 8px;
-	border-bottom: thin solid var(--color-outline);
+input[type="radio"] {
+	display: none;
 }
 
-.headings {
-	display: flex;
-	flex-direction: column;
-	order: 2;
+.report-section {
+	margin-top: 2em;
 }
 
-.title {
-	color: var(--color-title);
-	font-size: 2em;
-	line-height: 1;
-	order: 2;
-}
-
-.subtitle {
-	color: var(--color-subtitle);
-	font-size: 1em;
-}
-
-.back {
+.card {
+	background: var(--color-input);
 	color: var(--color-content);
-	font-size: 0.875em;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
+	border: 2px solid var(--color-outline);
+	border-radius: 4px;
+	padding: 12px;
+	margin-top: 8px;
+	display: block;
+	font-weight: 500;
 }
 
-.back .material-icons {
-	margin-left: -8px;
-	margin-right: -2px;
+.card-name {
+	text-transform: uppercase;
+	font-size: 0.75em;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+	display: block;
+}
+
+.card-text {
+	display: block;
+	font-size: 0.875em;
+	margin-top: 2px;
+}
+
+input[type="radio"]:checked + .card {
+	background: var(--color-lightgreen);
+	color: var(--color-green);
+	border-color: var(--green);
+	border-width: 2px;
 }
