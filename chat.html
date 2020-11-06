@@ -9,7 +9,10 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<link href="styles/bus-dating.css" rel="stylesheet" />
 	<link href="styles/chat.css" rel="stylesheet" />
+	<script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 	<script defer src="./scripts/h2.js"></script>
+	<script defer src="./scripts/db.js"></script>
 	<script defer src="./scripts/chat.js"></script>
 </head>
 
@@ -26,7 +29,13 @@
 			</a>
 		</div>
 	</header>
-	<main class="page -chat"></main>
+	<main class="page -chat">
+		<div class="messages"></div>
+		<div class="message-bar">
+			<input class="message-input" placeholder="Enter a message..." />
+			<button class="message-send material-icons">arrow_upward</button>
+		</div>
+	</main>
 </body>
 
 </html>
