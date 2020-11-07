@@ -2,6 +2,7 @@ let page = document.querySelector(".page.-chat")
 let textbox = null
 let wrap = null
 let groups = null
+let chatid = null
 
 const send = (state) => {
 	if (!textbox.value) return false
@@ -16,10 +17,7 @@ const send = (state) => {
 	})
 	scroll()
 	textbox.value = ""
-	db.collection("chats")
-		.doc("49W")
-		.collection("messages")
-		.add(message)
+	db.collection("chats/" + chatid + "/messages").add(message)
 	return true
 }
 
@@ -41,6 +39,24 @@ const update = (state) =>
 		])
 	)
 
+const getId = (route) => new Promise(resolve =>
+	db.collection("chats").get()
+		.then(chats => chats.forEach(doc => {
+			if (doc.data().route === route)  {
+				chatid = doc.id
+				resolve(doc.id)
+			}
+		})))
+
+const getMessages = (id) => new Promise(resolve =>
+	db.collection("chats/" + id + "/messages").get()
+		.then(col => {
+			let messages = []
+			col.forEach(doc => messages.push(doc.data()))
+			messages.sort((a, b) => a.time - b.time)
+			resolve(messages)
+		}))
+
 const init = (messages) => {
 	update({
 		user: "instant_noodle",
@@ -53,16 +69,9 @@ const init = (messages) => {
 	scroll()
 }
 
-db.collection("chats")
-	.doc("49W")
-	.collection("messages")
-	.get()
-	.then(data => {
-		let messages = []
-		data.forEach(message => messages.push(message.data()))
-		messages.sort((a, b) => a.time - b.time)
-		init(messages)
-	})
+getId("49W")
+	.then(getMessages)
+	.then(init)
 
 function scroll() {
 	if (groups.clientHeight > wrap.clientHeight) {
