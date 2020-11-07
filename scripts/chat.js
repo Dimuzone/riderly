@@ -1,3 +1,4 @@
+let page = document.querySelector(".page.-chat")
 let textbox = null
 let wrap = null
 let groups = null
@@ -18,7 +19,7 @@ const send = (state) => {
 }
 
 const update = (state) =>
-	patch(document.querySelector(".page.-chat"),
+	patch(page,
 		main({ class: "page -chat" }, [
 			div({ class: "messages" }, [ renderMessages(state) ]),
 			div({ class: "message-bar" }, [
@@ -35,21 +36,21 @@ const update = (state) =>
 		])
 	)
 
-const mount = (messages) => {
+const init = (messages) => {
 	update({
 		user: "instant_noodle",
 		messages: messages
 	})
 	textbox = document.querySelector(".message-input")
-	wrap = document.querySelector(".messages")
 	groups = document.querySelector(".message-groups")
+	wrap = document.querySelector(".messages")
 	window.addEventListener("resize", scroll)
 	scroll()
 }
 
 db.collection("chats").get().then(chats => chats.forEach(chat => {
 	if (chat.id !== "49W") return
-	mount(chat.data().messages)
+	init(chat.data().messages)
 }))
 
 function scroll() {
