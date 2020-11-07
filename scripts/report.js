@@ -19,7 +19,5 @@ form.onsubmit = event => {
         seating: seat.indexOf(seatStatus),
         timing: time.indexOf(timeStatus),
         masks: mask.indexOf(maskStatus)
-    }).then(function(docRef) {
-        console.log("sucessed");
     })
 }
