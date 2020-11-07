@@ -105,6 +105,13 @@
 			el.removeChild(content[content.length - 1])
 		}
 
+		for (let i = 0; i < content.length; i++) {
+			let child = content[i]
+			if (child instanceof Text && !child.data.trim()) {
+				el.removeChild(child)
+			}
+		}
+
 		// patch remaining children
 		for (let i = 0; i < node.content.length; i++) {
 			let child = content[i]

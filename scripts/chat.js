@@ -1,24 +1,30 @@
+let page = document.querySelector(".page.-chat")
 let textbox = null
 let wrap = null
 let groups = null
 
 const send = (state) => {
 	if (!textbox.value) return false
+	let message = {
+		time: Date.now(),
+		author: state.user,
+		content: textbox.value
+	}
 	update({
 		...state,
-		messages: [ ...state.messages, {
-			time: null,
-			author: state.user,
-			content: textbox.value
-		}]
+		messages: [ ...state.messages, message ]
 	})
 	scroll()
 	textbox.value = ""
+	db.collection("chats")
+		.doc("49W")
+		.collection("messages")
+		.add(message)
 	return true
 }
 
 const update = (state) =>
-	patch(document.querySelector(".page.-chat"),
+	patch(page,
 		main({ class: "page -chat" }, [
 			div({ class: "messages" }, [ renderMessages(state) ]),
 			div({ class: "message-bar" }, [
@@ -35,22 +41,28 @@ const update = (state) =>
 		])
 	)
 
-const mount = (messages) => {
+const init = (messages) => {
 	update({
 		user: "instant_noodle",
 		messages: messages
 	})
 	textbox = document.querySelector(".message-input")
-	wrap = document.querySelector(".messages")
 	groups = document.querySelector(".message-groups")
+	wrap = document.querySelector(".messages")
 	window.addEventListener("resize", scroll)
 	scroll()
 }
 
-db.collection("chats").get().then(chats => chats.forEach(chat => {
-	if (chat.id !== "49W") return
-	mount(chat.data().messages)
-}))
+db.collection("chats")
+	.doc("49W")
+	.collection("messages")
+	.get()
+	.then(data => {
+		let messages = []
+		data.forEach(message => messages.push(message.data()))
+		messages.sort((a, b) => a.time - b.time)
+		init(messages)
+	})
 
 function scroll() {
 	if (groups.clientHeight > wrap.clientHeight) {
