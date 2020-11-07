@@ -8,6 +8,7 @@ const send = (state) => {
 	if (!textbox.value) return false
 	let message = {
 		time: Date.now(),
+		route: "49W",
 		author: state.user,
 		content: textbox.value
 	}
@@ -17,7 +18,7 @@ const send = (state) => {
 	})
 	scroll()
 	textbox.value = ""
-	db.collection("chats/" + chatid + "/messages").add(message)
+	db.collection("messages").add(message)
 	return true
 }
 
@@ -39,24 +40,6 @@ const update = (state) =>
 		])
 	)
 
-const getId = (route) => new Promise(resolve =>
-	db.collection("chats").get()
-		.then(chats => chats.forEach(doc => {
-			if (doc.data().route === route)  {
-				chatid = doc.id
-				resolve(doc.id)
-			}
-		})))
-
-const getMessages = (id) => new Promise(resolve =>
-	db.collection("chats/" + id + "/messages").get()
-		.then(col => {
-			let messages = []
-			col.forEach(doc => messages.push(doc.data()))
-			messages.sort((a, b) => a.time - b.time)
-			resolve(messages)
-		}))
-
 const init = (messages) => {
 	update({
 		user: "instant_noodle",
@@ -69,9 +52,15 @@ const init = (messages) => {
 	scroll()
 }
 
-getId("49W")
-	.then(getMessages)
-	.then(init)
+db.collection("messages")
+		.where("route", "==", "49W")
+		.get()
+		.then(col => {
+			let messages = []
+			col.forEach(doc => messages.push(doc.data()))
+			messages.sort((a, b) => a.time - b.time)
+			init(messages)
+		})
 
 function scroll() {
 	if (groups.clientHeight > wrap.clientHeight) {
