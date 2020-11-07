@@ -13,7 +13,7 @@ const send = (state) => {
 		author: state.user,
 		content: textbox.value
 	}
-	update({
+	render({
 		...state,
 		messages: [ ...state.messages, message ]
 	})
@@ -23,7 +23,7 @@ const send = (state) => {
 	return true
 }
 
-const update = (state) =>
+const render = state =>
 	patch(page,
 		main({ class: "page -chat" }, [
 			div({ class: "messages" }, [ renderMessages(state) ]),
@@ -31,18 +31,18 @@ const update = (state) =>
 				input({
 					class: "message-input",
 					placeholder: "Enter a message...",
-					onkeypress: (evt) => evt.key === "Enter" ? send(state) : true
+					onkeypress: evt => evt.key === "Enter" ? send(state) : true
 				}),
 				button({
 					class: "message-send material-icons",
 					onclick: _ => send(state)
-				}, [ "arrow_upward" ])
+				}, "arrow_upward")
 			])
 		])
 	)
 
 const init = (messages) => {
-	update({
+	render({
 		user: "instant_noodle",
 		messages: messages
 	})
@@ -53,7 +53,8 @@ const init = (messages) => {
 	scroll()
 }
 
-db.collection("messages").where("route", "==", route).get()
+db.collection("messages").where("route", "==", route)
+	.get()
 	.then(col => {
 		let messages = []
 		col.forEach(doc => messages.push(doc.data()))
