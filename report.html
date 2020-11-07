@@ -2,39 +2,42 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>BusDating - Bus Profile</title>
-    <meta name="description" content="bus dating">
-    <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link href="styles/bus-dating.css" rel="stylesheet" />
-    <link href="styles/report.css" rel="stylesheet" />
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
-    <script defer src="./scripts/db.js"></script>
-    <script defer src="./scripts/report.js"></script>
+	<meta charset="utf-8">
+	<title>BusDating - Bus Profile</title>
+	<meta name="description" content="bus dating">
+	<meta name="author" content="dimuzone, semibran, zzzbnbzzz">
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<link href="styles/bus-dating.css" rel="stylesheet" />
+	<link href="styles/report.css" rel="stylesheet" />
+	<script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+	<script defer src="./scripts/db.js"></script>
+	<script defer src="./scripts/report.js"></script>
 </head>
 
 <body>
-    <header class="header">
-        <div class="headings">
-            <h1 class="title">Update</h1>
-            <span class="subtitle">49W - #52500</span>
-        </div>
-        <a href="./station.html" class="back">
-            <span class="material-icons">keyboard_arrow_left</span> Metrotown
-        </a>
-    </header>
-    <main class="page -update">
-        <p class="page-desc">Is our info out of date? Let us know if seating on the bus is full or if the bus is running late.</p>
-        <form class="report-form">
-            <fieldset class="report-section seating">
-                <legend class="report-header">
-                    <h2 class="report-heading">Seating availability</h2>
-                    <span class="report-prompt">Select one</span>
-                </legend>
-                <input id="empty" type="radio" name="seating" value="empty" checked />
-                <label for="empty" class="card -green">
+	<header class="header">
+		<div class="header-text">
+			<div class="headings">
+				<h1 class="title">Update</h1>
+				<span class="subtitle">49W - #52500</span>
+			</div>
+			<a href="./station.html" class="back">
+				<span class="material-icons">keyboard_arrow_left</span> Metrotown
+			</a>
+		</div>
+	</header>
+	<main class="page -update">
+		<p class="page-desc">Is our info out of date? Let us know if seating on the bus is full or if the bus is running
+			late.</p>
+		<form class="report-form">
+			<fieldset class="report-section seating">
+				<legend class="report-header">
+					<h2 class="report-heading">Seating availability</h2>
+					<span class="report-prompt">Select one</span>
+				</legend>
+				<input id="empty" type="radio" name="seating" value="empty" checked />
+				<label for="empty" class="card -green">
 					<div class="card-text">
 						<span class="card-name">Empty</span>
 						<span class="card-desc">Plenty of space for new riders</span>
@@ -43,8 +46,8 @@
 						<span class="material-icons">check</span>
 					</div>
 				</label>
-                <input id="standonly" type="radio" name="seating" value="standonly" />
-                <label for="standonly" class="card -yellow">
+				<input id="standonly" type="radio" name="seating" value="standonly" />
+				<label for="standonly" class="card -yellow">
 					<div class="card-text">
 						<span class="card-name">Standing Only</span>
 						<span class="card-desc">Few seats available, if any</span>
@@ -53,8 +56,8 @@
 						<span class="material-icons">check</span>
 					</div>
 				</label>
-                <input id="full" type="radio" name="seating" value="full" />
-                <label for="full" class="card -red">
+				<input id="full" type="radio" name="seating" value="full" />
+				<label for="full" class="card -red">
 					<div class="card-text">
 						<span class="card-name">Full</span>
 						<span class="card-desc">No seating or standing room</span>
@@ -63,14 +66,14 @@
 						<span class="material-icons">check</span>
 					</div>
 				</label>
-            </fieldset>
-            <fieldset class="report-section timing">
-                <legend class="report-header">
-                    <h2 class="report-heading">Timing</h2>
-                    <span class="report-prompt">Select one</span>
-                </legend>
-                <input id="ontime" type="radio" name="timing" value="ontime" checked />
-                <label for="ontime" class="card -green">
+			</fieldset>
+			<fieldset class="report-section timing">
+				<legend class="report-header">
+					<h2 class="report-heading">Timing</h2>
+					<span class="report-prompt">Select one</span>
+				</legend>
+				<input id="ontime" type="radio" name="timing" value="ontime" checked />
+				<label for="ontime" class="card -green">
 					<div class="card-text">
 						<span class="card-name">On time</span>
 						<span class="card-desc">No known delays</span>
@@ -79,8 +82,8 @@
 						<span class="material-icons">check</span>
 					</div>
 				</label>
-                <input id="late" type="radio" name="timing" value="late" />
-                <label for="late" class="card -yellow">
+				<input id="late" type="radio" name="timing" value="late" />
+				<label for="late" class="card -yellow">
 					<div class="card-text">
 						<span class="card-name">Late</span>
 						<span class="card-desc">Arriving a few minutes late</span>
@@ -89,8 +92,8 @@
 						<span class="material-icons">check</span>
 					</div>
 				</label>
-                <input id="verylate" type="radio" name="timing" value="verylate" />
-                <label for="verylate" class="card -red">
+				<input id="verylate" type="radio" name="timing" value="verylate" />
+				<label for="verylate" class="card -red">
 					<div class="card-text">
 						<span class="card-name">Very Late</span>
 						<span class="card-desc">A stall or accident has occurred</span>
@@ -99,14 +102,14 @@
 						<span class="material-icons">check</span>
 					</div>
 				</label>
-            </fieldset>
-            <fieldset class="report-section mask-usage">
-                <legend class="report-header">
-                    <h2 class="report-heading">Mask usage</h2>
-                    <span class="report-prompt">Select one</span>
-                </legend>
-                <input id="complete" type="radio" name="mask-usage" value="complete" checked />
-                <label for="complete" class="card -green">
+			</fieldset>
+			<fieldset class="report-section mask-usage">
+				<legend class="report-header">
+					<h2 class="report-heading">Mask usage</h2>
+					<span class="report-prompt">Select one</span>
+				</legend>
+				<input id="complete" type="radio" name="mask-usage" value="complete" checked />
+				<label for="complete" class="card -green">
 					<div class="card-text">
 						<span class="card-name">Complete</span>
 						<span class="card-desc">Most or all people are wearing</span>
@@ -115,8 +118,8 @@
 						<span class="material-icons">check</span>
 					</div>
 				</label>
-                <input id="partial" type="radio" name="mask-usage" value="partial" />
-                <label for="partial" class="card -yellow">
+				<input id="partial" type="radio" name="mask-usage" value="partial" />
+				<label for="partial" class="card -yellow">
 					<div class="card-text">
 						<span class="card-name">Partial</span>
 						<span class="card-desc">Some people are wearing</span>
@@ -125,8 +128,8 @@
 						<span class="material-icons">check</span>
 					</div>
 				</label>
-                <input id="few" type="radio" name="mask-usage" value="few" />
-                <label for="few" class="card -red">
+				<input id="few" type="radio" name="mask-usage" value="few" />
+				<label for="few" class="card -red">
 					<div class="card-text">
 						<span class="card-name">Few</span>
 						<span class="card-desc">Only a few people are wearing</span>
@@ -135,13 +138,13 @@
 						<span class="material-icons">check</span>
 					</div>
 				</label>
-            </fieldset>
-            <button class="button -submit">
+			</fieldset>
+			<button class="button -submit">
 				Submit
 				<span class="material-icons">keyboard_arrow_right</span>
 			</button>
-        </form>
-    </main>
+		</form>
+	</main>
 </body>
 
 </html>
