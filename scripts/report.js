@@ -15,5 +15,10 @@ form.onsubmit = event => {
     let author = "guest"
     let report = [author, seating, timing, masks]
     console.log(report)
+
+
+    db.collection("reports").where
+
+
     event.preventDefault()
 }
