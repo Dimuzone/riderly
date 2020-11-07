@@ -1,14 +1,15 @@
+const route = "49W"
+
 let page = document.querySelector(".page.-chat")
 let textbox = null
 let wrap = null
 let groups = null
-let chatid = null
 
 const send = (state) => {
 	if (!textbox.value) return false
 	let message = {
 		time: Date.now(),
-		route: "49W",
+		route: route,
 		author: state.user,
 		content: textbox.value
 	}
@@ -52,15 +53,13 @@ const init = (messages) => {
 	scroll()
 }
 
-db.collection("messages")
-		.where("route", "==", "49W")
-		.get()
-		.then(col => {
-			let messages = []
-			col.forEach(doc => messages.push(doc.data()))
-			messages.sort((a, b) => a.time - b.time)
-			init(messages)
-		})
+db.collection("messages").where("route", "==", route).get()
+	.then(col => {
+		let messages = []
+		col.forEach(doc => messages.push(doc.data()))
+		messages.sort((a, b) => a.time - b.time)
+		init(messages)
+	})
 
 function scroll() {
 	if (groups.clientHeight > wrap.clientHeight) {
