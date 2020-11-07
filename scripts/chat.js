@@ -5,16 +5,21 @@ let groups = null
 
 const send = (state) => {
 	if (!textbox.value) return false
+	let message = {
+		time: Date.now(),
+		author: state.user,
+		content: textbox.value
+	}
 	update({
 		...state,
-		messages: [ ...state.messages, {
-			time: null,
-			author: state.user,
-			content: textbox.value
-		}]
+		messages: [ ...state.messages, message ]
 	})
 	scroll()
 	textbox.value = ""
+	db.collection("chats")
+		.doc("49W")
+		.collection("messages")
+		.add(message)
 	return true
 }
 
@@ -48,10 +53,16 @@ const init = (messages) => {
 	scroll()
 }
 
-db.collection("chats").get().then(chats => chats.forEach(chat => {
-	if (chat.id !== "49W") return
-	init(chat.data().messages)
-}))
+db.collection("chats")
+	.doc("49W")
+	.collection("messages")
+	.get()
+	.then(data => {
+		let messages = []
+		data.forEach(message => messages.push(message.data()))
+		messages.sort((a, b) => a.time - b.time)
+		init(messages)
+	})
 
 function scroll() {
 	if (groups.clientHeight > wrap.clientHeight) {
