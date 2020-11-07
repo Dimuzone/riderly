@@ -2,28 +2,34 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>BusDating - Bus Profile</title>
-    <meta name="description" content="bus dating">
-    <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link href="styles/bus-dating.css" rel="stylesheet" />
-    <link href="styles/report.css" rel="stylesheet" />
+	<meta charset="utf-8">
+	<title>BusDating - Bus Profile</title>
+	<meta name="description" content="bus dating">
+	<meta name="author" content="dimuzone, semibran, zzzbnbzzz">
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<link href="styles/bus-dating.css" rel="stylesheet" />
+	<link href="styles/report.css" rel="stylesheet" />
+	<script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+	<script defer src="./scripts/db.js"></script>
+	<script defer src="./scripts/report.js"></script>
 </head>
 
 <body>
 	<header class="header">
-		<div class="headings">
-			<h1 class="title">Update</h1>
-			<span class="subtitle">49W - #52500</span>
+		<div class="header-text">
+			<div class="headings">
+				<h1 class="title">Update</h1>
+				<span class="subtitle">49W - #52500</span>
+			</div>
+			<a href="./station.html" class="back">
+				<span class="material-icons">keyboard_arrow_left</span> Metrotown
+			</a>
 		</div>
-		<a href="./station.html" class="back">
-			<span class="material-icons">keyboard_arrow_left</span>
-			Metrotown
-		</a>
 	</header>
 	<main class="page -update">
-		<p class="page-desc">Is our info out of date? Let us know if seating on the bus is full or if the bus is running late.</p>
+		<p class="page-desc">Is our info out of date? Let us know if seating on the bus is full or if the bus is running
+			late.</p>
 		<form class="report-form">
 			<fieldset class="report-section seating">
 				<legend class="report-header">

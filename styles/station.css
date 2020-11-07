@@ -1,190 +1,198 @@
 /***********Header*************/
 
 .title {
-	font-size: 16px;
+    font-size: 16px;
 }
 
 .star-icon {
-	float: right;
-	padding-bottom: 9px;
+    float: right;
+    padding-bottom: 9px;
 }
+
 
 /***********station-table*************/
 
 .route {
-	height: 80px;
-	border-bottom: thin solid var(--color-outline);
+    height: 80px;
+    border-bottom: thin solid var(--color-outline);
 }
 
-.this-station, .before, .after {
-	font-weight: bold;
-	font-size: .75em;
+.this-station,
+.before,
+.after {
+    font-weight: bold;
+    font-size: .75em;
 }
 
 .this-station {
-	width: 105px;
-	margin-left: auto;
-	margin-right: auto;
-	padding-top: 12px;
-	padding-bottom: 4px;
+    width: 105px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 12px;
+    padding-bottom: 4px;
 }
 
 .before {
-	float: left;
-	padding-top: 4px;
-	padding-bottom: 12px;
+    float: left;
+    padding-top: 4px;
+    padding-bottom: 12px;
 }
 
 .after {
-	float: right;
-	padding-top: 4px;
+    float: right;
+    padding-top: 4px;
 }
 
 .station-table {
-	width: 90%;
-	margin: 0 auto 0 auto;
-	display: flex;
-	justify-content: space-between;
-	position: relative;
+    width: 90%;
+    margin: 0 auto 0 auto;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
 }
 
 .station {
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	border: 2px solid silver;
-	background: white;
-	position: static;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid silver;
+    background: white;
+    position: static;
 }
+
 
 /* lines */
 
-.station + .station::before {
-	content: "";
-	display: block;
-	width: 50%;
-	height: 2px;
-	background: silver;
-	position: absolute;
-	top: 50%;
-	transform: translateX(calc(-100% + 10px));
-	z-index: -1;
+.station+.station::before {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 2px;
+    background: silver;
+    position: absolute;
+    top: 50%;
+    transform: translateX(calc(-100% + 10px));
+    z-index: -1;
 }
 
 .station.-select {
-	border-color: var(--blue);
+    border-color: var(--blue);
 }
+
 
 /* selection circle */
 
 .station.-select::after {
-	content: "";
-	display: block;
-	width: 12px;
-	height: 12px;
-	background: var(--blue);
-	border-radius: 50%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: var(--blue);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
 
 /***********TRANSIT INFORMATION*************/
 
 .info-title {
-	font-weight: 700;
-	font-size: 0.75em;
-	margin-top: 32px;
-	margin-bottom: 8px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    font-weight: 700;
+    font-size: 0.75em;
+    margin-top: 32px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .report-button {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .info-content {
-	height: 55px;
-	border-bottom: thin solid var(--color-outline);
-	border-top: thin solid var(--color-outline);
+    height: 55px;
+    border-bottom: thin solid var(--color-outline);
+    border-top: thin solid var(--color-outline);
+}
+
+.statuses {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 11px;
+    font-weight: 700;
+    font-size: 0.75em;
 }
 
 .status {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 11px;
-	font-weight: 700;
-	font-size: 0.75em;
+    font-size: 1rem;
 }
 
-.seating-status {
-	font-size: 1rem;
-	color: var(--yellow);
+.-green {
+    color: var(--green);
 }
 
-.timing-status {
-	font-size: 1rem;
-	color: var(--green);
+.-yellow {
+    color: var(--yellow);
 }
 
-.mask-status {
-	font-size: 1rem;
-	color: var(--yellow);
+.-red {
+    color: var(--red);
 }
+
 
 /***********TOP MESSAGE*************/
 
 .message-title {
-	font-weight: 700;
-	font-size: 0.75em;
-	margin-top: 32px;
-	margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.75em;
+    margin-top: 32px;
+    margin-bottom: 8px;
 }
 
 .message-content {
-	border-top: thin solid var(--color-outline);
+    border-top: thin solid var(--color-outline);
 }
 
 .message {
-	display: flex;
-	align-items: center;
-	border-bottom: thin solid var(--color-outline);
-	margin-top: 11px;
-	padding-bottom: 12px;
+    display: flex;
+    align-items: center;
+    border-bottom: thin solid var(--color-outline);
+    margin-top: 11px;
+    padding-bottom: 12px;
 }
 
 .likes {
-	display: flex;
-	align-items: center;
-	font-size: 1.875em;
-	margin-right: 12px;
-	color: var(--color-title);
-	align-self: baseline;
+    display: flex;
+    align-items: center;
+    font-size: 1.875em;
+    margin-right: 12px;
+    color: var(--color-title);
+    align-self: baseline;
 }
 
 .text {
-	font-size: 0.875;
-	font-weight: 700;
-	color: var(--color-title);
+    font-size: 0.875;
+    font-weight: 700;
+    color: var(--color-title);
 }
 
 .message-data {
-	color: var(--color-outline);
+    color: var(--color-outline);
 }
 
 strong {
-	color: var(--color-content);
-	font-weight: normal;
+    color: var(--color-content);
+    font-weight: normal;
 }
 
 .msg-icon {
-	color: var(--color-outline);
+    color: var(--color-outline);
 }
 
 .button {
-	margin-top: 22px;
+    margin-top: 22px;
 }

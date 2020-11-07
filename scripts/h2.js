@@ -3,7 +3,7 @@
 // Optimized for browser inclusion.
 //
 // Exposes all tags from the WHATWG HTML Living Standard
-// for use as h functions, e.g. p([ "Hello world!" ])
+// for use as h functions, e.g. p("Hello world!")
 //
 // Includes a patch function for updating DOM elements to match vnodes
 //
@@ -15,9 +15,16 @@
 		let tag = tags[i]
 		window[tag] = (function (h, tag) {
 			return function (data, content) {
-				return data === undefined || Array.isArray(data)
-					? h(tag, EMPTY_OBJ, data || EMPTY_ARR)
-					: h(tag, data, content || EMPTY_ARR)
+				if (data === undefined || Array.isArray(data)) {
+					content = data
+					data = EMPTY_OBJ
+				}
+				if (content === undefined) {
+					content = EMPTY_ARR
+				} else if (!Array.isArray(content)) {
+					content = [ content ]
+				}
+				return h(tag, data, content)
 			}
 		})(h, tag)
 	}
