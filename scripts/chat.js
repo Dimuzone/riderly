@@ -40,17 +40,6 @@ const update = (state) =>
 		])
 	)
 
-const getMessages = (route) => new Promise(resolve =>
-	db.collection("messages")
-		.where("route", "==", "49W")
-		.get()
-		.then(col => {
-			let messages = []
-			col.forEach(doc => messages.push(doc.data()))
-			messages.sort((a, b) => a.time - b.time)
-			resolve(messages)
-		}))
-
 const init = (messages) => {
 	update({
 		user: "instant_noodle",
@@ -63,8 +52,15 @@ const init = (messages) => {
 	scroll()
 }
 
-getMessages("49W")
-	.then(init)
+db.collection("messages")
+		.where("route", "==", "49W")
+		.get()
+		.then(col => {
+			let messages = []
+			col.forEach(doc => messages.push(doc.data()))
+			messages.sort((a, b) => a.time - b.time)
+			init(messages)
+		})
 
 function scroll() {
 	if (groups.clientHeight > wrap.clientHeight) {
