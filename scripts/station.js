@@ -3,11 +3,7 @@ const timing = ["On time", "Late", "Very late"]
 const mask = ["Complete", "Parial", "Few"]
 const colors = ["-green", "-yellow", "-red"]
 
-db.collection("stations").get().then(stations => stations.forEach(station => {
-    if (station.data().name == "Central Blvd E")
-        var id = station.id
-    console.log(id)
-}))
+const getId
 
 
 
