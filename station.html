@@ -2,106 +2,110 @@
 <html lang="en" dir="ltr">
 
 <head>
-	<meta charset="utf-8">
-	<title>BusDating - station Profile</title>
-	<meta charset="utf-8">
-	<meta name="description" content="bus dating">
-	<meta name="author" content="dimuzone, semibran, zzzbnbzzz">
-	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
-	<link href="styles/bus-dating.css" rel="stylesheet" />
-	<link href="styles/station.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <title>BusDating - station Profile</title>
+    <meta charset="utf-8">
+    <meta name="description" content="bus dating">
+    <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
+    <link href="styles/bus-dating.css" rel="stylesheet" />
+    <link href="styles/station.css" rel="stylesheet" />
+    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+    <script defer src="./scripts/db.js"></script>
+    <script defer src="./scripts/station.js"></script>
 </head>
 
 <body>
-	<header class="header">
-		<div class="header-text">
-			<div class="headings">
-				<div class="star"><span class="star-icon material-icons">
+    <header class="header">
+        <div class="header-text">
+            <div class="headings">
+                <div class="star"><span class="star-icon material-icons">
 						grade
 					</span></div>
-				<h1 class="title">Central Blvd E</h1>
-				<span class="subtitle">49W - #52500</span>
-			</div>
-			<a href="./station.html" class="back">
-				<span class="material-icons">keyboard_arrow_left</span> 49W
-			</a>
-		</div>
-	</header>
+                <h1 class="title">Central Blvd E</h1>
+                <span class="subtitle">49W - #52500</span>
+            </div>
+            <a href="./station.html" class="back">
+                <span class="material-icons">keyboard_arrow_left</span> 49W
+            </a>
+        </div>
+    </header>
 
-	<main class="page">
-		<div class="route">
-			<div class="this-station">CENTRAL BLVD E</div>
-			<div class="station-table">
-				<div class="station"></div>
-				<div class="station -select"></div>
-				<div class="station"></div>
-			</div>
-			<div class="before">
-				METROTOWN
-			</div>
-			<div class="after">
-				WAVERLEY AVE
-			</div>
-		</div>
+    <main class="page">
+        <div class="route">
+            <div class="this-station">CENTRAL BLVD E</div>
+            <div class="station-table">
+                <div class="station"></div>
+                <div class="station -select"></div>
+                <div class="station"></div>
+            </div>
+            <div class="before">
+                METROTOWN
+            </div>
+            <div class="after">
+                WAVERLEY AVE
+            </div>
+        </div>
 
-		<div class="info-title">
-			TRANSIT INFORMATION
-			<div class="report-button">Update <span class="update-icon material-icons">keyboard_arrow_right</span></div>
-		</div>
+        <div class="info-title">
+            TRANSIT INFORMATION
+            <div class="report-button">Update <span class="update-icon material-icons">keyboard_arrow_right</span></div>
+        </div>
 
-		<div class="info-content">
-			<div class="status">
-				<div class="seating">SEATING
-					<div class="seating-status">Stand only</div>
-				</div>
+        <div class="info-content">
+            <div class="statuses">
+                <div class="seating">SEATING
+                    <div class="status -seating -green">Stand only</div>
+                </div>
 
-				<div class="timing">TIMING
-					<div class="timing-status">On time</div>
-				</div>
+                <div class="timing">TIMING
+                    <div class="status -timing -green">On time</div>
+                </div>
 
-				<div class="mask">MASK USAGE
-					<div class="mask-status">Partial</div>
-				</div>
-			</div>
-		</div>
+                <div class="mask">MASK USAGE
+                    <div class="status -mask -green">Partial</div>
+                </div>
+            </div>
+        </div>
 
-		<div class="message-title">
-			TOP MESSAGES
-		</div>
+        <div class="message-title">
+            TOP MESSAGES
+        </div>
 
-		<div class="message-content">
-			<div class="message">
+        <div class="message-content">
+            <div class="message">
 
-				<div class="likes">5 <span class="material-icons">
+                <div class="likes">5 <span class="material-icons">
 						thumb_up
 					</span></div>
 
-				<div class="detail">
-					<div class="text">I have been waiting for 30 mins. Where is 49???</div>
-					<span class="message-data"><strong>Metrotown</strong> &middot; 9m ago</span>
-				</div>
+                <div class="detail">
+                    <div class="text">I have been waiting for 30 mins. Where is 49???</div>
+                    <span class="message-data"><strong>Metrotown</strong> &middot; 9m ago</span>
+                </div>
 
-				<span class="msg-icon material-icons">keyboard_arrow_right</span>
-			</div>
+                <span class="msg-icon material-icons">keyboard_arrow_right</span>
+            </div>
 
-			<div class="message">
+            <div class="message">
 
-				<div class="likes">2 <span class="material-icons">
+                <div class="likes">2 <span class="material-icons">
 						thumb_up
 					</span>
-				</div>
+                </div>
 
-				<div class="detail">
-					<div class="text">Three people are not wearing mask in the line!!!!</div>
-					<span class="message-data"><strong>Central Blvd E</strong> &middot; 13m ago</span>
-				</div>
+                <div class="detail">
+                    <div class="text">Three people are not wearing mask in the line!!!!</div>
+                    <span class="message-data"><strong>Central Blvd E</strong> &middot; 13m ago</span>
+                </div>
 
-				<span class="msg-icon material-icons">keyboard_arrow_right</span>
-			</div>
-		</div>
+                <span class="msg-icon material-icons">keyboard_arrow_right</span>
+            </div>
+        </div>
 
-		<button class="button">Join chat for Route 49W</button>
-	</main>
+        <button class="button">Join chat for Route 49W</button>
+    </main>
 
 </body>
 
