@@ -14,10 +14,6 @@ form.onsubmit = event => {
     let masks = mask.indexOf(maskStatus)
     let author = "guest"
     let report = [author, seating, timing, masks]
-
-
-
     console.log(report)
-
     event.preventDefault()
 }
