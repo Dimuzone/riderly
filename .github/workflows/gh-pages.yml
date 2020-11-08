@@ -9,28 +9,11 @@ jobs:
   deploy: 
     runs-on: ubuntu-latest
     steps:
-#       - 
-#         name: Pull
-#         run: |
-#           mkdir public
-#           git clone https://github.com/dimuzone/bus-dating public
-#           touch public/.nojekyll
-#           cat > public/index.html <<EOL
-#           <!doctype html>
-#           <html>
-#             <head>
-#               <title>GitHub Pages deployed!</title>
-#             </head>
-#             <body>
-#               <p>GitHub Pages with <strong>${{ github.sha }}</strong> commit ID has been deployed through <a href="https://github.com/marketplace/actions/github-pages">GitHub Pages action</a> successfully.</p>
-#             </body>
-#           </html>
-#           EOL
-      -
+      - 
         name: Deploy
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: ./public
 
