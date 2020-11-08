@@ -14,13 +14,13 @@ const send = (state) => {
 		content: textbox.value,
 		likes: 0
 	}
+	db.collection("messages").add(message)
 	render({
 		...state,
 		messages: [ ...state.messages, message ]
 	})
 	scroll()
 	textbox.value = ""
-	db.collection("messages").add(message)
 	return true
 }
 

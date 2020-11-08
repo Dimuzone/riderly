@@ -112,6 +112,7 @@
 			el.removeChild(content[content.length - 1])
 		}
 
+		// ignore whitespace
 		for (let i = 0; i < content.length; i++) {
 			let child = content[i]
 			if (child instanceof Text && !child.data.trim()) {
