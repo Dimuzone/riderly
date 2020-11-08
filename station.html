@@ -11,6 +11,7 @@
     <link href="styles/bus-dating.css" rel="stylesheet" />
     <link href="styles/station.css" rel="stylesheet" />
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
     <script defer src="./scripts/db.js"></script>
     <script defer src="./scripts/station.js"></script>
@@ -20,9 +21,9 @@
     <header class="header">
         <div class="header-text">
             <div class="headings">
-                <div class="star"><span class="star-icon material-icons">
-						grade
-					</span></div>
+                <div class="star">
+                    <span id="star" class="star-icon material-icons">star_border</span>
+                </div>
                 <h1 class="title">Central Blvd E</h1>
                 <span class="subtitle">49W - #52500</span>
             </div>
