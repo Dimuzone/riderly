@@ -15,11 +15,11 @@ jobs:
         with:
           build_dir: .
       -
-         name: Deploy
-         if: success()
-         uses: ./
-         with:
-           target_branch: gh-pages
-           build_dir: public
-         env:
-           GH_PAT: ${{ secrets.GH_PAT }}
+        name: Deploy
+        if: success()
+        uses: ./
+        with:
+          target_branch: gh-pages
+          build_dir: public
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
