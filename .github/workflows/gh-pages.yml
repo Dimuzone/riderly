@@ -13,6 +13,7 @@ jobs:
         name: Pull
         run: |
           mkdir public
+          touch public/.nojekyll
           cat > public/index.html <<EOL
           <!doctype html>
           <html>
