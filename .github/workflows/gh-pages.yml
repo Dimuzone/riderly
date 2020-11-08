@@ -10,16 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: GitHub Pages
+        name: Deploy to GitHub Pages
+        if: success()
         uses: crazy-max/ghaction-github-pages@v2.1.3
+        with:
+          target_branch: gh-pages
+          build_dir: ./
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       -
-#         name: Deploy
-#         if: success()
-#         uses: ./
-#         with:
-#           target_branch: gh-pages
-#           build_dir: public
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
