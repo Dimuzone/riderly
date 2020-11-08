@@ -1,0 +1,42 @@
+.east-icon {
+	font-size: 12px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.subtitle {
+	display: flex;
+	align-items: center;
+	color: var(--gray);
+}
+
+.station-wrap {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	border-bottom: thin solid var(--lightgray);
+	align-items: center;
+}
+
+.station {
+	display: flex;
+	flex-direction: column;
+}
+
+.station-text {
+	font-weight: bold;
+	color: var(--darkgray);
+}
+
+.route {
+	font-size: 11px;
+}
+
+.stn-route-number {
+	font-weight: bold;
+	color: var(--gray);
+}
+
+.station-icon {
+	color: var(--lightgray);
+}

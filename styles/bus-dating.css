@@ -1,0 +1,233 @@
+@import url(https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+/* bus-dating-v2.css
+ * > Reset styles and variables for BusDating
+ */
+
+/* Variable declarations */
+
+:root {
+	--white: #F6F7F9;
+	--silver: #E8E8E8;
+	--lightgray: #C4C4C4;
+	--gray: #8F8F8F;
+	--darkgray: #676767;
+	--blue: #5E83E2;
+	--green: #65A164;
+	--yellow: #EEBC3B;
+	--red: #E92554;
+	--lightgreen: #DEF5DE;
+	--lightyellow: #FFF8E5;
+	--lightred: #FFE1EC;
+	--color-bg: white;
+	--color-input: var(--white);
+	--color-disable: var(--silver);
+	--color-outline: var(--lightgray);
+	--color-content: var(--gray);
+	--color-title: var(--darkgray);
+	--header-height: 96px;
+	--header-height-search: 128px;
+	--font-stack: "Work Sans", sans-serif;
+}
+
+/* Reset styles */
+
+* {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	color: inherit;
+	font: inherit;
+	text-align: inherit;
+	text-decoration: inherit;
+	box-sizing: border-box;
+	-webkit-overflow-scrolling: touch;
+}
+
+html {
+	touch-action: manipulation;
+	-webkit-text-size-adjust: none;
+}
+
+body {
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+ul {
+	list-style: none;
+}
+
+fieldset {
+	border: none;
+}
+
+button {
+	border: none;
+}
+
+/* Project-specific styles */
+
+body {
+	background: var(--color-bg);
+	color: var(--color-content);
+}
+
+input, button, body {
+	font-family: var(--font-stack);
+}
+
+p {
+	font-size: 0.875em;
+}
+
+h1, h2 {
+	color: var(--color-title);
+	font-weight: bold;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 1.125em;
+}
+
+.header {
+	background: white;
+	border-bottom: thin solid var(--color-outline);
+	position: fixed;
+	top: 0;
+	z-index: 1;
+	margin: 0 15px;
+	width: calc(100% - 30px);
+	height: var(--header-height);
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: stretch;
+}
+
+.header-text {
+	padding: 8px 0;
+	flex: 1;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+.headings {
+	display: flex;
+	flex-direction: column;
+	text-align: right;
+	order: 2;
+}
+
+.title {
+	line-height: 1;
+	order: 2;
+}
+
+.subtitle {
+	color: var(--color-outline);
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.back {
+	color: var(--color-content);
+	font-size: 0.875em;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+}
+
+.back .material-icons {
+	margin-left: -8px;
+	margin-right: -2px;
+}
+
+.header.-search {
+	height: var(--header-height-search);
+}
+
+.header.-search+.page {
+	margin-top: var(--header-height-search);
+}
+
+.search-bar {
+	display: flex;
+	align-items: center;
+	background-color: var(--color-input);
+	border-radius: 4px;
+	border: thin solid var(--silver);
+	padding: 4px 8px;
+	font-size: small;
+	align-items: center;
+	height: 32px;
+	margin-bottom: 8px;
+}
+
+.search-input {
+	flex: 1;
+	margin-left: 4px;
+	outline: 0;
+	border: 0;
+	background: transparent;
+}
+
+.search-input:focus::placeholder {
+	color: var(--blue);
+}
+
+.search-bar:focus-within {
+	background: var(--color-bg);
+	border-color: var(--blue);
+	box-shadow: 0 2px 4px var(--darkgray);
+}
+
+.search-bar:focus-within .search-icon {
+	color: var(--blue);
+}
+
+.option {
+	border-bottom: thin solid var(--lightgray);
+	padding: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.option-text {
+	color: var(--darkgray);
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+
+.option-subtext {
+	color: var(--gray);
+	font-size: 0.875rem;
+}
+
+.page {
+	padding: 0 16px;
+	margin-top: var(--header-height);
+}
+
+.page>p {
+	line-height: 1.5;
+}
+
+.button {
+	background: var(--blue);
+	color: white;
+	font-size: 1em;
+	font-weight: bold;
+	width: 100%;
+	height: 48px;
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

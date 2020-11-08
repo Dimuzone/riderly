@@ -1,0 +1,36 @@
+.info {
+    position: relative;
+    top: 55px;
+}
+
+.alert {
+    background-color: gray;
+    width: 90%;
+    margin: auto;
+    border-radius: 5px;
+    color: white;
+    height: 150px;
+}
+
+.title {
+    padding-top: 8px;
+    text-align: center;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    width: 95%;
+    margin: 5px auto 5px auto;
+}
+
+.alerts-icon {
+    font-size: 36px;
+    padding-right: 10px;
+}
+
+.alert4 {
+    background-color: var(--blue);
+}

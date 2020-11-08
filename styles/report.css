@@ -1,0 +1,115 @@
+.page-desc {
+	padding-top: 2em;
+}
+
+.report-section {
+	margin-top: 2em;
+}
+
+.report-header {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.report-prompt {
+	font-size: 0.75em;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.card {
+	background: var(--color-input);
+	color: var(--color-content);
+	border: 1px solid var(--color-outline);
+	border-radius: 4px;
+	padding: 12px;
+	margin-top: 8px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.card-name {
+	text-transform: uppercase;
+	font-size: 0.75em;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+	display: block;
+}
+
+.card-desc {
+	display: block;
+	font-size: 0.875em;
+	margin-top: 2px;
+}
+
+.card-radio {
+	background: var(--color-disable);
+	border: thin solid var(--color-outline);
+	color: white;
+	display: block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	position: relative;
+}
+
+.card-radio .material-icons {
+	font-size: 16px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+}
+
+input[type="radio"] {
+	display: none;
+}
+
+input[type="radio"]:checked + .card.-green {
+	background: var(--lightgreen);
+	color: var(--green);
+	border-color: var(--green);
+	box-shadow: 0 0 0 1px var(--green);
+}
+
+input[type="radio"]:checked + .card.-green .card-radio {
+	background: var(--green);
+	border-color: var(--green);
+}
+
+input[type="radio"]:checked + .card.-yellow {
+	background: var(--lightyellow);
+	color: var(--yellow);
+	border-color: var(--yellow);
+	box-shadow: 0 0 0 1px var(--yellow);
+}
+
+input[type="radio"]:checked + .card.-yellow .card-radio {
+	background: var(--yellow);
+	border-color: var(--yellow);
+}
+
+input[type="radio"]:checked + .card.-red {
+	background: var(--lightred);
+	color: var(--red);
+	border-color: var(--red);
+	box-shadow: 0 0 0 1px var(--red);
+}
+
+input[type="radio"]:checked + .card.-red .card-radio {
+	background: var(--red);
+	border-color: var(--red);
+}
+
+input[type="radio"]:checked + .card .card-radio .material-icons {
+	display: block;
+}
+
+.button.-submit {
+	margin-top: 32px;
+	margin-bottom: 16px;
+}
