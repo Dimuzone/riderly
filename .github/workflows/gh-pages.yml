@@ -6,13 +6,13 @@ on:
     - main
 
 jobs:
-  gh_pages: 
+  deploy: 
     runs-on: ubuntu-latest
     steps:
       - 
         name: Pull
         run: |
-          git clone git@github.com:dimuzone/bus-dating dist
+          git clone https://github.com/dimuzone/bus-dating dist
       -
         name: Deploy
         if: success()
