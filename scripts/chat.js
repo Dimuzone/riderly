@@ -9,6 +9,7 @@ const send = (state) => {
 	if (!textbox.value) return false
 	let message = {
 		time: Date.now(),
+		likes: 0,
 		route: route,
 		author: state.user,
 		content: textbox.value
