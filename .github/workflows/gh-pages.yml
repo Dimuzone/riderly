@@ -13,19 +13,8 @@ jobs:
         name: Pull
         run: |
           mkdir public
+          git clone https://github.com/dimuzone/bus-dating public
           touch public/.nojekyll
-          cat > public/index.html <<EOL
-          <!doctype html>
-          <html>
-            <head>
-              <title>GitHub Pages deployed!</title>
-            </head>
-            <body>
-              <p>GitHub Pages with <strong>${{ github.sha }}</strong> commit ID has been deployed through <a href="https://github.com/marketplace/actions/github-pages">GitHub Pages action</a> successfully.</p>
-            </body>
-          </html>
-          EOL
-#         git clone https://github.com/dimuzone/bus-dating dist
       -
         name: Deploy
         if: success()
