@@ -17,9 +17,10 @@ firebase.auth().onAuthStateChanged(user => {
 
 let button = document.getElementsByClassName("login")[0]
 
-var signin = firebase.auth().currentUser;
+
 
 button.onclick = _ => {
+    var signin = firebase.auth().currentUser;
     if (signin) {
         firebase.auth().signOut().then(_ => location.href = "index.html")
     } else {
@@ -27,17 +28,25 @@ button.onclick = _ => {
     }
 }
 
+
+
+
+
+//Add recents
 let recents = localStorage.getItem("recents").split(",")
-recents.forEach(addRecent)
 
-function addRecent(item) {
-    let str = item.split("-")
-    let stnid = str[0]
-    let route = str[1]
-    let name = str[2]
-
-
-}
-patch(document.querySelector(".stations-section"),
-    p("Hello world!"))
 console.log(recents)
+
+const stationWrap = document.getElementById("station")
+
+patch(stationWrap, div({ id: "station" }, recents.map(renderRecent)))
+
+
+function renderRecent(recent) {
+    return div({ class: "option" }, [
+        div({ class: "option-data" }, [p({ class: "option-text" }, [recent.split("-")[2]]),
+            p({ class: "option-subtext" }, ["Route " + recent.split("-")[1] + " ‧ " + recent.split("-")[0]])
+        ])
+
+    ])
+}

@@ -10,17 +10,16 @@
 (function (tags) {
 	// Create contextualized h functions
 	var EMPTY_OBJ = {}
-	var EMPTY_ARR = []
 	for (var i = 0; i < tags.length; i++) {
 		let tag = tags[i]
 		window[tag] = (function (h, tag) {
 			return function (data, content) {
-				if (data === undefined || Array.isArray(data)) {
+				if (data === undefined || typeof data !== "object") {
 					content = data
 					data = EMPTY_OBJ
 				}
 				if (content === undefined) {
-					content = EMPTY_ARR
+					content = []
 				} else if (!Array.isArray(content)) {
 					content = [ content ]
 				}
@@ -69,6 +68,14 @@
 	// patch(Element, vnode)
 	// Updates an existing DOM element to match the given vnode.
 	function patch(el, node) {
+		if (!(el instanceof Element)) {
+			throw new Error("Patch operation failed: No target element specified")
+		}
+
+		if (Array.isArray(node)) {
+			throw new Error("Patch operation failed: Cannot patch from an array of nodes")
+		}
+
 		let tag = el.tagName
 		let data = el.attributes
 		let content = el.childNodes
