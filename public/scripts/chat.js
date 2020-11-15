@@ -1,4 +1,16 @@
 const route = "49W"
+let user = "guest"
+let messages = []
+
+firebase.auth().onAuthStateChanged(user => {
+	if (user) {
+		user = user.email.slice(0, user.email.indexOf("@"))
+		console.log(user)
+		render({ user, messages })
+	} else {
+		console.log("No user logged in")
+	}
+})
 
 let page = document.querySelector(".page.-chat")
 let textbox = null
@@ -42,11 +54,8 @@ const render = state =>
 		])
 	)
 
-const init = (messages) => {
-	render({
-		user: "instant_noodle",
-		messages: messages
-	})
+const init = _ => {
+	render({ user, messages })
 	textbox = document.querySelector(".message-input")
 	groups = document.querySelector(".message-groups")
 	wrap = document.querySelector(".messages")
@@ -57,10 +66,9 @@ const init = (messages) => {
 db.collection("messages").where("route", "==", route)
 	.get()
 	.then(col => {
-		let messages = []
 		col.forEach(doc => messages.push(doc.data()))
 		messages.sort((a, b) => a.time - b.time)
-		init(messages)
+		init()
 	})
 
 function scroll() {
