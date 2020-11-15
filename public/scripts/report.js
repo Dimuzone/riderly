@@ -16,8 +16,10 @@ form.onsubmit = event => {
     newReport.set({
         author: "guest",
         station: 52500,
+        route: "49W",
         seating: seat.indexOf(seatStatus),
         timing: time.indexOf(timeStatus),
-        masks: mask.indexOf(maskStatus)
+        masks: mask.indexOf(maskStatus),
+        timestamp: Date.now()
     })
 }
