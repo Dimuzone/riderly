@@ -17,9 +17,10 @@ firebase.auth().onAuthStateChanged(user => {
 
 let button = document.getElementsByClassName("login")[0]
 
-var signin = firebase.auth().currentUser;
+
 
 button.onclick = _ => {
+    var signin = firebase.auth().currentUser;
     if (signin) {
         firebase.auth().signOut().then(_ => location.href = "index.html")
     } else {
