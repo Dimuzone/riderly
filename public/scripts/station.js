@@ -50,10 +50,10 @@ function saveStation(station) {
 
             saves.push(station)
 
-            db.collection("users").doc(id).update( {saves} )
+            db.collection("users").doc(id).update({ saves })
 
         })
-    
+
     })
 }
 
@@ -68,8 +68,11 @@ function removeStation(station) {
                 saves.splice(saves.indexOf(station), 1)
             }
 
-            db.collection("users").doc(id).update( {saves} )
+            db.collection("users").doc(id).update({ saves })
 
         })
     })
 }
+
+localStorage.setItem("test", ["49W", "52500"])
+console.log(localStorage.getItem("test"))
