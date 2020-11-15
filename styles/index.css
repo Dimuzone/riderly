@@ -8,8 +8,30 @@
     height: 128px;
 }
 
-  .page.-home {
+.page.-home {
     margin-top: 128px;
+}
+
+.home {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Work Sans;
+    font-style: normal;
+    font-weight: bold;
+    width: 64px;
+    height: 28px;
+    background: var(--blue);
+    border-radius: 8px;
+    text-align: center;
+    color: var(--white);
+    font-size: 12px;
 }
 
 .search-bar {
@@ -26,30 +48,30 @@
 }
 
 .search-input {
-	flex: 1;
-	margin-left: 4px;
-	padding: 12px 0;
-	outline: 0;
-	border: 0;
-	background: transparent;
+    flex: 1;
+    margin-left: 4px;
+    padding: 12px 0;
+    outline: 0;
+    border: 0;
+    background: transparent;
 }
 
 .search-input:focus::placeholder {
-	color: var(--blue);
+    color: var(--blue);
 }
 
 .search-bar:focus-within {
-	background: var(--color-bg);
-	border-color: var(--blue);
-	box-shadow: 0 2px 4px var(--darkgray);
+    background: var(--color-bg);
+    border-color: var(--blue);
+    box-shadow: 0 2px 4px var(--darkgray);
 }
 
 .search-bar:focus-within .search-icon {
-	color: var(--blue);
+    color: var(--blue);
 }
 
 .stations-section {
-padding-top: 32px;
+    padding-top: 32px;
 }
 
 .tabs-header {
@@ -66,7 +88,7 @@ padding-top: 32px;
     border-bottom: thin solid var(--lightgray);
 }
 
-.tab  {
+.tab {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -74,7 +96,6 @@ padding-top: 32px;
     padding-top: 10px;
     padding-bottom: 10px;
     outline: 0;
-
 }
 
 .tab.-history {
@@ -82,7 +103,6 @@ padding-top: 32px;
     align-items: center;
     justify-content: center;
     color: var(--lightgray);
-
 }
 
 .tab.-history:focus-within {
@@ -103,7 +123,6 @@ padding-top: 32px;
     align-items: center;
     justify-content: center;
     color: var(--lightgray);
-
 }
 
 .tab.-saved:focus-within {
@@ -135,7 +154,6 @@ padding-top: 32px;
 .station-text {
     font-weight: bold;
     color: var(--darkgray);
-
 }
 
 .saved-route {
@@ -143,7 +161,6 @@ padding-top: 32px;
 }
 
 .stn-route-number {
-
     font-weight: bold;
     color: var(--gray);
 }
@@ -175,7 +192,6 @@ padding-top: 32px;
 .msg-route {
     display: flex;
     flex-direction: column;
-
 }
 
 .msg-route-number {
