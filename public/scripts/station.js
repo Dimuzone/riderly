@@ -50,10 +50,10 @@ function saveStation(station) {
 
             saves.push(station)
 
-            db.collection("users").doc(id).update( {saves} )
+            db.collection("users").doc(id).update({ saves })
 
         })
-    
+
     })
 }
 
@@ -68,8 +68,14 @@ function removeStation(station) {
                 saves.splice(saves.indexOf(station), 1)
             }
 
-            db.collection("users").doc(id).update( {saves} )
+            db.collection("users").doc(id).update({ saves })
 
         })
     })
 }
+localStorage.setItem("recents", "58143-151W-Station1,51916-173E-Station2,54950-191S-Station3")
+let recent = localStorage.getItem("recents").split(",")
+recent.push("58143-151W-Station4")
+localStorage.setItem("recents", recent)
+
+console.log(localStorage.getItem("recents"))
