@@ -73,6 +73,9 @@ function removeStation(station) {
         })
     })
 }
+localStorage.setItem("recents", "58143-151W-Station1,51916-173E-Station2,54950-191S-Station3")
+let recent = localStorage.getItem("recents").split(",")
+recent.push("58143-151W-Station4")
+localStorage.setItem("recents", recent)
 
-localStorage.setItem("test", ["49W", "52500"])
-console.log(localStorage.getItem("test"))
+console.log(localStorage.getItem("recents"))
