@@ -1,5 +1,7 @@
 node_modules
 .DS_Store
+.github
+.nojekyll
 *.swp
 
 # Compiled class file

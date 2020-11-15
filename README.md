@@ -1,48 +1,9 @@
 ## BusDating
+> A browser-based web application that enables public transit riders to get the most up-to-date data on transit conditions by emphasizing information sharing features.
 
-* [General info](#general-info)
-* [Technologies](#technologies)
-* [Contents](#content)
-
-## General Info
-This browser based web application to allows public transit users to date.
-
-## Technologies
-Technologies used for this project:
-* HTML, CSS
-* JavaScript
-* Bootstrap 
-* ...
-
-## Content
-Content of the project folder:
-
-```
- Top level of project folder: 
-├── .gitignore               # Git ignore file
-├── index.html               # landing HTML file, this is what users see when you come to url
-└── README.md
-
-It has the following subfolders and files:
-├── .git                     # Folder for git repo
-├── images                   # Folder for images
-    /blah.jpg                # 
-├── scripts                  # Folder for scripts
-    /blah.js                 # 
-├── styles                   # Folder for styles
-    /blah.css                # 
-
-Firebase hosting files: 
-├── .firebaserc...
-
-
-```
-
-Tips for file naming files and folders:
-* use lowercase with no spaces
-* use dashes (not underscore) for word separation
+[View the demo](https://dimuzone.github.io/bus-dating)
 
 ## Collaborators
-- [Brandon Semilla](https://github.com/semibran) - profile.html
-- [Ning Ding](https://github.com/zzzbnbzzz) - main.html
-- [Dimuthu Kumarapeli](http://github.com/Dimuzone) - index.html
+- [Brandon Semilla](https://github.com/semibran)
+- [Ning Ding](https://github.com/zzzbnbzzz)
+- [Dimuthu Kumarapeli](http://github.com/Dimuzone)
