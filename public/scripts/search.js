@@ -28,7 +28,12 @@ async function main() {
 
 
 function renderRoute(route) {
-    return div({ class: "option" }, [
+    function onclick() {
+        sessionStorage.setItem("route", route.id)
+        sessionStorage.setItem("stationId", route.data.path)
+        location.href = "route.html"
+      }
+    return div({ class: "option", onclick: onclick }, [
       div({ class: "option-data"}, [
       p({ class: "option-text" }, route.id),
       div({ class: "option-subtext" }, route.data.name),
