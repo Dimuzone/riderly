@@ -29,7 +29,10 @@ async function main() {
 
 function renderRoute(route) {
     return div({ class: "option" }, [
+      div({ class: "option-data"}, [
       p({ class: "option-text" }, route.id),
-      p({ class: "option-subtext" }, route.data.name)
+      div({ class: "option-subtext" }, route.data.name),
+      ]),
+      span({ class: "option-icon material-icons"}, "chevron_right")
     ])
   }
