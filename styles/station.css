@@ -151,46 +151,8 @@
     font-size: 0.75em;
     margin-top: 32px;
     margin-bottom: 8px;
-}
-
-.message-content {
-    border-top: thin solid var(--color-outline);
-}
-
-.message {
-    display: flex;
-    align-items: center;
     border-bottom: thin solid var(--color-outline);
-    margin-top: 11px;
     padding-bottom: 12px;
-}
-
-.likes {
-    display: flex;
-    align-items: center;
-    font-size: 1.875em;
-    margin-right: 12px;
-    color: var(--color-title);
-    align-self: baseline;
-}
-
-.text {
-    font-size: 0.875;
-    font-weight: 700;
-    color: var(--color-title);
-}
-
-.message-data {
-    color: var(--color-outline);
-}
-
-strong {
-    color: var(--color-content);
-    font-weight: normal;
-}
-
-.msg-icon {
-    color: var(--color-outline);
 }
 
 .button {

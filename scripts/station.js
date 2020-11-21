@@ -89,6 +89,8 @@ db.collection("messages").where("route", "==", "49W").orderBy("time", "desc").li
 .get().then(col => {
     col.forEach(doc => messages.push(doc.data()))
     console.log(messages)
+    console.log(stationMessageWrap)
+
     patch(stationMessageWrap, div({ id: "recentmsg" }, messages.map(renderRecentMsg)))
 })
 
