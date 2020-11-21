@@ -14,7 +14,7 @@
 		let tag = tags[i]
 		window[tag] = (function (h, tag) {
 			return function (data, content) {
-				if (data === undefined || typeof data !== "object") {
+				if (data === undefined || Array.isArray(data) || typeof data !== "object") {
 					content = data
 					data = EMPTY_OBJ
 				}
@@ -134,7 +134,8 @@
 			if (!child) {
 				// nothing to patch, add a new element
 				el.appendChild(manifest(newchild))
-			} else if (child instanceof Element || typeof newchild === "object") {
+			} else if (child.nodeName !== "#comment" && (child instanceof Element
+			|| typeof newchild === "object")) {
 				// general situation: patch child to reflect new child data
 				patch(child, newchild)
 			} else if (child.data !== newchild) {

@@ -151,70 +151,15 @@
     flex-direction: column;
 }
 
-.station-text {
-    font-weight: bold;
-    color: var(--darkgray);
-}
-
-.saved-route {
-    font-size: 11px;
-}
-
-.stn-route-number {
-    font-weight: bold;
-    color: var(--gray);
-}
-
-.station-icon {
-    color: var(--lightgray);
-}
-
 .recent-messages-section {
     margin-top: 32px;
 }
 
 .recent-messages {
+    margin-top: 40px;
     font-size: 0.75em;
     font-weight: bold;
     border-bottom: thin solid var(--lightgray);
     padding-bottom: 8px;
 }
 
-.message {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: small;
-    border-bottom: thin solid var(--lightgray);
-    padding: 10px;
-}
-
-.msg-route {
-    display: flex;
-    flex-direction: column;
-}
-
-.msg-route-number {
-    font-weight: bold;
-    color: var(--darkgray);
-}
-
-.user {
-    display: flex;
-    font-size: 12px;
-}
-
-.user-name {
-    color: var(--silver);
-    font-weight: bold;
-}
-
-.user-text {
-    padding-left: 5px;
-}
-
-.arrow-time {
-    display: flex;
-    align-items: center;
-    color: var(--lightgray);
-}

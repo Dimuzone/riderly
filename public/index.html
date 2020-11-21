@@ -15,7 +15,8 @@
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
     <script defer src="./scripts/db.js"></script>
     <script defer src="./scripts/h2.js"></script>
-    <script defer src="./scripts/index.js"></script>
+	<script defer src="./scripts/index.js"></script>
+	<script defer src="./scripts/time.js"></script>
 
 </head>
 
@@ -26,7 +27,8 @@
         <div class="home-header">
 
             <div class="home">
-                <h1>Home</h1>
+				<h1>Home</h1>
+				<span id="welcome"></span>
                 <div class="login"><span class="login-text">Login</span></div>
 
             </div>
@@ -99,39 +101,11 @@
 		</div>
 		</section>
 
-		<section class="recent-messages-section">
-
-			<div class="recent-messages">
-				RECENT MESSAGES
-			</div>
-
-			<div class="message">
-				<div class="msg-route">
-					<div class="msg-route-number">Route 49W (Metrotown to UBC)</div>
-					<div class="user">
-						<div class="user-name">davinky420: </div>
-						<span class="user-text">Hello world!</span>
-					</div>
-				</div>
-				<div class="arrow-time">
-					2h<span class="message-icon material-icons">chevron_right</span>
-				</div>
-			</div>
-
-			<div class="message">
-				<div class="msg-route">
-					<div class="msg-route-number">Route 49E (UBC to Metrotown)</div>
-					<div class="user">
-						<div class="user-name">davinky420: </div>
-						<span class="user-text">Hello world!</span>
-					</div>
-				</div>
-				<div class="arrow-time">
-					2h<span class="message-icon material-icons">chevron_right</span>
-				</div>
-			</div>
-
-
+		<div class="recent-messages">
+			RECENT MESSAGES
+		</div>
+		<section id="recentmsg" class="recent-messages-section">
+			
 		</section>
 
 	</main>
