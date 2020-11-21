@@ -4,11 +4,19 @@ firebase.auth().onAuthStateChanged(user => {
 
     console.log(user.email)
 
+
+
     db.collection("users").doc(user.uid).get().then(users => {
 
         console.log(users.data().saves)
+        console.log(users.data().name)
+        let name = users.data().name.split(" ")
+        console.log(name)
 
+        let welcome = document.getElementById("welcome")
+        welcome.innerText = "Hi, " + name[0] + "!"
     })
+
 
     let loginstatus = document.getElementsByClassName("login-text")[0]
     loginstatus.innerText = "Logout"
@@ -23,6 +31,8 @@ button.onclick = _ => {
     var signin = firebase.auth().currentUser;
     if (signin) {
         firebase.auth().signOut().then(_ => location.href = "index.html")
+        let welcome = document.getElementById("welcome")
+        welcome.innerText = ""
     } else {
         location.href = "login.html"
     }
