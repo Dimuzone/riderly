@@ -27,7 +27,7 @@ function init() {
 
 function updateUser(user) {
 	if (user) {
-		user = user.email.slice(0, user.email.indexOf("@"))
+		username = user.email.slice(0, user.email.indexOf("@"))
 	} else {
 		let token = sessionStorage.getItem("token")
 		if (!token) {
