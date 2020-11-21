@@ -134,7 +134,8 @@
 			if (!child) {
 				// nothing to patch, add a new element
 				el.appendChild(manifest(newchild))
-			} else if (child instanceof Element || typeof newchild === "object") {
+			} else if (child.nodeName !== "#comment" && (child instanceof Element
+			|| typeof newchild === "object")) {
 				// general situation: patch child to reflect new child data
 				patch(child, newchild)
 			} else if (child.data !== newchild) {

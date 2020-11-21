@@ -16,8 +16,8 @@ db.collection("messages").where("route", "==", route)
 		init()
 	})
 
-function init() {
-	updateUser(auth.currentUser)
+async function init() {
+	await updateUser(auth.currentUser)
 	textbox = document.querySelector(".message-input")
 	groups = document.querySelector(".message-groups")
 	wrap = document.querySelector(".messages")
@@ -25,18 +25,20 @@ function init() {
 	scroll()
 }
 
-function updateUser(user) {
+async function updateUser(user) {
 	if (user) {
-		user = user.email.slice(0, user.email.indexOf("@"))
+		let userdoc = await db.collection("users").doc(user.uid).get()
+		userid = userdoc.data().email
+		username = userdoc.data().name
+		render({ userid, username, messages })
 	} else {
-		let token = sessionStorage.getItem("token")
+		let token = localStorage.getItem("token")
 		if (!token) {
 			token = Math.random().toString().slice(2)
-			sessionStorage.setItem("token", token)
+			localStorage.setItem("token", token)
 		}
-		username += token
+		render({ userid: token, username, messages })
 	}
-	render({ user: username, messages })
 }
 
 function render(state) {
@@ -59,9 +61,10 @@ function render(state) {
 function send(state) {
 	if (!textbox.value) return false
 	let message = {
-		time: Date.now(),
+		timestamp: Date.now(),
 		route: route,
-		author: state.user,
+		username: state.username,
+		userid: state.userid,
 		content: textbox.value,
 		likes: 0
 	}
@@ -89,14 +92,14 @@ function renderMessages(state) {
 	let group = null
 	let author = null
 	for (let msg of state.messages) {
-		if (msg.author !== author) {
-			author = msg.author
-			group = author === state.user
+		if (msg.userid !== author) {
+			author = msg.userid
+			group = author === state.userid
 				? div({ class: "message-group -user" }, [
-						span({ class: "message-author" }, [ author + " (You)" ])
+						span({ class: "message-author" }, [ state.username + " (You)" ])
 					])
 				: div({ class: "message-group" }, [
-						span({ class: "message-author" }, [ author ])
+						span({ class: "message-author" }, [ state.username ])
 					])
 			groups.push(group)
 		}
