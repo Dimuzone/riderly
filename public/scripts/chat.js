@@ -1,23 +1,62 @@
+const auth = firebase.auth()
 const route = "49W"
-let user = "guest"
+let username = "guest"
 let messages = []
-
-firebase.auth().onAuthStateChanged(user => {
-	if (user) {
-		user = user.email.slice(0, user.email.indexOf("@"))
-		console.log(user)
-		render({ user, messages })
-	} else {
-		console.log("No user logged in")
-	}
-})
-
 let page = document.querySelector(".page.-chat")
 let textbox = null
 let wrap = null
 let groups = null
 
-const send = (state) => {
+auth.onAuthStateChanged(updateUser)
+db.collection("messages").where("route", "==", route)
+	.get()
+	.then(col => {
+		col.forEach(doc => messages.push(doc.data()))
+		messages.sort((a, b) => a.time - b.time)
+		init()
+	})
+
+function init() {
+	updateUser(auth.currentUser)
+	textbox = document.querySelector(".message-input")
+	groups = document.querySelector(".message-groups")
+	wrap = document.querySelector(".messages")
+	window.addEventListener("resize", scroll)
+	scroll()
+}
+
+function updateUser(user) {
+	if (user) {
+		user = user.email.slice(0, user.email.indexOf("@"))
+	} else {
+		let token = sessionStorage.getItem("token")
+		if (!token) {
+			token = Math.random().toString().slice(2)
+			sessionStorage.setItem("token", token)
+		}
+		username += token
+	}
+	render({ user: username, messages })
+}
+
+function render(state) {
+	patch(page, main({ class: "page -chat" }, [
+		div({ class: "messages" }, [ renderMessages(state) ]),
+		div({ class: "message-bar" }, [
+			input({
+				class: "message-input",
+				placeholder: "Enter a message...",
+				onkeypress: evt => evt.key === "Enter" ? send(state) : true
+			}),
+			button({
+				class: "message-send material-icons",
+				onclick: _ => send(state)
+			}, "arrow_upward")
+		])
+	]))
+}
+
+function send(state) {
 	if (!textbox.value) return false
 	let message = {
 		time: Date.now(),
@@ -35,41 +74,6 @@ const send = (state) => {
 	textbox.value = ""
 	return true
 }
-
-const render = state =>
-	patch(page,
-		main({ class: "page -chat" }, [
-			div({ class: "messages" }, [ renderMessages(state) ]),
-			div({ class: "message-bar" }, [
-				input({
-					class: "message-input",
-					placeholder: "Enter a message...",
-					onkeypress: evt => evt.key === "Enter" ? send(state) : true
-				}),
-				button({
-					class: "message-send material-icons",
-					onclick: _ => send(state)
-				}, "arrow_upward")
-			])
-		])
-	)
-
-const init = _ => {
-	render({ user, messages })
-	textbox = document.querySelector(".message-input")
-	groups = document.querySelector(".message-groups")
-	wrap = document.querySelector(".messages")
-	window.addEventListener("resize", scroll)
-	scroll()
-}
-
-db.collection("messages").where("route", "==", route)
-	.get()
-	.then(col => {
-		col.forEach(doc => messages.push(doc.data()))
-		messages.sort((a, b) => a.time - b.time)
-		init()
-	})
 
 function scroll() {
 	if (groups.clientHeight > wrap.clientHeight) {
