@@ -14,7 +14,7 @@
 		let tag = tags[i]
 		window[tag] = (function (h, tag) {
 			return function (data, content) {
-				if (data === undefined || typeof data !== "object") {
+				if (data === undefined || Array.isArray(data) || typeof data !== "object") {
 					content = data
 					data = EMPTY_OBJ
 				}
