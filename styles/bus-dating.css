@@ -202,6 +202,11 @@ h2 {
 	font-size: 0.875rem;
 }
 
+.timewrap {
+	display: flex;
+	align-items: center;
+}
+
 .page {
 	padding: 0 16px;
 	margin-top: var(--header-height);

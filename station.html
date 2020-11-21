@@ -13,8 +13,10 @@
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+    <script defer src="./scripts/h2.js"></script>
     <script defer src="./scripts/db.js"></script>
     <script defer src="./scripts/station.js"></script>
+    <script defer src="./scripts/time.js"></script>
 </head>
 
 <body>
@@ -74,8 +76,8 @@
             TOP MESSAGES
         </div>
 
-        <div class="message-content">
-            <div class="message">
+        <div id="recentmsg" class="message-content">
+            <!-- <div class="message">
 
                 <div class="likes">5 <span class="material-icons">
 						thumb_up
@@ -102,7 +104,7 @@
                 </div>
 
                 <span class="msg-icon material-icons">keyboard_arrow_right</span>
-            </div>
+            </div> -->
         </div>
 
         <button class="button">Join chat for Route 49W</button>
