@@ -96,10 +96,10 @@ function renderMessages(state) {
 			author = msg.userid
 			group = author === state.userid
 				? div({ class: "message-group -user" }, [
-						span({ class: "message-author" }, [ state.username + " (You)" ])
+						span({ class: "message-author" }, [ msg.username + " (You)" ])
 					])
 				: div({ class: "message-group" }, [
-						span({ class: "message-author" }, [ state.username ])
+						span({ class: "message-author" }, [ msg.username ])
 					])
 			groups.push(group)
 		}
