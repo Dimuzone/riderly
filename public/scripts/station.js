@@ -28,6 +28,7 @@ db.collection("reports")
     })
 
 const station = 52500
+const route = "49W"
 const star = document.getElementById("star")
 
 
@@ -52,7 +53,7 @@ function saveStation(station) {
 
             let saves = user.data().saves.slice()
 
-            saves.push(station)
+            saves.push(station + "-" + route)
 
             db.collection("users").doc(id).update({ saves })
 
@@ -68,8 +69,8 @@ function removeStation(station) {
 
             let saves = user.data().saves.slice()
 
-            if (saves.includes(station)) {
-                saves.splice(saves.indexOf(station), 1)
+            if (saves.includes(station + "-" + route)) {
+                saves.splice(saves.indexOf(station + "-" + route), 1)
             }
 
             db.collection("users").doc(id).update({ saves })

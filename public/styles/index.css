@@ -119,7 +119,7 @@
 }
 
 .tab.-saved {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     color: var(--lightgray);
