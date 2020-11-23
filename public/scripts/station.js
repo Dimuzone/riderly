@@ -55,6 +55,7 @@ db.collection("reports")
         let reports = []
         col.forEach(doc => reports.push(doc.data()))
         let report = reports[0]
+        console.log("1234")
         console.log(report)
 
         let seatingStatus = document.getElementsByClassName("-seating")[0]
@@ -170,11 +171,17 @@ function renderRecentMsg(recentmsg) {
 }
 
 
-
 //local storage for recent stations
-localStorage.setItem("recents", "58143-151W-Station1,51916-173E-Station2,54950-191S-Station3")
-let recent = localStorage.getItem("recents").split(",")
-recent.push("58143-151W-Station4")
-localStorage.setItem("recents", recent)
+if (localStorage.getItem("recents") == null) {
+    localStorage.setItem("recents", station + "-" + route + "-" + stationName)
+} else {
+    let recent = localStorage.getItem("recents").split(",")
+    if (!recent.includes(station + "-" + route + "-" + stationName)) {
+        recent.push(station + "-" + route + "-" + stationName)
+        localStorage.setItem("recents", recent)
+    }
+    
+    
+    console.log(localStorage.getItem("recents"))
+}
 
-console.log(localStorage.getItem("recents"))
