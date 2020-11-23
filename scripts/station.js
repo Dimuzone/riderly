@@ -71,7 +71,7 @@ db.collection("reports")
         maskStatus.classList.add(colors[report.masks])
     })
 
-const station = 52500
+const station = stationId
 const route = routeId
 const star = document.getElementById("star")
 const stationName = currentStation
