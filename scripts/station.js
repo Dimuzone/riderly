@@ -1,5 +1,5 @@
 // The station ID ex. 34654
-let stationId = sessionStorage.getItem("stationId")
+let stationId = parseInt(sessionStorage.getItem("stationId"))
 
 // The Current Station Name ex. Birney Ave
 let currentStation = sessionStorage.getItem("stationName")
@@ -40,14 +40,14 @@ console.log(before)
 console.log(after)
 
 
-
+//Display recent report
 const seating = ["Empty", "Seating Only", "Full"]
 const timing = ["On time", "Late", "Very late"]
 const mask = ["Complete", "Parial", "Few"]
 const colors = ["-green", "-yellow", "-red"]
 
 db.collection("reports")
-    .where("station", "==", 52500)
+    .where("station", "==", stationId)
     .where("route", "==", routeId)
     .orderBy("timestamp", "desc").limit(1)
     .get()
