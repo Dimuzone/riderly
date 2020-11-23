@@ -33,6 +33,65 @@ const stationName = "Eastbound Central Blvd @ 4500 Block"
 const star = document.getElementById("star")
 
 
+
+
+//display recent message
+var messages = []
+var now = Date.now()
+const stationMessageWrap = document.getElementById("recentmsg")
+
+
+
+db.collection("messages").where("route", "==", "49W").orderBy("time", "desc").limit(3)
+.get().then(col => {
+    col.forEach(doc => messages.push(doc.data()))
+    console.log(messages)
+    console.log(stationMessageWrap)
+
+    patch(stationMessageWrap, div({ id: "recentmsg" }, messages.map(renderRecentMsg)))
+})
+
+
+function renderRecentMsg(recentmsg) {
+    return div({ class: "option" }, [
+        div({ class: "option-data" }, [p({ class: "option-text" }, [recentmsg.route]),
+            div({ class: "option-subtext" }, [recentmsg.author + ": " + recentmsg.content])
+        ]),
+        div({ class: "timewrap"}, [span({ class: "time"}, strifytime(recentmsg.time, now)),
+        span({ class: "option-icon material-icons"}, "chevron_right")])
+
+    ])
+}
+
+
+
+//local storage for recent stations
+localStorage.setItem("recents", "58143-151W-Station1,51916-173E-Station2,54950-191S-Station3")
+let recent = localStorage.getItem("recents").split(",")
+recent.push("58143-151W-Station4")
+localStorage.setItem("recents", recent)
+
+console.log(localStorage.getItem("recents"))
+
+
+//Save stations button
+firebase.auth().onAuthStateChanged(user => {
+
+    console.log(user.email)
+
+
+    // user log in
+    db.collection("users").doc(user.uid).get().then(users => {
+
+        star.style.display="inherit"
+        let saves = users.data().saves.slice()
+        if (saves.includes(station + "-" + route + "-" + stationName)) {
+            star.innerText = "star"
+        }
+
+    })
+})
+
 star.onclick = function onClick() {
     if (star.innerText === "star_border") {
         saveStation(station)
@@ -77,41 +136,3 @@ function removeStation(station) {
         })
     })
 }
-
-//display recent message
-var messages = []
-var now = Date.now()
-const stationMessageWrap = document.getElementById("recentmsg")
-
-
-
-db.collection("messages").where("route", "==", "49W").orderBy("time", "desc").limit(3)
-.get().then(col => {
-    col.forEach(doc => messages.push(doc.data()))
-    console.log(messages)
-    console.log(stationMessageWrap)
-
-    patch(stationMessageWrap, div({ id: "recentmsg" }, messages.map(renderRecentMsg)))
-})
-
-
-function renderRecentMsg(recentmsg) {
-    return div({ class: "option" }, [
-        div({ class: "option-data" }, [p({ class: "option-text" }, [recentmsg.route]),
-            div({ class: "option-subtext" }, [recentmsg.author + ": " + recentmsg.content])
-        ]),
-        div({ class: "timewrap"}, [span({ class: "time"}, strifytime(recentmsg.time, now)),
-        span({ class: "option-icon material-icons"}, "chevron_right")])
-
-    ])
-}
-
-
-
-//local storage for recent stations
-localStorage.setItem("recents", "58143-151W-Station1,51916-173E-Station2,54950-191S-Station3")
-let recent = localStorage.getItem("recents").split(",")
-recent.push("58143-151W-Station4")
-localStorage.setItem("recents", recent)
-
-console.log(localStorage.getItem("recents"))
