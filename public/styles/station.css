@@ -5,6 +5,7 @@
 }
 
 .star-icon {
+    display: none;
     float: right;
     padding-bottom: 9px;
 }
