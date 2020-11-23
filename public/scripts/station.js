@@ -177,7 +177,6 @@ function removeStation(station) {
 
         })
     })
-<<<<<<< HEAD
 }
 
 //display recent message
@@ -217,6 +216,3 @@ recent.push("58143-151W-Station4")
 localStorage.setItem("recents", recent)
 
 console.log(localStorage.getItem("recents"))
-=======
-}
->>>>>>> 38e7676d71b8571052a43679108b2aec8bce12f3
