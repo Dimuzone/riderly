@@ -4,6 +4,7 @@
 	flex-direction: column;
 	position: relative;
 	height: calc(100vh - var(--header-height));
+	overflow-y: hidden;
 }
 
 .messages {
