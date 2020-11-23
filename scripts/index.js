@@ -86,7 +86,7 @@ firebase.auth().onAuthStateChanged(user => {
             let savedstations = users.data().saves
             console.log(savedstations)
 
-            db.collection("")
+
 
 
             //user saved stations

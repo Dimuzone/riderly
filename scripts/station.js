@@ -29,6 +29,7 @@ db.collection("reports")
 
 const station = 52500
 const route = "49W"
+const stationName = "Eastbound Central Blvd @ 4500 Block"
 const star = document.getElementById("star")
 
 
@@ -53,7 +54,7 @@ function saveStation(station) {
 
             let saves = user.data().saves.slice()
 
-            saves.push(station + "-" + route)
+            saves.push(stationName+ "-" +station + "-" + route)
 
             db.collection("users").doc(id).update({ saves })
 
@@ -69,8 +70,8 @@ function removeStation(station) {
 
             let saves = user.data().saves.slice()
 
-            if (saves.includes(station + "-" + route)) {
-                saves.splice(saves.indexOf(station + "-" + route), 1)
+            if (saves.includes(stationName+ "-" +station + "-" + route)) {
+                saves.splice(saves.indexOf(stationName+ "-" +station + "-" + route), 1)
             }
 
             db.collection("users").doc(id).update({ saves })
