@@ -4,7 +4,6 @@ const stationWrap = document.getElementById("stations")
 const swapClick = document.getElementById("swap")
 const routeName = document.getElementById("route")
 //let stationId = StationArray.split(",").map(Number)
-let stationsArray = []
 
 
 
@@ -24,9 +23,13 @@ let reverseRoute = {
 
 }
 
+let route = initialRoute
+
 let swapped = false
 
 async function getRoute(route) {
+
+  let stationsArray = []
 
   if(route.path == null) {
 
@@ -43,15 +46,13 @@ async function getRoute(route) {
     
   }
 
-  route.stations = stationsArray
-
   stationsArray.sort((a, b) => route.path.indexOf(a.id) - route.path.indexOf(b.id))
+
+  route.stations = stationsArray
 
   return route
 
 }
-
-getRoute({ id: "49E" })
 
 let stationData = []
 
@@ -73,9 +74,7 @@ async function main() {
 
   }
 
-  swapClick.onclick = function () {
-
-    onSwap()
+  swapClick.onclick = onSwap
 
     // char = route[route.length - 1]
     
@@ -84,8 +83,6 @@ async function main() {
     // route = newRoute
   
     // document.getElementById("route").innerText = "Route " + route
-  
-  }
 
 }
 
@@ -107,15 +104,17 @@ async function onSwap() {
 
     }
 
+    console.log(reverseRoute)
+
     routeName.innerText = "Route " + reverseRoute.id
 
-    reverseRoute.stations.map(renderStation)
+    render(reverseRoute.stations)
 
   } else if (swapped == false) {
 
     routeName.innerText = "Route " + initialRoute.id
 
-    initialRoute.stations.map(renderStation)
+    render(initialRoute.stations)
 
   }
 
@@ -140,9 +139,22 @@ function renderStation(station) {
 
   function onclick() {
 
-    let index = path.indexOf(station.id)
-    let before = stationData[index - 1].name
-    let after = stationData[index + 1].name
+    let before
+    let after
+
+    if (swapped == false) {
+
+      let index = initialRoute.stations.indexOf(station.id)
+      before = initialRoute.stations[index - 1].name
+      after = initialRoute.stations[index + 1].name
+
+    } else {
+
+      let index = reverseRoute.stations.indexOf(station.id)
+      before = reverseRoute.stations[index - 1].name
+      after = reverseRoute.stations[index + 1].name
+
+    }
 
     sessionStorage.setItem("after", after)
     sessionStorage.setItem("before", before)
