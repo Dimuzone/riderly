@@ -36,7 +36,7 @@ function renderRoute(route) {
     function onclick() {
 
         sessionStorage.setItem("route", route.id)
-        sessionStorage.setItem("stationId", route.data.path)
+        sessionStorage.setItem("stations_Id", route.data.path)
         location.href = "route.html"
 
       }
