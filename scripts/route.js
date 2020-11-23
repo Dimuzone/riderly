@@ -10,7 +10,7 @@ const routeName = document.getElementById("route")
 let initialRoute = {
 
   id: sessionStorage.getItem("route"),
-  path: sessionStorage.getItem("stationId").split(",").map(Number),
+  path: sessionStorage.getItem("stations_Id").split(",").map(Number),
   stations: null
 
 }
@@ -23,9 +23,7 @@ let reverseRoute = {
 
 }
 
-let route = initialRoute
-
-let swapped = false
+let  currentRoute = initialRoute
 
 async function getRoute(route) {
 
@@ -88,9 +86,7 @@ async function main() {
 
 async function onSwap() {
 
-  swapped = !swapped
-
-  if (swapped == true) {
+  if (currentRoute == initialRoute) {
 
     if (reverseRoute.stations == null) {
 
@@ -104,24 +100,23 @@ async function onSwap() {
 
     }
 
-    console.log(reverseRoute)
+    currentRoute = reverseRoute
 
-    routeName.innerText = "Route " + reverseRoute.id
+  } else {
 
-    render(reverseRoute.stations)
-
-  } else if (swapped == false) {
-
-    routeName.innerText = "Route " + initialRoute.id
-
-    render(initialRoute.stations)
+      currentRoute = initialRoute
 
   }
+
+  routeName.innerText = "Route " + currentRoute.id
+
+  render(currentRoute.stations)
 
 }
 
 function render(stations) {
   patch(stationWrap, div({ id: "stations" }, stations.map(renderStation)))
+  console.log(stations)
 }
 
 function swapChar(char) {
@@ -139,28 +134,15 @@ function renderStation(station) {
 
   function onclick() {
 
-    let before
-    let after
-
-    if (swapped == false) {
-
-      let index = initialRoute.stations.indexOf(station.id)
-      before = initialRoute.stations[index - 1].name
-      after = initialRoute.stations[index + 1].name
-
-    } else {
-
-      let index = reverseRoute.stations.indexOf(station.id)
-      before = reverseRoute.stations[index - 1].name
-      after = reverseRoute.stations[index + 1].name
-
-    }
+    let index = currentRoute.path.indexOf(station.id)
+    let before = currentRoute.stations[index - 1].name
+    let after = currentRoute.stations[index + 1].name
 
     sessionStorage.setItem("after", after)
     sessionStorage.setItem("before", before)
     sessionStorage.setItem("stationId", station.id)
     sessionStorage.setItem("stationName", station.name)
-    sessionStorage.setItem("route", route)
+    sessionStorage.setItem("route", currentRoute.id)
     location.href = "station.html"
 
   }
