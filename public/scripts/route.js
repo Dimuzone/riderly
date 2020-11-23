@@ -3,6 +3,9 @@ const search = document.getElementById("search-bar")
 const stationWrap = document.getElementById("stations")
 const swapClick = document.getElementById("swap")
 const routeName = document.getElementById("route")
+const directionStart = document.getElementById("starting")
+const directionEnd = document.getElementById("ending")
+
 //let stationId = StationArray.split(",").map(Number)
 
 
@@ -10,6 +13,7 @@ const routeName = document.getElementById("route")
 let initialRoute = {
 
   id: sessionStorage.getItem("route"),
+  name: sessionStorage.getItem("endingStation"),
   path: sessionStorage.getItem("stations_Id").split(",").map(Number),
   stations: null
 
@@ -18,6 +22,7 @@ let initialRoute = {
 let reverseRoute = {
 
   id: null,
+  name: null,
   path: null,
   stations: null  
 
@@ -33,6 +38,8 @@ async function getRoute(route) {
 
     let path = await db.collection("routes").doc(route.id).get()
     route.path = path.data().path
+
+    route.name = path.data().name
 
   }
 
@@ -131,6 +138,14 @@ function swapChar(char) {
 routeName.innerText = "Route " + initialRoute.id
 
 function renderStation(station) {
+
+  let startIndex = currentRoute.stations[0].name
+  let ending = currentRoute.name
+
+  let [start, end] = startIndex.split(" @ ")
+  let [ubc, exchange] = start.split(" Exchange")
+  directionStart.innerText = (start.startsWith("UBC") ? ubc : start)
+  directionEnd.innerText = ending
 
   function onclick() {
 
