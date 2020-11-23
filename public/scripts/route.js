@@ -1,10 +1,57 @@
 
 const search = document.getElementById("search-bar")
 const stationWrap = document.getElementById("stations")
-let route = sessionStorage.getItem("route")
-let path = sessionStorage.getItem("stationId").split(",").map(Number)
+const swapClick = document.getElementById("swap")
+const routeName = document.getElementById("route")
 //let stationId = StationArray.split(",").map(Number)
-console.log(path)
+let stationsArray = []
+
+
+
+let initialRoute = {
+
+  id: sessionStorage.getItem("route"),
+  path: sessionStorage.getItem("stationId").split(",").map(Number),
+  stations: null
+
+}
+
+let reverseRoute = {
+
+  id: null,
+  path: null,
+  stations: null  
+
+}
+
+let swapped = false
+
+async function getRoute(route) {
+
+  if(route.path == null) {
+
+    let path = await db.collection("routes").doc(route.id).get()
+    route.path = path.data().path
+
+  }
+
+  for (let i = 0; i < route.path.length; i += 10) {
+
+    let chunk = route.path.slice(i, i + 10)
+    let col = await db.collection("stations").where("id", "in", chunk).get()
+    col.forEach(doc => stationsArray.push(doc.data()))
+    
+  }
+
+  route.stations = stationsArray
+
+  stationsArray.sort((a, b) => route.path.indexOf(a.id) - route.path.indexOf(b.id))
+
+  return route
+
+}
+
+getRoute({ id: "49E" })
 
 let stationData = []
 
@@ -12,44 +59,70 @@ main()
 
 async function main() {
   
+  initialRoute = await getRoute(initialRoute)
 
-  for (let i = 0; i < path.length; i += 10) {
-
-    let chunk = path.slice(i, i + 10)
-    console.log(chunk.length)
-    let col = await db.collection("stations").where("id", "in", chunk).get()
-    col.forEach(doc => stationData.push(doc.data()))
-
-  }
-
-  stationData.sort((a, b) => path.indexOf(a.id) - path.indexOf(b.id))
-
-  render(stationData)
+  render(initialRoute.stations)
 
   search.oninput = _ => {
-    let stations = stationData.filter(station =>
+    let stations = initialRoute.stations.filter(station =>
       station.id.toString().includes(search.value)
       || station.name.toLowerCase().includes(search.value.toLowerCase())
     )
+
     render(stations)
+
+  }
+
+  swapClick.onclick = function () {
+
+    onSwap()
+
+    // char = route[route.length - 1]
+    
+    // let newRoute =  route.slice(0, -1) + swapChar(char)
+  
+    // route = newRoute
+  
+    // document.getElementById("route").innerText = "Route " + route
+  
+  }
+
+}
+
+async function onSwap() {
+
+  swapped = !swapped
+
+  if (swapped == true) {
+
+    if (reverseRoute.stations == null) {
+
+      char = initialRoute.id[initialRoute.id.length -1]
+
+      let newRoute = initialRoute.id.slice(0, -1) + swapChar(char)
+
+      reverseRoute.id = newRoute
+
+      reverseRoute = await getRoute(reverseRoute)
+
+    }
+
+    routeName.innerText = "Route " + reverseRoute.id
+
+    reverseRoute.stations.map(renderStation)
+
+  } else if (swapped == false) {
+
+    routeName.innerText = "Route " + initialRoute.id
+
+    initialRoute.stations.map(renderStation)
+
   }
 
 }
 
 function render(stations) {
   patch(stationWrap, div({ id: "stations" }, stations.map(renderStation)))
-}
-document.getElementById("route").innerText = "Route " + route
-
-document.getElementById("swap").onclick = function () {
-  char = route[route.length - 1]
-  
-  let newRoute =  route.slice(0, -1) + swapChar(char)
-
-  route = newRoute
-
-  document.getElementById("route").innerText = "Route " + route
-
 }
 
 function swapChar(char) {
@@ -60,6 +133,8 @@ function swapChar(char) {
     case "N" : return "S"
   } 
 }
+
+routeName.innerText = "Route " + initialRoute.id
 
 function renderStation(station) {
 
