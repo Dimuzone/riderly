@@ -12,9 +12,8 @@ firebase.auth().onAuthStateChanged(user => {
     db.collection("users").doc(user.uid).get().then(users => {
 
 
-        console.log(users.data().name)
         let name = users.data().name.split(" ")
-        console.log(name)
+
 
         //display welcome message 
         let welcome = document.getElementById("welcome")
@@ -26,35 +25,13 @@ firebase.auth().onAuthStateChanged(user => {
         //Saved Station button 
         saved.onclick = _ => {
             let savedstations = users.data().saves
-            console.log(savedstations)
 
             patch(stationWrap, div({
                 id: "station"
-            }, savedstations.map(rendersaved)))
-
-
-            //user saved stations
-            function rendersaved(save) {
-                return div({
-                    class: "option"
-                }, [
-                    div({
-                        class: "option-data"
-                    }, [p({
-                            class: "option-text"
-                        }, [save.split("-")[2]]),
-                        div({
-                            class: "option-subtext"
-                        }, ["Route " + save.split("-")[1] + " ‧ " + save.split("-")[0]])
-                    ])
-
-                ])
-            }
-
+            }, savedstations.map(renderRecent)))
         }
 
     })
-
 
     let loginstatus = document.getElementsByClassName("login-text")[0]
     loginstatus.innerText = "Logout"
@@ -86,7 +63,6 @@ button.onclick = _ => {
 //Add recents
 let recents = localStorage.getItem("recents").split(",")
 
-console.log(recents)
 history.onclick = _ => {
     patch(stationWrap, div({
         id: "station"
@@ -126,7 +102,6 @@ const messageWrap = document.getElementById("recentmsg")
 db.collection("messages").orderBy("time", "desc").limit(3)
     .get().then(col => {
         col.forEach(doc => messages.push(doc.data()))
-        console.log(messages)
         patch(messageWrap, div({
             id: "recentmsg"
         }, messages.map(renderRecentMsg)))
