@@ -30,31 +30,10 @@ firebase.auth().onAuthStateChanged(user => {
 
             patch(stationWrap, div({
                 id: "station"
-            }, savedstations.map(rendersaved)))
-
-
-            //user saved stations
-            function rendersaved(save) {
-                return div({
-                    class: "option"
-                }, [
-                    div({
-                        class: "option-data"
-                    }, [p({
-                            class: "option-text"
-                        }, [save.split("-")[2]]),
-                        div({
-                            class: "option-subtext"
-                        }, ["Route " + save.split("-")[1] + " ‧ " + save.split("-")[0]])
-                    ])
-
-                ])
-            }
-
+            }, savedstations.map(renderRecent)))
         }
 
     })
-
 
     let loginstatus = document.getElementsByClassName("login-text")[0]
     loginstatus.innerText = "Logout"
