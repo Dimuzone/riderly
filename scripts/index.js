@@ -76,6 +76,7 @@ patch(stationWrap, div({
 
 
 function renderRecent(recent) {
+
     return div({
         class: "option"
     }, [
@@ -133,3 +134,5 @@ function renderRecentMsg(recentmsg) {
 
     ])
 }
+
+console.log(sessionStorage.getItem("after"))
