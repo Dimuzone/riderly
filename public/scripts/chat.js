@@ -6,7 +6,7 @@ let wrap = null
 let groups = null
 let state = {
 	userid: null,
-	username: null,
+	username: "guest",
 	messages: []
 }
 
@@ -21,7 +21,7 @@ db.collection("messages")
 				state.messages.push({ id: doc.id, ...doc.data() })
 			}
 		}
-		state.messages.sort((a, b) => a.time - b.time)
+		state.messages.sort((a, b) => a.timestamp - b.timestamp)
 		render(state)
 	})
 
