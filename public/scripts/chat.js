@@ -1,43 +1,44 @@
 const auth = firebase.auth()
 const route = "49W"
-let username = "guest"
-let messages = []
 let page = document.querySelector(".page.-chat")
 let textbox = null
 let wrap = null
 let groups = null
-
-auth.onAuthStateChanged(updateUser)
-db.collection("messages").where("route", "==", route)
-	.get()
-	.then(col => {
-		col.forEach(doc => messages.push(doc.data()))
-		messages.sort((a, b) => a.time - b.time)
-		init()
-	})
-
-async function init() {
-	await updateUser(auth.currentUser)
-	textbox = document.querySelector(".message-input")
-	groups = document.querySelector(".message-groups")
-	wrap = document.querySelector(".messages")
-	window.addEventListener("resize", scroll)
-	scroll()
+let state = {
+	userid: null,
+	username: "guest",
+	messages: []
 }
+
+updateUser(auth.currentUser)
+auth.onAuthStateChanged(updateUser)
+
+db.collection("messages")
+	.where("route", "==", route)
+	.onSnapshot(col => {
+		for (let doc of col.docs) {
+			if (!state.messages.find(msg => msg.id === doc.id)) {
+				state.messages.push({ id: doc.id, ...doc.data() })
+			}
+		}
+		state.messages.sort((a, b) => a.timestamp - b.timestamp)
+		render(state)
+	})
 
 async function updateUser(user) {
 	if (user) {
 		let userdoc = await db.collection("users").doc(user.uid).get()
-		userid = userdoc.data().email
-		username = userdoc.data().name
-		render({ userid, username, messages })
+		state.userid = userdoc.data().email
+		state.username = userdoc.data().name
+		render(state)
 	} else {
 		let token = localStorage.getItem("token")
 		if (!token) {
 			token = Math.random().toString().slice(2)
 			localStorage.setItem("token", token)
 		}
-		render({ userid: token, username, messages })
+		state.userid = token
+		render(state)
 	}
 }
 
@@ -56,6 +57,11 @@ function render(state) {
 			}, "arrow_upward")
 		])
 	]))
+	textbox = document.querySelector(".message-input")
+	groups = document.querySelector(".message-groups")
+	wrap = document.querySelector(".messages")
+	window.addEventListener("resize", scroll)
+	scroll()
 }
 
 function send(state) {
@@ -73,7 +79,6 @@ function send(state) {
 		...state,
 		messages: [ ...state.messages, message ]
 	})
-	scroll()
 	textbox.value = ""
 	return true
 }
@@ -103,8 +108,9 @@ function renderMessages(state) {
 					])
 			groups.push(group)
 		}
-		let message = div({ class: "message" }, [ msg.content ])
-		group.content.push(message)
+		group.content.push(
+			div({ class: "message" }, [ msg.content ])
+		)
 	}
 	let el = div({ class: "message-groups" }, groups)
 	return el
