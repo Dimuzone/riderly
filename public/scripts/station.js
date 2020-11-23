@@ -28,6 +28,8 @@ db.collection("reports")
     })
 
 const station = 52500
+const route = "49W"
+const stationName = "Eastbound Central Blvd @ 4500 Block"
 const star = document.getElementById("star")
 
 
@@ -43,8 +45,6 @@ star.onclick = function onClick() {
 
 }
 
-
-
 function saveStation(station) {
     firebase.auth().onAuthStateChanged(user => {
         let id = user.uid
@@ -52,7 +52,7 @@ function saveStation(station) {
 
             let saves = user.data().saves.slice()
 
-            saves.push(station)
+            saves.push(station + "-" + route + "-" + stationName)
 
             db.collection("users").doc(id).update({ saves })
 
@@ -68,8 +68,8 @@ function removeStation(station) {
 
             let saves = user.data().saves.slice()
 
-            if (saves.includes(station)) {
-                saves.splice(saves.indexOf(station), 1)
+            if (saves.includes(station + "-" + route + "-" + stationName)) {
+                saves.splice(saves.indexOf(station + "-" + route + "-" + stationName), 1)
             }
 
             db.collection("users").doc(id).update({ saves })
