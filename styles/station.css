@@ -26,20 +26,21 @@
 }
 
 .this-station {
-    width: 105px;
-    margin-left: auto;
-    margin-right: auto;
+    text-transform: uppercase;
+    text-align: center;
     padding-top: 12px;
     padding-bottom: 4px;
 }
 
 .before {
+    text-transform: uppercase;
     float: left;
     padding-top: 4px;
     padding-bottom: 12px;
 }
 
 .after {
+    text-transform: uppercase;
     float: right;
     padding-top: 4px;
 }

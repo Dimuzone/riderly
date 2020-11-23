@@ -6,10 +6,12 @@ let path = sessionStorage.getItem("stationId").split(",").map(Number)
 //let stationId = StationArray.split(",").map(Number)
 console.log(path)
 
+let stationData = []
+
 main()
 
 async function main() {
-  let stationData = []
+  
 
   for (let i = 0; i < path.length; i += 10) {
 
@@ -19,6 +21,8 @@ async function main() {
     col.forEach(doc => stationData.push(doc.data()))
 
   }
+
+  stationData.sort((a, b) => path.indexOf(a.id) - path.indexOf(b.id))
 
   render(stationData)
 
@@ -61,8 +65,15 @@ function renderStation(station) {
 
   function onclick() {
 
+    let index = path.indexOf(station.id)
+    let before = stationData[index - 1].name
+    let after = stationData[index + 1].name
+
+    sessionStorage.setItem("after", after)
+    sessionStorage.setItem("before", before)
     sessionStorage.setItem("stationId", station.id)
     sessionStorage.setItem("stationName", station.name)
+    sessionStorage.setItem("route", route)
     location.href = "station.html"
 
   }
