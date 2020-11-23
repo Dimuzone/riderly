@@ -1,70 +1,12 @@
-const station = [{
-    "id": 54724,
-    "name": "Northbound Almondel Rd @ Ripple Rd",
-    "lat": 49.347592,
-    "lon": -123.235382,
-    "zone": "BUS ZN"
-}, {
-    "id": 57304,
-    "name": "Eastbound Fraser Hwy @ 264 St",
-    "lat": 49.059331,
-    "lon": -122.491434,
-    "zone": "BUS ZN"
-}, {
-    "id": 57468,
-    "name": "Westbound 1st Ave @ 53 St",
-    "lat": 49.004513,
-    "lon": -123.077367,
-    "zone": "BUS ZN"
-}, {
-    "id": 57206,
-    "name": "Westbound 88 Ave @ 222A St",
-    "lat": 49.162828,
-    "lon": -122.607597,
-    "zone": "BUS ZN"
-}, {
-    "id": 57582,
-    "name": "Eastbound Hammond Rd @ Bonson Rd",
-    "lat": 49.217148,
-    "lon": -122.67734,
-    "zone": "BUS ZN"
-}, {
-    "id": 57228,
-    "name": "Northbound 204 St @ 93A Ave",
-    "lat": 49.172786,
-    "lon": -122.657134,
-    "zone": "BUS ZN"
-}, {
-    "id": 57225,
-    "name": "Northbound 204 St @ 88 Ave",
-    "lat": 49.163419,
-    "lon": -122.656832,
-    "zone": "BUS ZN"
-}, {
-    "id": 57231,
-    "name": "Eastbound 96 Ave @ 208 St",
-    "lat": 49.176885,
-    "lon": -122.645621,
-    "zone": "BUS ZN"
-}, {
-    "id": 60211,
-    "name": "Metrotown Station @ Bay 11",
-    "lat": 49.226034,
-    "lon": -123.004152,
-    "zone": "BUS ZN"
-}, {
-    "id": 52500,
-    "name": "Eastbound Central Blvd @ 4500 Block",
-    "lat": 49.224203,
-    "lon": -123.000304,
-    "zone": "BUS ZN"
-}]
+
+let saved = document.getElementById("usersaved")
+let history = document.getElementById("userhistory")
+const stationWrap = document.getElementById("station")
 
 firebase.auth().onAuthStateChanged(user => {
 
     console.log(user.email)
 
-    let saved = document.getElementById("usersaved")
 
     // user log in
     db.collection("users").doc(user.uid).get().then(users => {
@@ -86,26 +28,28 @@ firebase.auth().onAuthStateChanged(user => {
             let savedstations = users.data().saves
             console.log(savedstations)
 
-
+            patch(stationWrap, div({
+                id: "station"
+            }, savedstations.map(rendersaved)))
 
 
             //user saved stations
-            // function rendersaved(save) {
-            //     return div({
-            //         class: "option"
-            //     }, [
-            //         div({
-            //             class: "option-data"
-            //         }, [p({
-            //                 class: "option-text"
-            //             }, [recent.split("-")[2]]),
-            //             div({
-            //                 class: "option-subtext"
-            //             }, ["Route " + recent.split("-")[1] + " ‧ " + recent.split("-")[0]])
-            //         ])
+            function rendersaved(save) {
+                return div({
+                    class: "option"
+                }, [
+                    div({
+                        class: "option-data"
+                    }, [p({
+                            class: "option-text"
+                        }, [save.split("-")[2]]),
+                        div({
+                            class: "option-subtext"
+                        }, ["Route " + save.split("-")[1] + " ‧ " + save.split("-")[0]])
+                    ])
 
-            //     ])
-            // }
+                ])
+            }
 
         }
 
@@ -116,8 +60,6 @@ firebase.auth().onAuthStateChanged(user => {
     loginstatus.innerText = "Logout"
 
 })
-
-
 
 
 
@@ -141,14 +83,16 @@ button.onclick = _ => {
 
 
 
-
-
 //Add recents
 let recents = localStorage.getItem("recents").split(",")
 
 console.log(recents)
+history.onclick = _ => {
+    patch(stationWrap, div({
+        id: "station"
+    }, recents.map(renderRecent)))
 
-const stationWrap = document.getElementById("station")
+}
 
 patch(stationWrap, div({
     id: "station"

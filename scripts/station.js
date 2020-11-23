@@ -45,8 +45,6 @@ star.onclick = function onClick() {
 
 }
 
-
-
 function saveStation(station) {
     firebase.auth().onAuthStateChanged(user => {
         let id = user.uid
@@ -54,7 +52,7 @@ function saveStation(station) {
 
             let saves = user.data().saves.slice()
 
-            saves.push(stationName+ "-" +station + "-" + route)
+            saves.push(station + "-" + route + "-" + stationName)
 
             db.collection("users").doc(id).update({ saves })
 
@@ -70,8 +68,8 @@ function removeStation(station) {
 
             let saves = user.data().saves.slice()
 
-            if (saves.includes(stationName+ "-" +station + "-" + route)) {
-                saves.splice(saves.indexOf(stationName+ "-" +station + "-" + route), 1)
+            if (saves.includes(station + "-" + route + "-" + stationName)) {
+                saves.splice(saves.indexOf(station + "-" + route + "-" + stationName), 1)
             }
 
             db.collection("users").doc(id).update({ saves })
