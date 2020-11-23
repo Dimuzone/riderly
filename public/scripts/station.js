@@ -112,7 +112,6 @@ star.onclick = function onClick() {
 }
 
 
-
 function saveStation(station) {
     firebase.auth().onAuthStateChanged(user => {
         let id = user.uid
