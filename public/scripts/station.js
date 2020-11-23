@@ -1,5 +1,5 @@
 // The station ID ex. 34654
-let stationId = sessionStorage.getItem("stationId")
+let stationId = parseInt(sessionStorage.getItem("stationId"))
 
 // The Current Station Name ex. Birney Ave
 let currentStation = sessionStorage.getItem("stationName")
@@ -40,14 +40,14 @@ console.log(before)
 console.log(after)
 
 
-
+//Display recent report
 const seating = ["Empty", "Seating Only", "Full"]
 const timing = ["On time", "Late", "Very late"]
 const mask = ["Complete", "Parial", "Few"]
 const colors = ["-green", "-yellow", "-red"]
 
 db.collection("reports")
-    .where("station", "==", 52500)
+    .where("station", "==", stationId)
     .where("route", "==", routeId)
     .orderBy("timestamp", "desc").limit(1)
     .get()
@@ -73,6 +73,25 @@ db.collection("reports")
 const station = 52500
 const route = routeId
 const star = document.getElementById("star")
+const stationName = currentStation
+
+//Save stations button
+firebase.auth().onAuthStateChanged(user => {
+
+    console.log(user.email)
+
+
+    // user log in
+    db.collection("users").doc(user.uid).get().then(users => {
+
+        star.style.display="inherit"
+        let saves = users.data().saves.slice()
+        if (saves.includes(station + "-" + route + "-" + stationName)) {
+            star.innerText = "star"
+        }
+
+    })
+})
 
 
 star.onclick = function onClick() {
@@ -96,7 +115,7 @@ function saveStation(station) {
 
             let saves = user.data().saves.slice()
 
-            saves.push(station + "-" + route)
+            saves.push(station + "-" + route + "-" + stationName)
 
             db.collection("users").doc(id).update({ saves })
 
@@ -112,8 +131,8 @@ function removeStation(station) {
 
             let saves = user.data().saves.slice()
 
-            if (saves.includes(station + "-" + route)) {
-                saves.splice(saves.indexOf(station + "-" + route), 1)
+            if (saves.includes(station + "-" + route + "-" + stationName)) {
+                saves.splice(saves.indexOf(station + "-" + route + "-" + stationName), 1)
             }
 
             db.collection("users").doc(id).update({ saves })
