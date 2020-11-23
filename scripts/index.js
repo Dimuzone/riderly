@@ -76,18 +76,30 @@ patch(stationWrap, div({
 
 
 function renderRecent(recent) {
+let newStation = recent.split("-")
+
+    function onclick() {
+        sessionStorage.setItem("after", newStation[4])
+        sessionStorage.setItem("before", newStation[3])
+        sessionStorage.setItem("stationId", newStation[0])
+        sessionStorage.setItem("stationName", newStation[2])
+        sessionStorage.setItem("route", newStation[1])
+
+        location.href = "station.html"
+    
+      }
 
     return div({
-        class: "option"
+        class: "option", onclick: onclick
     }, [
         div({
             class: "option-data"
         }, [p({
                 class: "option-text"
-            }, [recent.split("-")[2]]),
+            }, [newStation[2]]),
             div({
                 class: "option-subtext"
-            }, ["Route " + recent.split("-")[1] + " ‧ " + recent.split("-")[0]])
+            }, ["Route " + newStation[1] + " ‧ " + newStation[0]])
         ])
 
     ])
@@ -135,4 +147,3 @@ function renderRecentMsg(recentmsg) {
     ])
 }
 
-console.log(sessionStorage.getItem("after"))
