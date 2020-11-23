@@ -55,7 +55,6 @@ db.collection("reports")
         let reports = []
         col.forEach(doc => reports.push(doc.data()))
         let report = reports[0]
-        console.log("1234")
         console.log(report)
 
         let seatingStatus = document.getElementsByClassName("-seating")[0]
@@ -75,6 +74,9 @@ const station = stationId
 const route = routeId
 const star = document.getElementById("star")
 const stationName = currentStation
+const previous = sessionStorage.getItem("before")
+const next = sessionStorage.getItem("after")
+let thisStation = station + "-" + route + "-" + stationName + "-" + previous + "-" + after
 
 //Save stations button
 firebase.auth().onAuthStateChanged(user => {
@@ -87,7 +89,7 @@ firebase.auth().onAuthStateChanged(user => {
 
         star.style.display="inherit"
         let saves = users.data().saves.slice()
-        if (saves.includes(station + "-" + route + "-" + stationName)) {
+        if (saves.includes(thisStation)) {
             star.innerText = "star"
         }
 
@@ -116,7 +118,7 @@ function saveStation(station) {
 
             let saves = user.data().saves.slice()
 
-            saves.push(station + "-" + route + "-" + stationName)
+            saves.push(thisStation)
 
             db.collection("users").doc(id).update({ saves })
 
@@ -132,8 +134,8 @@ function removeStation(station) {
 
             let saves = user.data().saves.slice()
 
-            if (saves.includes(station + "-" + route + "-" + stationName)) {
-                saves.splice(saves.indexOf(station + "-" + route + "-" + stationName), 1)
+            if (saves.includes(thisStation)) {
+                saves.splice(saves.indexOf(thisStation), 1)
             }
 
             db.collection("users").doc(id).update({ saves })
@@ -172,12 +174,14 @@ function renderRecentMsg(recentmsg) {
 
 
 //local storage for recent stations
+
+
 if (localStorage.getItem("recents") == null) {
-    localStorage.setItem("recents", station + "-" + route + "-" + stationName)
+    localStorage.setItem("recents", thisStation)
 } else {
     let recent = localStorage.getItem("recents").split(",")
-    if (!recent.includes(station + "-" + route + "-" + stationName)) {
-        recent.push(station + "-" + route + "-" + stationName)
+    if (!recent.includes(thisStation)) {
+        recent.push(thisStation)
         localStorage.setItem("recents", recent)
     }
     
