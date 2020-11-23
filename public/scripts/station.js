@@ -1,5 +1,5 @@
 // The station ID ex. 34654
-let stationId = sessionStorage.getItem("stationId")
+let stationId = parseInt(sessionStorage.getItem("stationId"))
 
 // The Current Station Name ex. Birney Ave
 let currentStation = sessionStorage.getItem("stationName")
@@ -40,14 +40,14 @@ console.log(before)
 console.log(after)
 
 
-
+//Display recent report
 const seating = ["Empty", "Seating Only", "Full"]
 const timing = ["On time", "Late", "Very late"]
 const mask = ["Complete", "Parial", "Few"]
 const colors = ["-green", "-yellow", "-red"]
 
 db.collection("reports")
-    .where("station", "==", 52500)
+    .where("station", "==", stationId)
     .where("route", "==", routeId)
     .orderBy("timestamp", "desc").limit(1)
     .get()
@@ -70,10 +70,13 @@ db.collection("reports")
         maskStatus.classList.add(colors[report.masks])
     })
 
-const station = 52500
+const station = stationId
 const route = routeId
 const star = document.getElementById("star")
 const stationName = currentStation
+const previous = sessionStorage.getItem("before")
+const next = sessionStorage.getItem("after")
+let thisStation = station + "-" + route + "-" + stationName + "-" + previous + "-" + after
 
 //Save stations button
 firebase.auth().onAuthStateChanged(user => {
@@ -86,7 +89,7 @@ firebase.auth().onAuthStateChanged(user => {
 
         star.style.display="inherit"
         let saves = users.data().saves.slice()
-        if (saves.includes(station + "-" + route + "-" + stationName)) {
+        if (saves.includes(thisStation)) {
             star.innerText = "star"
         }
 
@@ -115,7 +118,7 @@ function saveStation(station) {
 
             let saves = user.data().saves.slice()
 
-            saves.push(station + "-" + route + "-" + stationName)
+            saves.push(thisStation)
 
             db.collection("users").doc(id).update({ saves })
 
@@ -131,8 +134,8 @@ function removeStation(station) {
 
             let saves = user.data().saves.slice()
 
-            if (saves.includes(station + "-" + route + "-" + stationName)) {
-                saves.splice(saves.indexOf(station + "-" + route + "-" + stationName), 1)
+            if (saves.includes(thisStation)) {
+                saves.splice(saves.indexOf(thisStation), 1)
             }
 
             db.collection("users").doc(id).update({ saves })
@@ -170,11 +173,19 @@ function renderRecentMsg(recentmsg) {
 }
 
 
-
 //local storage for recent stations
-localStorage.setItem("recents", "58143-151W-Station1,51916-173E-Station2,54950-191S-Station3")
-let recent = localStorage.getItem("recents").split(",")
-recent.push("58143-151W-Station4")
-localStorage.setItem("recents", recent)
 
-console.log(localStorage.getItem("recents"))
+
+if (localStorage.getItem("recents") == null) {
+    localStorage.setItem("recents", thisStation)
+} else {
+    let recent = localStorage.getItem("recents").split(",")
+    if (!recent.includes(thisStation)) {
+        recent.push(thisStation)
+        localStorage.setItem("recents", recent)
+    }
+    
+    
+    console.log(localStorage.getItem("recents"))
+}
+
