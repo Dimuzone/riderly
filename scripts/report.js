@@ -4,6 +4,7 @@ const mask = ["complete", "partial", "few"]
 
 let form = document.querySelector(".report-form")
 
+// Reporting 
 form.onsubmit = event => {
     let formdata = new FormData(event.target)
     let seatStatus = formdata.get("seating")
