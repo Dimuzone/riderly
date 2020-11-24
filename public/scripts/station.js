@@ -13,6 +13,8 @@ let before = sessionStorage.getItem("before")
 // The Station After the current Station
 let after = sessionStorage.getItem("after")
 
+// Splitting the station names as they are
+// "Eastbound Central Blvd @ Willingdon Ave" and we only want the name
 let [on, at] = currentStation.split(" @ ")
 let name = at.startsWith("Bay") ? on : at
 let [onB, atB] = before.split(" @ ")
@@ -20,10 +22,8 @@ let beforeName = atB.startsWith("Bay") ? onB : atB
 let [onA, atA] = after.split(" @ ")
 let afterName = atA.startsWith("Bay") ? onA : atA
 
-
+// Changing the names for the page from items obtained from a storage
 document.getElementById("currentName").innerText = name
-
-
 document.getElementById("name").innerText = name
 document.getElementById("routeAndId").innerText = routeId + " - #" + stationId 
 document.getElementById("routeId").innerText = routeId
@@ -32,19 +32,12 @@ document.getElementById("currentName").innerText = name
 document.getElementById("before").innerText = beforeName
 document.getElementById("after").innerText = afterName
 
-
-console.log(routeId)
-console.log(stationId)
-console.log(currentStation)
-console.log(before)
-console.log(after)
-
-
 //Display recent report
 const seating = ["Empty", "Seating Only", "Full"]
 const timing = ["On time", "Late", "Very late"]
 const mask = ["Complete", "Parial", "Few"]
 const colors = ["-green", "-yellow", "-red"]
+
 
 db.collection("reports")
     .where("station", "==", stationId)
@@ -80,28 +73,22 @@ let thisStation = station + "-" + route + "-" + stationName + "-" + previous + "
 
 //Save stations button
 firebase.auth().onAuthStateChanged(user => {
-
     console.log(user.email)
-
 
     // user log in
     db.collection("users").doc(user.uid).get().then(users => {
-
         star.style.display="inherit"
         let saves = users.data().saves.slice()
         if (saves.includes(thisStation)) {
             star.innerText = "star"
         }
-
     })
 })
-
 
 star.onclick = function onClick() {
     if (star.innerText === "star_border") {
         saveStation(station)
         star.innerText = "star"
-
     } else if (star.innerText === "star") {
         removeStation(station)
         star.innerText = "star_border"
@@ -109,21 +96,14 @@ star.onclick = function onClick() {
 
 }
 
-
-
 function saveStation(station) {
     firebase.auth().onAuthStateChanged(user => {
         let id = user.uid
         db.collection("users").doc(id).get().then(user => {
-
             let saves = user.data().saves.slice()
-
             saves.push(thisStation)
-
             db.collection("users").doc(id).update({ saves })
-
         })
-
     })
 }
 
@@ -131,15 +111,11 @@ function removeStation(station) {
     firebase.auth().onAuthStateChanged(user => {
         let id = user.uid
         db.collection("users").doc(id).get().then(user => {
-
             let saves = user.data().saves.slice()
-
             if (saves.includes(thisStation)) {
                 saves.splice(saves.indexOf(thisStation), 1)
             }
-
             db.collection("users").doc(id).update({ saves })
-
         })
     })
 }
@@ -148,18 +124,13 @@ function removeStation(station) {
 var messages = []
 var now = Date.now()
 const stationMessageWrap = document.getElementById("recentmsg")
-
-
-
 db.collection("messages").where("route", "==", routeId).orderBy("time", "desc").limit(3)
 .get().then(col => {
     col.forEach(doc => messages.push(doc.data()))
     console.log(messages)
     console.log(stationMessageWrap)
-
     patch(stationMessageWrap, div({ id: "recentmsg" }, messages.map(renderRecentMsg)))
 })
-
 
 function renderRecentMsg(recentmsg) {
     return div({ class: "option" }, [
@@ -168,14 +139,10 @@ function renderRecentMsg(recentmsg) {
         ]),
         div({ class: "timewrap"}, [span({ class: "time"}, strifytime(recentmsg.time, now)),
         span({ class: "option-icon material-icons"}, "chevron_right")])
-
     ])
 }
 
-
 //local storage for recent stations
-
-
 if (localStorage.getItem("recents") == null) {
     localStorage.setItem("recents", thisStation)
 } else {
@@ -184,8 +151,5 @@ if (localStorage.getItem("recents") == null) {
         recent.push(thisStation)
         localStorage.setItem("recents", recent)
     }
-    
-    
     console.log(localStorage.getItem("recents"))
 }
-

@@ -4,12 +4,15 @@
 <head>
     <meta charset="utf-8">
     <title>BusDating - station Profile</title>
+
     <meta charset="utf-8">
     <meta name="description" content="bus dating">
     <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
+
     <link href="styles/bus-dating.css" rel="stylesheet" />
     <link href="styles/station.css" rel="stylesheet" />
+
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
@@ -34,7 +37,6 @@
             </a>
         </div>
     </header>
-
     <main class="page">
         <div class="route">
             <div id="currentName" class="this-station">CENTRAL BLVD E</div>
@@ -50,41 +52,30 @@
                 WAVERLEY AVE
             </div>
         </div>
-
         <div class="info-title">
             TRANSIT INFORMATION
             <div class="report-button">Update <span class="update-icon material-icons">keyboard_arrow_right</span></div>
         </div>
-
         <div class="info-content">
             <div class="statuses">
                 <div class="seating">SEATING
                     <div class="status -seating -green">Stand only</div>
                 </div>
-
                 <div class="timing">TIMING
                     <div class="status -timing -green">On time</div>
                 </div>
-
                 <div class="mask">MASK USAGE
                     <div class="status -mask -green">Partial</div>
                 </div>
             </div>
         </div>
-
         <div class="message-title">
             RECENT MESSAGES
         </div>
-
         <div id="recentmsg" class="message-content">
-
         </div>
-
         <a href="./chat.html"><button id="root" class="button"></button></a>
-
-
     </main>
-
 </body>
 
 </html>
