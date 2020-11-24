@@ -1,5 +1,8 @@
 const auth = firebase.auth()
-const route = "49W"
+const route = sessionStorage.getItem("route")
+const station = sessionStorage.getItem("stationName")
+const subtitle = document.getElementById("subtitle")
+const back = document.getElementById("back")
 let page = document.querySelector(".page.-chat")
 let textbox = null
 let wrap = null
@@ -9,6 +12,9 @@ let state = {
 	username: "guest",
 	messages: []
 }
+
+subtitle.innerText = `Route ${route}`
+back.innerText = `${station.split(" @ ")[1]}`
 
 updateUser(auth.currentUser)
 auth.onAuthStateChanged(updateUser)

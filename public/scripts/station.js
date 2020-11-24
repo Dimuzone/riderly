@@ -22,12 +22,16 @@ let beforeName = atB.startsWith("Bay") ? onB : atB
 let [onA, atA] = after.split(" @ ")
 let afterName = atA.startsWith("Bay") ? onA : atA
 
-// Changing the names for the page from items obtained from a storage
+const join = document.getElementById("join")
+join.innerText = "Join chat for Route " + routeId
+join.onclick = _ => {
+	location.href = "chat.html"
+}
+
 document.getElementById("currentName").innerText = name
 document.getElementById("name").innerText = name
-document.getElementById("routeAndId").innerText = routeId + " - #" + stationId 
+document.getElementById("routeAndId").innerText = routeId + " - #" + stationId
 document.getElementById("routeId").innerText = routeId
-document.getElementById("root").innerText = "Join chat for Route " + routeId
 document.getElementById("currentName").innerText = name
 document.getElementById("before").innerText = beforeName
 document.getElementById("after").innerText = afterName
