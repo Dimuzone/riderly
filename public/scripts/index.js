@@ -7,7 +7,6 @@ firebase.auth().onAuthStateChanged(user => {
 
     console.log(user.email)
 
-
     // user log in
     db.collection("users").doc(user.uid).get().then(users => {
 
@@ -30,7 +29,6 @@ firebase.auth().onAuthStateChanged(user => {
                 id: "station"
             }, savedstations.map(renderRecent)))
         }
-
     })
 
     let loginstatus = document.getElementsByClassName("login-text")[0]
@@ -38,12 +36,8 @@ firebase.auth().onAuthStateChanged(user => {
 
 })
 
-
-
 //log in/out button
 let button = document.getElementsByClassName("login")[0]
-
-
 
 button.onclick = _ => {
     var signin = firebase.auth().currentUser;
@@ -55,10 +49,6 @@ button.onclick = _ => {
         location.href = "login.html"
     }
 }
-
-
-
-
 
 //Add recents
 let recents = localStorage.getItem("recents").split(",")
