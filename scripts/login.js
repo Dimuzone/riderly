@@ -1,9 +1,14 @@
 // init firebase ui widget
-let ui = new firebaseui.auth.AuthUI(firebase.auth())
-let uiconfig = {
+new firebaseui.auth.AuthUI(firebase.auth()).start("main", {
 	callbacks: {
-		signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-			var user = authResult.user
+		signInFailure: (error) => {
+			if (error.code !== "firebaseui/anonymous-upgrade-merge-conflict") {
+				return Promise.resolve();
+			}
+			return firebase.auth().signInWithCredential(error.credential)
+		},
+		signInSuccessWithAuthResult: (authResult, redirectUrl) => {
+			let user = authResult.user
 			if (authResult.additionalUserInfo.isNewUser) {
 				db.collection("users").doc(user.uid).set({
 					name: user.displayName,
@@ -11,7 +16,7 @@ let uiconfig = {
 					saves: []
 				}).then(_ => {
 					console.log("New user added to firestore")
-					window.location.assign(redirectUrl)
+					window.location.assign("index.html")
 				}).catch(error => {
 					console.log("Error adding new user: " + error)
 				})
@@ -21,11 +26,8 @@ let uiconfig = {
 			}
 		}
 	},
+	autoUpgradeAnonymousUsers: true,
 	signInFlow: "popup",
 	signInSuccessUrl: "index.html",
-	signInOptions: [ firebase.auth.EmailAuthProvider.PROVIDER_ID ],
-	tosUrl: "<your-tos-url>",
-	privacyPolicyUrl: "<your-privacy-policy-url>"
-}
-
-ui.start("main", uiconfig)
+	signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID]
+})
