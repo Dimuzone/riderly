@@ -1,5 +1,4 @@
-/***********Header*************/
-
+/*********** Header *************/
 .title {
     font-size: 16px;
 }
@@ -10,9 +9,7 @@
     padding-bottom: 9px;
 }
 
-
-/***********station-table*************/
-
+/*********** station-table ***********/
 .route {
     height: 80px;
     border-bottom: thin solid var(--color-outline);
@@ -62,9 +59,7 @@
     position: static;
 }
 
-
-/* lines */
-
+/*********** lines ***********/
 .station+.station::before {
     content: "";
     display: block;
@@ -81,9 +76,7 @@
     border-color: var(--blue);
 }
 
-
-/* selection circle */
-
+/*********** selection circle ***********/
 .station.-select::after {
     content: "";
     display: block;
@@ -97,9 +90,7 @@
     transform: translate(-50%, -50%);
 }
 
-
-/***********TRANSIT INFORMATION*************/
-
+/*********** TRANSIT INFORMATION ***********/
 .info-title {
     font-weight: 700;
     font-size: 0.75em;
@@ -145,9 +136,7 @@
     color: var(--red);
 }
 
-
-/***********TOP MESSAGE*************/
-
+/*********** TOP MESSAGE ***********/
 .message-title {
     font-weight: 700;
     font-size: 0.75em;
