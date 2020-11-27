@@ -1,8 +1,8 @@
 const { firebase, db, patch, main, div, input, button, span } = window
 
 const auth = firebase.auth()
-const route = window.sessionStorage.getItem('route')
-const station = window.sessionStorage.getItem('stationName')
+const route = sessionStorage.getItem('route')
+const station = sessionStorage.getItem('stationName')
 const subtitle = document.getElementById('subtitle')
 const back = document.getElementById('back')
 const page = document.querySelector('.page.-chat')
@@ -40,10 +40,10 @@ async function updateUser (user) {
     state.username = userdoc.data().name
     render(state)
   } else {
-    let token = window.localStorage.getItem('token')
+    let token = localStorage.getItem('token')
     if (!token) {
       token = Math.random().toString().slice(2)
-      window.localStorage.setItem('token', token)
+      localStorage.setItem('token', token)
     }
     state.userid = token
     render(state)
