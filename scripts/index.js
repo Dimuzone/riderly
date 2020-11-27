@@ -1,7 +1,7 @@
 const saved = document.getElementById('usersaved')
 const history = document.getElementById('userhistory')
 const stationWrap = document.getElementById('station')
-const { firebase, db, patch, div, span, localStorage, strifytime, p } = window
+const { firebase, db, patch, div, span, localStorage, p } = window
 
 firebase.auth().onAuthStateChanged(user => {
   // user log in
@@ -92,7 +92,7 @@ function renderRecentMsg (recentmsg) {
         div({ class: 'option-subtext' }, [recentmsg.username + ': ' + recentmsg.content])
       ]),
     div({ class: 'timewrap' },
-      [span({ class: 'time' }, strifytime(recentmsg.timestamp, now)),
+      [span({ class: 'time' }, window.strifytime(recentmsg.timestamp, now)),
         span({ class: 'option-icon material-icons' }, 'chevron_right')
       ])
     ])
