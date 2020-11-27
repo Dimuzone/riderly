@@ -128,7 +128,7 @@ function removeStation(station) {
 var messages = []
 var now = Date.now()
 const stationMessageWrap = document.getElementById("recentmsg")
-db.collection("messages").where("route", "==", routeId).orderBy("time", "desc").limit(3)
+db.collection("messages").where("route", "==", routeId).orderBy("timestamp", "desc").limit(3)
 .get().then(col => {
     col.forEach(doc => messages.push(doc.data()))
     console.log(messages)
@@ -139,9 +139,9 @@ db.collection("messages").where("route", "==", routeId).orderBy("time", "desc").
 function renderRecentMsg(recentmsg) {
     return div({ class: "option" }, [
         div({ class: "option-data" }, [p({ class: "option-text" }, [recentmsg.route]),
-            div({ class: "option-subtext" }, [recentmsg.author + ": " + recentmsg.content])
+            div({ class: "option-subtext" }, [recentmsg.username + ": " + recentmsg.content])
         ]),
-        div({ class: "timewrap"}, [span({ class: "time"}, strifytime(recentmsg.time, now)),
+        div({ class: "timewrap"}, [span({ class: "time"}, strifytime(recentmsg.timestamp, now)),
         span({ class: "option-icon material-icons"}, "chevron_right")])
     ])
 }
