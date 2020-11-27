@@ -43,7 +43,7 @@
   // manifest(vnode) -> Element
   // Converts a vnode to an HTML element.
   function manifest (node) {
-    if (node instanceof Element) return node
+    if (node instanceof window.Element) return node
     if (!node || typeof node !== 'object') {
       return document.createTextNode(node)
     }
@@ -68,7 +68,7 @@
   // patch(Element, vnode)
   // Updates an existing DOM element to match the given vnode.
   function patch (el, node) {
-    if (!(el instanceof Element)) {
+    if (!(el instanceof window.Element)) {
       throw new Error('Patch operation failed: No target element specified')
     }
 
@@ -122,7 +122,7 @@
     // ignore whitespace
     for (let i = 0; i < content.length; i++) {
       const child = content[i]
-      if (child instanceof Text && !child.data.trim()) {
+      if (child instanceof window.Text && !child.data.trim()) {
         el.removeChild(child)
       }
     }
@@ -134,8 +134,8 @@
       if (!child) {
         // nothing to patch, add a new element
         el.appendChild(manifest(newchild))
-      } else if (child.nodeName !== '#comment' && (child instanceof Element ||
-			typeof newchild === 'object')) {
+      } else if (child.nodeName !== '#comment' && (child instanceof window.Element ||
+      typeof newchild === 'object')) {
         // general situation: patch child to reflect new child data
         patch(child, newchild)
       } else if (child.data !== newchild) {
