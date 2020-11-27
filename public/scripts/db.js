@@ -1,5 +1,5 @@
 // init firebase
-firebase.initializeApp({
+window.firebase.initializeApp({
   apiKey: 'AIzaSyBYV23zeovHmzX26j9H9HYyI9kBlAzZcvg',
   authDomain: 'bus-dating.firebaseapp.com',
   databaseURL: 'https://bus-dating.firebaseio.com',
@@ -9,4 +9,4 @@ firebase.initializeApp({
   appId: '1:1012927739228:web:ce582ea70ee1c0f25b7d99'
 })
 
-const db = firebase.firestore()
+window.db = window.firebase.firestore()

@@ -1,4 +1,4 @@
-// const { db, patch, div, p, span, location } = window
+const { db, patch, div, p, span } = window
 
 // Setting variables for elements to be changed later
 const search = document.getElementById('search-bar')

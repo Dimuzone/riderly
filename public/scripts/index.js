@@ -1,6 +1,7 @@
 const saved = document.getElementById('usersaved')
 const history = document.getElementById('userhistory')
 const stationWrap = document.getElementById('station')
+const { firebase, db, patch, div, span, localStorage, p } = window
 
 firebase.auth().onAuthStateChanged(user => {
   // user log in
@@ -32,11 +33,11 @@ const button = document.getElementsByClassName('login')[0]
 button.onclick = _ => {
   const signin = firebase.auth().currentUser
   if (signin) {
-    firebase.auth().signOut().then(_ => location.href = 'index.html')
+    firebase.auth().signOut().then(_ => { window.location.href = 'index.html' })
     const welcome = document.getElementById('welcome')
     welcome.innerText = ''
   } else {
-    location.href = 'login.html'
+    window.location.href = 'login.html'
   }
 }
 
@@ -56,12 +57,12 @@ patch(stationWrap, div({
 function renderRecent (recent) {
   const newStation = recent.split('-')
   function onclick () {
-    sessionStorage.setItem('after', newStation[4])
-    sessionStorage.setItem('before', newStation[3])
-    sessionStorage.setItem('stationId', newStation[0])
-    sessionStorage.setItem('stationName', newStation[2])
-    sessionStorage.setItem('route', newStation[1])
-    location.href = 'station.html'
+    window.sessionStorage.setItem('after', newStation[4])
+    window.sessionStorage.setItem('before', newStation[3])
+    window.sessionStorage.setItem('stationId', newStation[0])
+    window.sessionStorage.setItem('stationName', newStation[2])
+    window.sessionStorage.setItem('route', newStation[1])
+    window.location.href = 'station.html'
   }
   return div({ class: 'option', onclick: onclick },
     [div({ class: 'option-data' },
@@ -91,7 +92,7 @@ function renderRecentMsg (recentmsg) {
         div({ class: 'option-subtext' }, [recentmsg.username + ': ' + recentmsg.content])
       ]),
     div({ class: 'timewrap' },
-      [span({ class: 'time' }, strifytime(recentmsg.timestamp, now)),
+      [span({ class: 'time' }, window.strifytime(recentmsg.timestamp, now)),
         span({ class: 'option-icon material-icons' }, 'chevron_right')
       ])
     ])

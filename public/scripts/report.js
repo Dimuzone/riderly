@@ -6,13 +6,13 @@ const form = document.querySelector('.report-form')
 
 // Reporting
 form.onsubmit = event => {
-  const formdata = new FormData(event.target)
+  const formdata = new window.FormData(event.target)
   const seatStatus = formdata.get('seating')
   const timeStatus = formdata.get('timing')
   const maskStatus = formdata.get('mask-usage')
   event.preventDefault()
 
-  const newReport = db.collection('reports').doc()
+  const newReport = window.db.collection('reports').doc()
 
   newReport.set({
     author: 'guest',

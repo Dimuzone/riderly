@@ -1,3 +1,5 @@
+const { firebase, db, patch, div, span, localStorage, p, sessionStorage } = window
+
 // The station ID ex. 34654
 const stationId = parseInt(sessionStorage.getItem('stationId'))
 
@@ -25,7 +27,7 @@ const afterName = atA.startsWith('Bay') ? onA : atA
 const join = document.getElementById('join')
 join.innerText = 'Join chat for Route ' + routeId
 join.onclick = _ => {
-  location.href = 'chat.html'
+  window.location.href = 'chat.html'
 }
 
 document.getElementById('currentName').innerText = name
@@ -71,7 +73,6 @@ const route = routeId
 const star = document.getElementById('star')
 const stationName = currentStation
 const previous = sessionStorage.getItem('before')
-const next = sessionStorage.getItem('after')
 const thisStation = station + '-' + route + '-' + stationName + '-' + previous + '-' + after
 
 // Save stations button
@@ -139,7 +140,7 @@ function renderRecentMsg (recentmsg) {
     div({ class: 'option-data' }, [p({ class: 'option-text' }, [recentmsg.route]),
       div({ class: 'option-subtext' }, [recentmsg.username + ': ' + recentmsg.content])
     ]),
-    div({ class: 'timewrap' }, [span({ class: 'time' }, strifytime(recentmsg.timestamp, now)),
+    div({ class: 'timewrap' }, [span({ class: 'time' }, window.strifytime(recentmsg.timestamp, now)),
       span({ class: 'option-icon material-icons' }, 'chevron_right')])
   ])
 }
