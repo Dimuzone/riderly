@@ -5,6 +5,7 @@ const { firebase, db, patch, div, span, localStorage, p } = window
 
 firebase.auth().onAuthStateChanged(user => {
   // user log in
+  if (!user) return
   db.collection('users').doc(user.uid).get().then(users => {
     const name = users.data().name.split(' ')
 
@@ -42,7 +43,8 @@ button.onclick = _ => {
 }
 
 // Add recents
-const recents = localStorage.getItem('recents').split(',')
+let recents = localStorage.getItem('recents')
+recents = recents ? recents.split(',') : []
 
 history.onclick = _ => {
   patch(stationWrap, div({
