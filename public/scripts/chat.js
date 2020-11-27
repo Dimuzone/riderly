@@ -1,3 +1,5 @@
+const { firebase, db, patch, main, div, input, button, span } = window
+
 const auth = firebase.auth()
 const route = sessionStorage.getItem('route')
 const station = sessionStorage.getItem('stationName')
