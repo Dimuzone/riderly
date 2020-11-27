@@ -1,7 +1,7 @@
 const saved = document.getElementById('usersaved')
 const history = document.getElementById('userhistory')
 const stationWrap = document.getElementById('station')
-const { firebase, db, patch, div, span, location, localStorage, strifytime, p } = window
+const { firebase, db, patch, div, span, localStorage, strifytime, p } = window
 
 firebase.auth().onAuthStateChanged(user => {
   // user log in
@@ -33,11 +33,11 @@ const button = document.getElementsByClassName('login')[0]
 button.onclick = _ => {
   const signin = firebase.auth().currentUser
   if (signin) {
-    firebase.auth().signOut().then(_ => { location.href = 'index.html' })
+    firebase.auth().signOut().then(_ => { window.location.href = 'index.html' })
     const welcome = document.getElementById('welcome')
     welcome.innerText = ''
   } else {
-    location.href = 'login.html'
+    window.location.href = 'login.html'
   }
 }
 
@@ -62,7 +62,7 @@ function renderRecent (recent) {
     window.sessionStorage.setItem('stationId', newStation[0])
     window.sessionStorage.setItem('stationName', newStation[2])
     window.sessionStorage.setItem('route', newStation[1])
-    location.href = 'station.html'
+    window.location.href = 'station.html'
   }
   return div({ class: 'option', onclick: onclick },
     [div({ class: 'option-data' },
