@@ -76,7 +76,7 @@ var messages = []
 var now = Date.now()
 const messageWrap = document.getElementById("recentmsg")
 
-db.collection("messages").orderBy("time", "desc").limit(3)
+db.collection("messages").orderBy("timestamp", "desc").limit(3)
     .get().then(col => {
         col.forEach(doc => messages.push(doc.data()))
         patch(messageWrap, div({
@@ -88,10 +88,10 @@ function renderRecentMsg(recentmsg) {
     return div({class: "option"}, 
             [div({class: "option-data"}, 
                 [p({class: "option-text"}, [recentmsg.route]),
-                    div({class: "option-subtext"}, [recentmsg.author + ": " + recentmsg.content])
+                    div({class: "option-subtext"}, [recentmsg.username + ": " + recentmsg.content])
                 ]),
                 div({class: "timewrap"}, 
-                    [span({class: "time"}, strifytime(recentmsg.time, now)),
+                    [span({class: "time"}, strifytime(recentmsg.timestamp, now)),
                         span({class: "option-icon material-icons"}, "chevron_right")
                     ])
             ])
