@@ -1,4 +1,6 @@
 // init firebase ui widget
+const { firebase, firebaseui, db } = window
+
 new firebaseui.auth.AuthUI(firebase.auth()).start('main', {
   callbacks: {
     signInFailure: (error) => {
