@@ -1,0 +1,17 @@
+{
+	"name": "bus-dating",
+	"version": "0.0.0",
+	"description": "Bus Dating",
+	"repository": "dimuzone/bus-dating",
+	"author": "dimuzone, semibran, zzzbnbzzz",
+	"license": "MIT",
+	"main": "public/index.html",
+	"keywords": [],
+	"scripts": {
+		"start": "standard --fix",
+		"test": "standard"
+	},
+	"devDependencies": {
+		"standard": "^16.0.3"
+	}
+}
