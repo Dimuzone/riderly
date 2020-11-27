@@ -1,3 +1,5 @@
+const { db, patch, div, p, span } = window
+
 // Setting variables for elements to be changed later
 const search = document.getElementById('search-bar')
 const stationWrap = document.getElementById('stations')
@@ -8,9 +10,9 @@ const directionEnd = document.getElementById('ending')
 
 // Set an initial route for the first route the user chose
 let initialRoute = {
-  id: sessionStorage.getItem('route'),
-  name: sessionStorage.getItem('endingStation'),
-  path: sessionStorage.getItem('stations_Id').split(',').map(Number),
+  id: window.sessionStorage.getItem('route'),
+  name: window.sessionStorage.getItem('endingStation'),
+  path: window.sessionStorage.getItem('stations_Id').split(',').map(Number),
   stations: null
 }
 
@@ -60,9 +62,9 @@ async function main () {
 
 // The function for when the user clicks the swap button
 async function onSwap () {
-  if (currentRoute == initialRoute) {
+  if (currentRoute === initialRoute) {
     if (reverseRoute.stations == null) {
-      char = initialRoute.id[initialRoute.id.length - 1]
+      const char = initialRoute.id[initialRoute.id.length - 1]
       const newRoute = initialRoute.id.slice(0, -1) + swapChar(char)
       reverseRoute.id = newRoute
       reverseRoute = await getRoute(reverseRoute)
@@ -96,8 +98,8 @@ routeName.innerText = 'Route ' + initialRoute.id
 function renderStation (station) {
   const startIndex = currentRoute.stations[0].name
   const ending = currentRoute.name
-  const [start, end] = startIndex.split(' @ ')
-  const [ubc, exchange] = start.split(' Exchange')
+  const [start] = startIndex.split(' @ ')
+  const [ubc] = start.split(' Exchange')
 
   directionStart.innerText = (start.startsWith('UBC') ? ubc : start)
   directionEnd.innerText = ending
@@ -107,12 +109,12 @@ function renderStation (station) {
     const before = currentRoute.stations[index - 1].name
     const after = currentRoute.stations[index + 1].name
 
-    sessionStorage.setItem('after', after)
-    sessionStorage.setItem('before', before)
-    sessionStorage.setItem('stationId', station.id)
-    sessionStorage.setItem('stationName', station.name)
-    sessionStorage.setItem('route', currentRoute.id)
-    location.href = 'station.html'
+    window.sessionStorage.setItem('after', after)
+    window.sessionStorage.setItem('before', before)
+    window.sessionStorage.setItem('stationId', station.id)
+    window.sessionStorage.setItem('stationName', station.name)
+    window.sessionStorage.setItem('route', currentRoute.id)
+    window.location.href = 'station.html'
   }
 
   const [on, at] = station.name.split(' @ ')

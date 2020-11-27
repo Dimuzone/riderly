@@ -1,3 +1,5 @@
+const { db, patch, div, p, span } = window
+
 // Main function for getting the routes and calling the render function to set the page
 main()
 async function main () {
@@ -20,10 +22,10 @@ async function main () {
 // Render route function for changing the pages contents
 function renderRoute (route) {
   function onclick () {
-    sessionStorage.setItem('route', route.id)
-    sessionStorage.setItem('stations_Id', route.data.path)
-    sessionStorage.setItem('endingStation', route.data.name)
-    location.href = 'route.html'
+    window.sessionStorage.setItem('route', route.id)
+    window.sessionStorage.setItem('stations_Id', route.data.path)
+    window.sessionStorage.setItem('endingStation', route.data.name)
+    window.location.href = 'route.html'
   }
 
   return div({ class: 'option', onclick: onclick }, [
