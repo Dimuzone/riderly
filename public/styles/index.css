@@ -18,3 +18,12 @@
   line-height: 1.25;
   text-align: center;
 }
+
+.greeting {
+  display: block;
+  font-size: 0.875rem;
+  font-style: italic;
+  text-align: center;
+  padding-top: 12px;
+  margin-bottom: -12px;
+}

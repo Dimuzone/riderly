@@ -9,17 +9,18 @@ const page = document.querySelector('.page.-home')
 
 const state = {
   user: null,
-  stations: [],
+  recents: [],
+  saves: [],
   messages: []
 }
 
 ;(async function main () {
-  let recents = window.localStorage.getItem('recents')
-  recents = recents ? recents.split(',') : []
+  let cache = window.localStorage.getItem('recents')
+  cache = cache ? cache.split(',') : []
 
-  for (const recent of recents) {
+  for (const recent of cache) {
     const [id, route, name, before, after] = recent.split('-')
-    state.stations.push({ id, route, name, before, after })
+    state.recents.push({ id, route, name, before, after })
   }
 
   render(state)
@@ -46,34 +47,32 @@ login.onclick = async function () {
   }
 }
 
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged(async user => {
   // if user isn't logged in, we don't need to do anything extra
   if (!user) return
 
   // set button text
   login.innerText = 'Logout'
 
-  db.collection('users').doc(user.uid).get().then(users => {
-    const name = users.data().name.split(' ')
-    welcome.innerText = 'Hi, ' + name[0] + '!'
-
-    // // Saved Station button
-    // saved.onclick = _ => {
-    //   const savedstations = users.data().saves
-    //   patch(stationWrap, div({
-    //     id: 'station'
-    //   }, savedstations.map(renderRecent)))
-    // }
-  })
+  const doc = await db.collection('users').doc(user.uid).get()
+  const userdata = doc.data()
+  state.user = userdata
+  state.saves = userdata.saves
+  render(state)
 })
 
-function render ({ user, stations, messages }) {
+function render ({ user, recents, saves, messages }) {
+  const name = user ? user.name.split(' ')[0] : ''
   patch(page, main({ class: 'page -home' }, [
+    !name
+      ? ''
+      : span({ class: 'greeting' },
+        ['Hi, ', strong(name), '!']),
     section({ class: 'section -stations' }, [
       h2({ class: 'section-title' },
         (user ? '' : 'Recent ') + 'Stations'),
-      stations.length
-        ? div({ class: 'section-options' }, stations.map(renderStation))
+      recents.length
+        ? div({ class: 'section-options' }, recents.map(renderStation))
         : span({ class: 'section-notice' },
           'When you view a station\'s info, it will appear here.')
     ]),
