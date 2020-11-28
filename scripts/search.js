@@ -17,6 +17,8 @@ async function main () {
     patch(routeWrap,
       div({ class: 'routes' }, routeSearch.map(renderRoute)))
   }
+  patch(routeWrap,
+    div({ class: 'routes' }, routes.map(renderRoute)))
 }
 
 // Render route function for changing the pages contents
