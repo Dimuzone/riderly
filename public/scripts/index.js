@@ -19,13 +19,13 @@ const switchtab = (state, newtab) =>
   ({ ...state, tab: newtab })
 
 ;(async function main () {
-  let cache = window.localStorage.getItem('recents')
-  cache = cache ? cache.split(',') : []
-
-  for (const recent of cache) {
-    const [id, route, name, before, after] = recent.split('-')
-    state.recents.push({ id, route, name, before, after })
-  }
+  const cache = window.localStorage.getItem('recents')
+  state.recents = !cache
+    ? state.recents
+    : cache.split(',')
+      .reverse()
+      .slice(0, 3)
+      .map(decodestn)
 
   const col = await db.collection('messages')
     .orderBy('timestamp', 'desc')
@@ -61,9 +61,15 @@ firebase.auth().onAuthStateChanged(async user => {
   const doc = await db.collection('users').doc(user.uid).get()
   const userdata = doc.data()
   state.user = userdata
-  state.saves = userdata.saves
+  state.saves = userdata.saves.reverse().map(decodestn)
+  console.log(state.saves)
   render(state)
 })
+
+function decodestn (stn) {
+  const [id, route, name, before, after] = stn.split('-')
+  return { id, route, name, before, after }
+}
 
 function render (state) {
   const { user, tab, recents, saves, messages } = state
@@ -75,7 +81,7 @@ function render (state) {
       : '',
     section({ class: 'section -stations' }, [
       h2({ class: 'section-title' },
-        (user ? '' : 'Recent ') + 'Stations'),
+        tab === 'recents' ? 'Recent Stations' : 'Saved Stations'),
       div({ class: 'section-tabs' }, [
         button({
           class: 'section-tab' + (tab === 'recents' ? ' -select' : ''),
@@ -105,8 +111,7 @@ function render (state) {
             'When you save a station, it will appear here.')
     ]),
     section({ class: 'section -messages' }, [
-      h2({ class: 'section-title' },
-        (user ? '' : 'Recent ') + 'Messages'),
+      h2({ class: 'section-title' }, 'Recent Messages'),
       messages.length
         ? div({ class: 'section-options' }, messages.map(renderMessage))
         : span({ class: 'section-notice' },
@@ -124,7 +129,7 @@ function renderStation (station) {
     div({ class: 'option-lhs' }, [
       span({ class: 'option-text' }, on),
       span({ class: 'option-subtext' },
-        [station.route, ' ‧ ', station.id, ' · on ', strong(at)])
+        [station.route, ' ‧ ', station.id, ...(at ? [' · ', strong(at)] : [])])
     ]),
     div({ class: 'option-rhs' }, [
       span({ class: 'icon -option material-icons' }, 'chevron_right')
