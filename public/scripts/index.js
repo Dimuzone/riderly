@@ -155,7 +155,7 @@ function rendermsg (message) {
     div({ class: 'option-lhs' }, [
       span({ class: 'option-text' }, `"${message.content}"`),
       span({ class: 'option-subtext' },
-        ['from ', strong(message.username), ' at ', strong(message.route)])
+        ['from ', strong(message.username), ' on ', strong(message.route)])
     ]),
     div({ class: 'option-rhs' }, [
       span({ class: 'option-iconlabel' }, ago),
