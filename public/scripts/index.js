@@ -27,15 +27,13 @@ const switchtab = (state, newtab) =>
     state.recents.push({ id, route, name, before, after })
   }
 
-  render(state)
-
   const col = await db.collection('messages')
     .orderBy('timestamp', 'desc')
-    .limit(3)
-    .get()
+    .limit(3).get()
   for (const doc of col.docs) {
     state.messages.push(doc.data())
   }
+
   render(state)
 })()
 
@@ -52,12 +50,14 @@ login.onclick = async function () {
 }
 
 firebase.auth().onAuthStateChanged(async user => {
-  // if user isn't logged in, we don't need to do anything extra
-  if (!user) return
+  // if user isn't logged in, we don't need to do anything extra.
+  // just render and exit
+  if (!user) return render(state)
 
   // set button text
   login.innerText = 'Logout'
 
+  // save user data
   const doc = await db.collection('users').doc(user.uid).get()
   const userdata = doc.data()
   state.user = userdata
