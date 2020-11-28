@@ -27,27 +27,9 @@ let reverseRoute = {
 // Set the current route to be the initial route
 let currentRoute = initialRoute
 
-// get the route information from the database
-async function getRoute (route) {
-  const stationsArray = []
-  if (route.path == null) {
-    const path = await db.collection('routes').doc(route.id).get()
-    route.path = path.data().path
-    route.name = path.data().name
-  }
-  for (let i = 0; i < route.path.length; i += 10) {
-    const chunk = route.path.slice(i, i + 10)
-    const col = await db.collection('stations').where('id', 'in', chunk).get()
-    col.forEach(doc => stationsArray.push(doc.data()))
-  }
-  stationsArray.sort((a, b) => route.path.indexOf(a.id) - route.path.indexOf(b.id))
-  route.stations = stationsArray
-  return route
-}
-
 // The main function for rendering the page with stations
-main()
-async function main () {
+;(async function main () {
+  routeName.innerText = 'Route ' + initialRoute.id
   initialRoute = await getRoute(initialRoute)
   render(initialRoute.stations)
   search.oninput = _ => {
@@ -58,6 +40,31 @@ async function main () {
     render(stations)
   }
   swapClick.onclick = onSwap
+})()
+
+// get the route information from the database
+async function getRoute (route) {
+  const stations = []
+  if (!route.path) {
+    const path = await db.collection('routes').doc(route.id).get()
+    route.path = path.data().path
+    route.name = path.data().name
+  }
+  const gets = []
+  for (let i = 0; i < route.path.length; i += 10) {
+    const chunk = route.path.slice(i, i + 10)
+    const promise = db.collection('stations').where('id', 'in', chunk).get()
+    gets.push(promise)
+  }
+  const cols = await Promise.all(gets)
+  for (const col of cols) {
+    for (const doc of col.docs) {
+      stations.push(doc.data())
+    }
+  }
+  stations.sort((a, b) => route.path.indexOf(a.id) - route.path.indexOf(b.id))
+  route.stations = stations
+  return route
 }
 
 // The function for when the user clicks the swap button
@@ -91,8 +98,6 @@ function swapChar (char) {
     case 'N' : return 'S'
   }
 }
-
-routeName.innerText = 'Route ' + initialRoute.id
 
 // Changing the html with the data gotten
 function renderStation (station) {
