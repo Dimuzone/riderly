@@ -98,14 +98,15 @@ function render (state) {
         ? recents.length
             ? div({ class: 'section-options' }, recents.map(renderStation))
             : span({ class: 'section-notice' },
-              'When you view a station\'s info, it will appear here.')
+              'When you view a station, it will appear here.')
         : saves.length
           ? div({ class: 'section-options' }, saves.map(renderStation))
           : span({ class: 'section-notice' },
             'When you save a station, it will appear here.')
     ]),
     section({ class: 'section -messages' }, [
-      h2({ class: 'section-title' }, 'Recent Messages'),
+      h2({ class: 'section-title' },
+        (user ? '' : 'Recent ') + 'Messages'),
       messages.length
         ? div({ class: 'section-options' }, messages.map(renderMessage))
         : span({ class: 'section-notice' },
