@@ -27,13 +27,13 @@ const switchtab = (state, newtab) =>
       .slice(0, 3)
       .map(decodestn)
 
+  // get chat messages and rerender
   const col = await db.collection('messages')
     .orderBy('timestamp', 'desc')
     .limit(3).get()
   for (const doc of col.docs) {
     state.messages.push(doc.data())
   }
-
   render(state)
 })()
 

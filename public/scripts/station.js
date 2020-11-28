@@ -3,6 +3,11 @@ const {
   div, span, localStorage, p, sessionStorage
 } = window
 
+const back = document.querySelector('.back')
+back.onclick = _ => {
+  window.history.back()
+}
+
 // The station ID ex. 34654
 const stationId = parseInt(sessionStorage.getItem('stationId'))
 
