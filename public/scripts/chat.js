@@ -1,6 +1,7 @@
 const { firebase, db, patch, main, div, input, button, span } = window
 
 const auth = firebase.auth()
+const backButton = window.sessionStorage.getItem('backButton')
 const route = window.sessionStorage.getItem('route')
 const station = window.sessionStorage.getItem('stationName')
 const subtitle = document.getElementById('subtitle')
@@ -16,7 +17,11 @@ const state = {
 }
 
 subtitle.innerText = `Route ${route}`
-back.innerText = `${station.split(' @ ')[1]}`
+if (station !== null) {
+  back.innerText = `${station.split(' @ ')[1]}`
+} else {
+  back.innerTest = route
+}
 
 updateUser(auth.currentUser)
 auth.onAuthStateChanged(updateUser)
@@ -124,13 +129,10 @@ function renderMessages (state) {
   return el
 }
 
-const backButton = window.sessionStorage.getItem('backButton')
-const homeRoute = window.sessionStorage.getItem('route')
-
 if (backButton === null) {
   console.log('hi')
 } else {
-  subtitle.innerText = homeRoute
+  subtitle.innerText = route
   back.innerText = backButton
 }
 window.sessionStorage.removeItem('backButton')
