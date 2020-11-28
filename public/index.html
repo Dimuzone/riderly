@@ -1,86 +1,40 @@
 <!doctype html>
 <html>
+
 <head>
-    <meta charset="utf-8">
+	<meta charset="utf-8">
 	<title>BusDating -Home</title>
-	
-    <meta name="description" content="bus dating">
-    <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
+
+	<meta name="description" content="bus dating">
+	<meta name="author" content="dimuzone, semibran, zzzbnbzzz">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
-	
-    <link href="styles/bus-dating.css" rel="stylesheet" />
+
+	<link href="styles/bus-dating.css" rel="stylesheet" />
 	<link href="styles/index.css" rel="stylesheet" />
-	
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
-    <script defer src="./scripts/db.js"></script>
-    <script defer src="./scripts/h2.js"></script>
+
+	<script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+	<script defer src="./scripts/db.js"></script>
+	<script defer src="./scripts/h2.js"></script>
+	<script defer src="./scripts/normstn.js"></script>
+	<script defer src="./scripts/timediff.js"></script>
 	<script defer src="./scripts/index.js"></script>
-	<script defer src="./scripts/time.js"></script>
 </head>
 
 <body>
-    <header class="header -search">
-        <div class="home-header">
-            <div class="home">
-				<h1>Home</h1>
-				<span id="welcome"></span>
-                <div class="login"><span class="login-text">Login</span></div>
-			</div>
-			<a href="./search.html">
-        		<div class="search-bar">
-                	<span class="search-icon material-icons">search</span>
-                	<input class="search-input" type="text" placeholder="Search routes" name="search"><br><br>
-				</div>
-			</a>
-        </div>
-	</header>
-	
-    <main class="page -home">
-        <section class="stations-section">
-            <div class="tabs-header">STATIONS</div>
-            <div class="tabs">
-                <button id="userhistory" class="tab -history">
-					<span class=" history-icons material-icons">schedule</span>
-					<p class="history-text">History</p>
-				</button>
-                <button id="usersaved" class="tab -saved">
-					<span class="saved-icons material-icons">star</span>
-					<p class="saved-text">Saved</p>
-				</button>
-			</div>
-			<div id="station">
-				<div class="saved-stations">
-					<div class="station">
-						<p class="station-text">Metrotown Station</p>
-						<div class="saved-route">
-							<span class="stn-route-number">Route 49E</span> &middot
-							<span>60195 &middot Bay 11</span>
-						</div>
-					</div>
-					<div>
-						<span class="station-icon material-icons">chevron_right</span>
-					</div>
-				</div>
-				<div class="saved-stations">
-					<div class="station">
-						<p class="station-text">UBC Exchange</p>
-						<div class="saved-route">
-							<span class="stn-route-number">Route 49W</span>
-							&middot
-							<span>60358</span>
-						</div>
-					</div>
-					<div>
-						<span class="station-icon material-icons">chevron_right</span>
-					</div>
-				</div>
+	<header class="header -search -home">
+		<div class="header-text">
+			<h1 class="title">Home</h1>
+			<button id="login" class="button -login">Login</button>
 		</div>
-		</section>
-		
-		<div class="recent-messages">RECENT MESSAGES</div>
-		<section id="recentmsg" class="recent-messages-section"></section>
-	</main>
+		<a href="./search.html" class="search-bar">
+			<span class="search-icon material-icons">search</span>
+			<input class="search-input" type="text" placeholder="Search routes" name="search"><br><br>
+		</a>
+	</header>
+
+	<main class="page -home"></main>
 </body>
+
 </html>

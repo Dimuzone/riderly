@@ -1,165 +1,57 @@
-.home-header {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+.header.-home .title {
+  order: initial;
 }
 
-.header {
-    height: 128px;
+.header .button {
+  width: 72px;
+  height: 32px;
+  font-size: 0.875rem;
 }
 
-.page.-home {
-    margin-top: 128px;
+.section-notice {
+  background: var(--white);
+  display: block;
+  margin-top: 5px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  text-align: center;
 }
 
-.home {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.section-tabs {
+  display: flex;
+  border-bottom: thin solid var(--lightgray);
 }
 
-.login {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Work Sans;
-    font-style: normal;
-    font-weight: bold;
-    width: 64px;
-    height: 28px;
-    background: var(--blue);
-    border-radius: 8px;
-    text-align: center;
-    color: var(--white);
-    font-size: 12px;
+.section-tab {
+  color: var(--lightgray);
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 12px 0 10px;
+  border-bottom: 2px solid transparent;
+  background: 0 0;
+  outline: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
 }
 
-.search-bar {
-    display: flex;
-    align-items: center;
-    background-color: var(--color-input);
-    border-radius: 4px;
-    margin-top: 5px;
-    border: thin solid var(--silver);
-    padding: 2px;
-    font-size: small;
-    align-items: center;
-    height: 32px;
+.icon.-tab {
+  font-size: 16px;
+  padding-right: 4px;
 }
 
-.search-input {
-    flex: 1;
-    margin-left: 4px;
-    padding: 12px 0;
-    outline: 0;
-    border: 0;
-    background: transparent;
+.section-tab.-select {
+  color: var(--blue);
+  border-color: var(--blue);
 }
 
-.search-input:focus::placeholder {
-    color: var(--blue);
+.greeting {
+  display: block;
+  font-size: 0.875rem;
+  text-align: center;
+  padding-top: 12px;
+  margin-bottom: -10px;
 }
-
-.search-bar:focus-within {
-    background: var(--color-bg);
-    border-color: var(--blue);
-    box-shadow: 0 2px 4px var(--darkgray);
-}
-
-.search-bar:focus-within .search-icon {
-    color: var(--blue);
-}
-
-.stations-section {
-    padding-top: 32px;
-}
-
-.tabs-header {
-    font-size: 0.75em;
-    font-weight: bold;
-    border-bottom: thin solid var(--lightgray);
-    padding-bottom: 8px;
-}
-
-.tabs {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-bottom: thin solid var(--lightgray);
-}
-
-.tab {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    border-bottom: 3px solid transparent;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    outline: 0;
-}
-
-.tab.-history {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--lightgray);
-}
-
-.tab.-history:focus-within {
-    color: var(--blue);
-    border-bottom-color: var(--blue);
-}
-
-.history-icons {
-    font-size: large;
-}
-
-.history-text {
-    padding-left: 5px;
-}
-
-.tab.-saved {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    color: var(--lightgray);
-}
-
-.tab.-saved:focus-within {
-    color: var(--blue);
-    border-bottom-color: var(--blue);
-}
-
-.saved-icons {
-    font-size: large;
-}
-
-.saved-text {
-    padding-left: 5px;
-}
-
-.saved-stations {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: thin solid var(--lightgray);
-    align-items: center;
-}
-
-.station {
-    display: flex;
-    flex-direction: column;
-}
-
-.recent-messages-section {
-    margin-top: 32px;
-}
-
-.recent-messages {
-    margin-top: 40px;
-    font-size: 0.75em;
-    font-weight: bold;
-    border-bottom: thin solid var(--lightgray);
-    padding-bottom: 8px;
-}
-

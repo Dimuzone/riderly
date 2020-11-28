@@ -58,6 +58,10 @@ ul {
 	list-style: none;
 }
 
+strong {
+	font-weight: bold;
+}
+
 /* Project-specific styles */
 
 body {
@@ -117,7 +121,7 @@ h2 {
 }
 
 .title {
-	line-height: 1;
+	line-height: 0.75;
 	order: 2;
 }
 
@@ -183,6 +187,18 @@ h2 {
 	color: var(--blue);
 }
 
+.section {
+	padding-top: 24px;
+}
+
+.section-title {
+	padding-bottom: 4px;
+	border-bottom: thin solid var(--lightgray);
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.0625rem;
+}
+
 .option {
 	border-bottom: thin solid var(--lightgray);
 	padding: 12px;
@@ -191,20 +207,31 @@ h2 {
 	justify-content: space-between;
 }
 
+.option-lhs {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.option-rhs {
+	display: flex;
+	align-items: center;
+	padding-left: 8px;
+	font-size: 0.875rem;
+	font-weight: bold;
+}
+
 .option-text {
 	color: var(--darkgray);
 	font-weight: bold;
-	margin-bottom: 2px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .option-subtext {
 	color: var(--gray);
 	font-size: 0.875rem;
-}
-
-.timewrap {
-	display: flex;
-	align-items: center;
 }
 
 .page {
