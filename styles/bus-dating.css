@@ -121,7 +121,7 @@ h2 {
 }
 
 .title {
-	line-height: 0.75;
+	line-height: 0.8;
 	order: 2;
 }
 
@@ -165,9 +165,12 @@ h2 {
 	margin-bottom: 8px;
 }
 
+.search-icon {
+	margin-right: 4px;
+}
+
 .search-input {
 	flex: 1;
-	margin-left: 4px;
 	outline: 0;
 	border: 0;
 	background: transparent;
