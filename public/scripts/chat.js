@@ -125,14 +125,12 @@ function renderMessages (state) {
 }
 
 const backButton = window.sessionStorage.getItem('backButton')
-const chatBack = document.getElementById('chatBack')
 const homeRoute = window.sessionStorage.getItem('route')
 
 if (backButton === null) {
-  chatBack.href = './station.html'
+  console.log('hi')
 } else {
   subtitle.innerText = homeRoute
   back.innerText = backButton
-  chatBack.href = './index.html'
 }
 window.sessionStorage.removeItem('backButton')
