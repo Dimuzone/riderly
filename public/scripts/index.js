@@ -102,28 +102,33 @@ function render (state) {
       ]),
       tab === 'recents'
         ? recents.length
-            ? div({ class: 'section-options' }, recents.map(renderStation))
+            ? div({ class: 'section-options' }, recents.map(renderstn))
             : span({ class: 'section-notice' },
               'When you view a station, it will appear here.')
         : saves.length
-          ? div({ class: 'section-options' }, saves.map(renderStation))
+          ? div({ class: 'section-options' }, saves.map(renderstn))
           : span({ class: 'section-notice' },
             'When you save a station, it will appear here.')
     ]),
     section({ class: 'section -messages' }, [
       h2({ class: 'section-title' }, 'Recent Messages'),
       messages.length
-        ? div({ class: 'section-options' }, messages.map(renderMessage))
+        ? div({ class: 'section-options' }, messages.map(rendermsg))
         : span({ class: 'section-notice' },
           'No recent user activity!')
     ])
   ]))
 }
 
-function renderStation (station) {
+function renderstn (station) {
   const [on, at] = normstn(station.name)
   function onclick () {
-
+    window.sessionStorage.setItem('stationId', station.id)
+    window.sessionStorage.setItem('route', station.route)
+    window.sessionStorage.setItem('stationName', station.name)
+    window.sessionStorage.setItem('before', station.before)
+    window.sessionStorage.setItem('after', station.after)
+    window.location.href = 'station.html'
   }
   return div({ class: 'option', onclick }, [
     div({ class: 'option-lhs' }, [
@@ -137,7 +142,7 @@ function renderStation (station) {
   ])
 }
 
-function renderMessage (message) {
+function rendermsg (message) {
   const now = Date.now()
   const ago = timediff(message.timestamp, now)
   return div({ class: 'option -message' }, [
