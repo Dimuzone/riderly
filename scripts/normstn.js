@@ -5,7 +5,9 @@ window.normstn = function normstn (name) {
   } else if (on.startsWith('Eastbound')) {
     on = on.slice('Eastbound'.length + 1) + ' E'
   }
-  return at.startsWith('Bay')
-    ? [on, at]
-    : [at, on]
+  return at
+    ? at.startsWith('Bay')
+        ? [on, at]
+        : [at, on]
+    : [on]
 }
