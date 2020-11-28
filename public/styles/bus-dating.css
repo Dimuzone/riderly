@@ -183,7 +183,7 @@ h2 {
 .search-bar:focus-within {
 	background: var(--color-bg);
 	border-color: var(--blue);
-	box-shadow: 0 2px 4px var(--darkgray);
+	box-shadow: 0 2px 2px var(--silver);
 }
 
 .search-bar:focus-within .search-icon {
