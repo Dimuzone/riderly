@@ -224,7 +224,6 @@ h2 {
 .option-text {
 	color: var(--darkgray);
 	font-weight: bold;
-	margin-bottom: 2px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;

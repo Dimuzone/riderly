@@ -8,12 +8,22 @@ const welcome = document.getElementById('welcome')
 const page = document.querySelector('.page.-home')
 
 const state = {
+  user: null,
   stations: [],
   messages: []
 }
 
 ;(async function main () {
+  let recents = window.localStorage.getItem('recents')
+  recents = recents ? recents.split(',') : []
+
+  for (const recent of recents) {
+    const [id, route, name, before, after] = recent.split('-')
+    state.stations.push({ id, route, name, before, after })
+  }
+
   render(state)
+
   const col = await db.collection('messages')
     .orderBy('timestamp', 'desc')
     .limit(3)
@@ -57,13 +67,13 @@ firebase.auth().onAuthStateChanged(user => {
   })
 })
 
-function render ({ stations, messages }) {
+function render ({ user, stations, messages }) {
   patch(page, main({ class: 'page -home' }, [
     section({ class: 'section -stations' }, [
       h2({ class: 'section-title' },
-        stations.length ? '' : 'Recent ' + 'Stations'),
+        (user ? '' : 'Recent ') + 'Stations'),
       stations.length
-        ? stations.map(renderStation)
+        ? div({ class: 'section-options' }, stations.map(renderStation))
         : span({ class: 'section-notice' },
           'When you view a station\'s info, it will appear here.')
     ]),
@@ -78,38 +88,20 @@ function render ({ stations, messages }) {
 }
 
 function renderStation (station) {
-  return span('station')
-}
+  function onclick () {
 
-function renderMessage (message) {
-  const now = Date.now()
-  const ago = timediff(message.timestamp, now)
-  return div({ class: 'option' }, [
+  }
+  return div({ class: 'option', onclick }, [
     div({ class: 'option-lhs' }, [
-      span({ class: 'option-text' }, `"${message.content}"`),
+      span({ class: 'option-text' }, station.name),
       span({ class: 'option-subtext' },
-        ['from ', strong(message.username), ' at ', strong(message.route)])
+        [strong(station.id), ' ‧ Route ', strong(station.route)])
     ]),
     div({ class: 'option-rhs' }, [
-      span({ class: 'option-iconlabel' }, ago),
       span({ class: 'icon -option material-icons' }, 'chevron_right')
     ])
   ])
 }
-
-// // Add recents
-// let recents = localStorage.getItem('recents')
-// recents = recents ? recents.split(',') : []
-
-// history.onclick = _ => {
-//   patch(stationWrap, div({
-//     id: 'station'
-//   }, recents.map(renderRecent)))
-// }
-
-// patch(stationWrap, div({
-//   id: 'station'
-// }, recents.map(renderRecent)))
 
 // function renderRecent (recent) {
 //   const newStation = recent.split('-')
@@ -129,28 +121,18 @@ function renderMessage (message) {
 //     ])
 // }
 
-// // Recent messages
-// const messages = []
-// const now = Date.now()
-// const messageWrap = document.getElementById('recentmsg')
-
-// db.collection('messages').orderBy('timestamp', 'desc').limit(3)
-//   .get().then(col => {
-//     col.forEach(doc => messages.push(doc.data()))
-//     patch(messageWrap, div({
-//       id: 'recentmsg'
-//     }, messages.map(renderRecentMsg)))
-//   })
-
-// function renderRecentMsg (recentmsg) {
-//   return div({ class: 'option' },
-//     [div({ class: 'option-data' },
-//       [p({ class: 'option-text' }, [recentmsg.route]),
-//         div({ class: 'option-subtext' }, [recentmsg.username + ': ' + recentmsg.content])
-//       ]),
-//     div({ class: 'timewrap' },
-//       [span({ class: 'time' }, window.strifytime(recentmsg.timestamp, now)),
-//         span({ class: 'option-icon material-icons' }, 'chevron_right')
-//       ])
-//     ])
-// }
+function renderMessage (message) {
+  const now = Date.now()
+  const ago = timediff(message.timestamp, now)
+  return div({ class: 'option -message' }, [
+    div({ class: 'option-lhs' }, [
+      span({ class: 'option-text' }, `"${message.content}"`),
+      span({ class: 'option-subtext' },
+        ['from ', strong(message.username), ' at ', strong(message.route)])
+    ]),
+    div({ class: 'option-rhs' }, [
+      span({ class: 'option-iconlabel' }, ago),
+      span({ class: 'icon -option material-icons' }, 'chevron_right')
+    ])
+  ])
+}
