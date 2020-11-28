@@ -1,9 +1,12 @@
+const dirs = ['Westbound', 'Eastbound', 'Northbound', 'Southbound']
+
 window.normstn = function normstn (name) {
   let [on, at] = name.split(' @ ')
-  if (on.startsWith('Westbound')) {
-    on = on.slice('Westbound'.length + 1) + ' W'
-  } else if (on.startsWith('Eastbound')) {
-    on = on.slice('Eastbound'.length + 1) + ' E'
+  for (const dir of dirs) {
+    if (on.startsWith(dir)) {
+      on = on.slice(dir.length + 1) + ' ' + dir[0]
+      break
+    }
   }
   return at
     ? at.startsWith('Bay')
