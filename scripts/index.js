@@ -1,6 +1,6 @@
 const {
-  firebase, db, timediff, patch,
-  main, section, div, h2, span, strong
+  firebase, db, timediff, normstn, patch,
+  main, section, div, h2, button, span, strong
 } = window
 
 const login = document.getElementById('login')
@@ -8,19 +8,32 @@ const welcome = document.getElementById('welcome')
 const page = document.querySelector('.page.-home')
 
 const state = {
-  stations: [],
+  user: null,
+  tab: 'recents',
+  recents: [],
+  saves: [],
   messages: []
 }
 
+const switchtab = (state, newtab) =>
+  ({ ...state, tab: newtab })
+
 ;(async function main () {
-  render(state)
+  let cache = window.localStorage.getItem('recents')
+  cache = cache ? cache.split(',') : []
+
+  for (const recent of cache) {
+    const [id, route, name, before, after] = recent.split('-')
+    state.recents.push({ id, route, name, before, after })
+  }
+
   const col = await db.collection('messages')
     .orderBy('timestamp', 'desc')
-    .limit(3)
-    .get()
+    .limit(3).get()
   for (const doc of col.docs) {
     state.messages.push(doc.data())
   }
+
   render(state)
 })()
 
@@ -36,39 +49,64 @@ login.onclick = async function () {
   }
 }
 
-firebase.auth().onAuthStateChanged(user => {
-  // if user isn't logged in, we don't need to do anything extra
-  if (!user) return
+firebase.auth().onAuthStateChanged(async user => {
+  // if user isn't logged in, we don't need to do anything extra.
+  // just render and exit
+  if (!user) return render(state)
 
   // set button text
   login.innerText = 'Logout'
 
-  db.collection('users').doc(user.uid).get().then(users => {
-    const name = users.data().name.split(' ')
-    welcome.innerText = 'Hi, ' + name[0] + '!'
-
-    // // Saved Station button
-    // saved.onclick = _ => {
-    //   const savedstations = users.data().saves
-    //   patch(stationWrap, div({
-    //     id: 'station'
-    //   }, savedstations.map(renderRecent)))
-    // }
-  })
+  // save user data
+  const doc = await db.collection('users').doc(user.uid).get()
+  const userdata = doc.data()
+  state.user = userdata
+  state.saves = userdata.saves
+  render(state)
 })
 
-function render ({ stations, messages }) {
+function render (state) {
+  const { user, tab, recents, saves, messages } = state
+  const name = user ? user.name.split(' ')[0] : ''
   patch(page, main({ class: 'page -home' }, [
+    user
+      ? span({ class: 'greeting' },
+          ['Hi, ', strong(name), '!'])
+      : '',
     section({ class: 'section -stations' }, [
       h2({ class: 'section-title' },
-        stations.length ? '' : 'Recent ' + 'Stations'),
-      stations.length
-        ? stations.map(renderStation)
-        : span({ class: 'section-notice' },
-          'When you view a station\'s info, it will appear here.')
+        (user ? '' : 'Recent ') + 'Stations'),
+      div({ class: 'section-tabs' }, [
+        button({
+          class: 'section-tab' + (tab === 'recents' ? ' -select' : ''),
+          onclick: _ => render(switchtab(state, 'recents'))
+        }, [
+          span({ class: 'icon -tab material-icons' },
+            tab === 'recents' ? 'watch_later' : 'access_time'),
+          'History'
+        ]),
+        button({
+          class: 'section-tab' + (tab === 'saves' ? ' -select' : ''),
+          onclick: _ => render(switchtab(state, 'saves'))
+        }, [
+          span({ class: 'icon -tab material-icons' },
+            tab === 'saves' ? 'star' : 'star_outline'),
+          'Saved'
+        ])
+      ]),
+      tab === 'recents'
+        ? recents.length
+            ? div({ class: 'section-options' }, recents.map(renderStation))
+            : span({ class: 'section-notice' },
+              'When you view a station, it will appear here.')
+        : saves.length
+          ? div({ class: 'section-options' }, saves.map(renderStation))
+          : span({ class: 'section-notice' },
+            'When you save a station, it will appear here.')
     ]),
     section({ class: 'section -messages' }, [
-      h2({ class: 'section-title' }, 'Recent Messages'),
+      h2({ class: 'section-title' },
+        (user ? '' : 'Recent ') + 'Messages'),
       messages.length
         ? div({ class: 'section-options' }, messages.map(renderMessage))
         : span({ class: 'section-notice' },
@@ -78,13 +116,26 @@ function render ({ stations, messages }) {
 }
 
 function renderStation (station) {
-  return span('station')
+  const [on, at] = normstn(station.name)
+  function onclick () {
+
+  }
+  return div({ class: 'option', onclick }, [
+    div({ class: 'option-lhs' }, [
+      span({ class: 'option-text' }, on),
+      span({ class: 'option-subtext' },
+        [station.route, ' ‧ ', station.id, ' · on ', strong(at)])
+    ]),
+    div({ class: 'option-rhs' }, [
+      span({ class: 'icon -option material-icons' }, 'chevron_right')
+    ])
+  ])
 }
 
 function renderMessage (message) {
   const now = Date.now()
   const ago = timediff(message.timestamp, now)
-  return div({ class: 'option' }, [
+  return div({ class: 'option -message' }, [
     div({ class: 'option-lhs' }, [
       span({ class: 'option-text' }, `"${message.content}"`),
       span({ class: 'option-subtext' },
@@ -96,61 +147,3 @@ function renderMessage (message) {
     ])
   ])
 }
-
-// // Add recents
-// let recents = localStorage.getItem('recents')
-// recents = recents ? recents.split(',') : []
-
-// history.onclick = _ => {
-//   patch(stationWrap, div({
-//     id: 'station'
-//   }, recents.map(renderRecent)))
-// }
-
-// patch(stationWrap, div({
-//   id: 'station'
-// }, recents.map(renderRecent)))
-
-// function renderRecent (recent) {
-//   const newStation = recent.split('-')
-//   function onclick () {
-//     window.sessionStorage.setItem('after', newStation[4])
-//     window.sessionStorage.setItem('before', newStation[3])
-//     window.sessionStorage.setItem('stationId', newStation[0])
-//     window.sessionStorage.setItem('stationName', newStation[2])
-//     window.sessionStorage.setItem('route', newStation[1])
-//     window.location.href = 'station.html'
-//   }
-//   return div({ class: 'option', onclick: onclick },
-//     [div({ class: 'option-data' },
-//       [p({ class: 'option-text' }, [newStation[2]]),
-//         div({ class: 'option-subtext' }, ['Route ' + newStation[1] + ' ‧ ' + newStation[0]])
-//       ])
-//     ])
-// }
-
-// // Recent messages
-// const messages = []
-// const now = Date.now()
-// const messageWrap = document.getElementById('recentmsg')
-
-// db.collection('messages').orderBy('timestamp', 'desc').limit(3)
-//   .get().then(col => {
-//     col.forEach(doc => messages.push(doc.data()))
-//     patch(messageWrap, div({
-//       id: 'recentmsg'
-//     }, messages.map(renderRecentMsg)))
-//   })
-
-// function renderRecentMsg (recentmsg) {
-//   return div({ class: 'option' },
-//     [div({ class: 'option-data' },
-//       [p({ class: 'option-text' }, [recentmsg.route]),
-//         div({ class: 'option-subtext' }, [recentmsg.username + ': ' + recentmsg.content])
-//       ]),
-//     div({ class: 'timewrap' },
-//       [span({ class: 'time' }, window.strifytime(recentmsg.timestamp, now)),
-//         span({ class: 'option-icon material-icons' }, 'chevron_right')
-//       ])
-//     ])
-// }

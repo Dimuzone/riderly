@@ -11,10 +11,47 @@
 .section-notice {
   background: var(--white);
   display: block;
-  margin-top: 8px;
-  padding: 16px 8px;
+  margin-top: 5px;
+  padding: 12px 16px;
   border-radius: 4px;
   font-size: 0.875rem;
   line-height: 1.25;
   text-align: center;
+}
+
+.section-tabs {
+  display: flex;
+  border-bottom: thin solid var(--lightgray);
+}
+
+.section-tab {
+  color: var(--lightgray);
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 12px 0 10px;
+  border-bottom: 2px solid transparent;
+  background: 0 0;
+  outline: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.icon.-tab {
+  font-size: 16px;
+  padding-right: 4px;
+}
+
+.section-tab.-select {
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+.greeting {
+  display: block;
+  font-size: 0.875rem;
+  text-align: center;
+  padding-top: 12px;
+  margin-bottom: -12px;
 }
