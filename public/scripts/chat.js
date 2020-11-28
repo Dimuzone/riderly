@@ -123,3 +123,16 @@ function renderMessages (state) {
   const el = div({ class: 'message-groups' }, groups)
   return el
 }
+
+const backButton = window.sessionStorage.getItem('backButton')
+const chatBack = document.getElementById('chatBack')
+const homeRoute = window.sessionStorage.getItem('route')
+
+if (backButton === null) {
+  chatBack.href = './station.html'
+} else {
+  subtitle.innerText = homeRoute
+  back.innerText = backButton
+  chatBack.href = './index.html'
+}
+window.sessionStorage.removeItem('backButton')

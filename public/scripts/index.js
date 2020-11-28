@@ -143,9 +143,15 @@ function renderstn (station) {
 }
 
 function rendermsg (message) {
+  function onclick () {
+    window.sessionStorage.setItem('backButton', 'Home')
+    window.sessionStorage.setItem('route', message.route)
+    window.location.href = 'chat.html'
+  }
+
   const now = Date.now()
   const ago = timediff(message.timestamp, now)
-  return div({ class: 'option -message' }, [
+  return div({ class: 'option -message', onclick: onclick }, [
     div({ class: 'option-lhs' }, [
       span({ class: 'option-text' }, `"${message.content}"`),
       span({ class: 'option-subtext' },
