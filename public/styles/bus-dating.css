@@ -58,6 +58,10 @@ ul {
 	list-style: none;
 }
 
+strong {
+	font-weight: bold;
+}
+
 /* Project-specific styles */
 
 body {
@@ -203,6 +207,19 @@ h2 {
 	justify-content: space-between;
 }
 
+.option-lhs {
+	display: flex;
+	flex-direction: column;
+}
+
+.option-rhs {
+	display: flex;
+	align-items: center;
+	padding-left: 8px;
+	font-size: 0.875rem;
+	font-weight: bold;
+}
+
 .option-text {
 	color: var(--darkgray);
 	font-weight: bold;
@@ -212,11 +229,6 @@ h2 {
 .option-subtext {
 	color: var(--gray);
 	font-size: 0.875rem;
-}
-
-.timewrap {
-	display: flex;
-	align-items: center;
 }
 
 .page {

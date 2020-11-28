@@ -1,6 +1,6 @@
 const {
-  firebase, db, patch,
-  main, section, h2, span
+  firebase, db, timediff, patch,
+  main, section, div, h2, span, strong
 } = window
 
 const login = document.getElementById('login')
@@ -11,7 +11,18 @@ const state = {
   stations: [],
   messages: []
 }
-render(state)
+
+;(async function main () {
+  render(state)
+  const col = await db.collection('messages')
+    .orderBy('timestamp', 'desc')
+    .limit(3)
+    .get()
+  for (const doc of col.docs) {
+    state.messages.push(doc.data())
+  }
+  render(state)
+})()
 
 // login/logout button
 login.onclick = async function () {
@@ -59,7 +70,7 @@ function render ({ stations, messages }) {
     section({ class: 'section -messages' }, [
       h2({ class: 'section-title' }, 'Recent Messages'),
       messages.length
-        ? messages.map(renderMessage)
+        ? div({ class: 'section-options' }, messages.map(renderMessage))
         : span({ class: 'section-notice' },
           'No recent user activity!')
     ])
@@ -71,7 +82,19 @@ function renderStation (station) {
 }
 
 function renderMessage (message) {
-  return span('message')
+  const now = Date.now()
+  const ago = timediff(message.timestamp, now)
+  return div({ class: 'option' }, [
+    div({ class: 'option-lhs' }, [
+      span({ class: 'option-text' }, `"${message.content}"`),
+      span({ class: 'option-subtext' },
+        ['from ', strong(message.username), ' at ', strong(message.route)])
+    ]),
+    div({ class: 'option-rhs' }, [
+      span({ class: 'option-iconlabel' }, ago),
+      span({ class: 'icon -option material-icons' }, 'chevron_right')
+    ])
+  ])
 }
 
 // // Add recents
