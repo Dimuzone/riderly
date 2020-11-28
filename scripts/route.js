@@ -1,4 +1,4 @@
-const { db, patch, div, p, span } = window
+const { db, normstn, patch, div, p, span } = window
 
 // Setting variables for elements to be changed later
 const search = document.getElementById('search-bar')
@@ -122,9 +122,9 @@ function renderStation (station) {
     window.location.href = 'station.html'
   }
 
-  const [on, at] = station.name.split(' @ ')
-  const text = at.startsWith('Bay') ? on : at
-  const subtext = station.id + ' · ' + (at.startsWith('Bay') ? at : on)
+  const [on, at] = normstn(station.name)
+  const text = on
+  const subtext = station.id + ' · ' + at
 
   return div({ class: 'option', onclick: onclick }, [
     div({ class: 'option-data' }, [

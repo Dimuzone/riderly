@@ -5,11 +5,15 @@ const routewrap = document.getElementById('routes')
 const state = { routes: [] }
 
 ;(async function main () {
-  // Get all routes from Firestore and rerender
-  const routes = []
-  const col = await db.collection('routes').get()
-  for (const doc of col.docs) {
-    routes.push({ ...doc.data(), id: doc.id })
+  let routes = JSON.parse(window.localStorage.getItem('routes'))
+  if (!routes) {
+    // Get all routes from Firestore and rerender
+    routes = []
+    const col = await db.collection('routes').get()
+    for (const doc of col.docs) {
+      routes.push({ ...doc.data(), id: doc.id })
+    }
+    window.localStorage.setItem('routes', JSON.stringify(routes))
   }
   state.routes = routes
   render(state)
@@ -21,7 +25,7 @@ const state = { routes: [] }
   }
 })()
 
-function render(state) {
+function render (state) {
   patch(routewrap,
     div({ class: 'routes' }, state.routes.map(renderRoute)))
 }
