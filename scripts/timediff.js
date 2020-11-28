@@ -1,4 +1,4 @@
-window.strifytime = function strifytime (then, now) {
+window.timediff = function timediff (then, now) {
   const s = 1000
   const m = s * 60
   const h = m * 60
