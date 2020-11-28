@@ -117,7 +117,7 @@ h2 {
 }
 
 .title {
-	line-height: 1;
+	line-height: 0.75;
 	order: 2;
 }
 
@@ -181,6 +181,18 @@ h2 {
 
 .search-bar:focus-within .search-icon {
 	color: var(--blue);
+}
+
+.section {
+	padding-top: 24px;
+}
+
+.section-title {
+	padding-bottom: 4px;
+	border-bottom: thin solid var(--lightgray);
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.0625rem;
 }
 
 .option {
