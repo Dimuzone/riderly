@@ -1,5 +1,5 @@
 const {
-  firebase, db, timediff, patch,
+  firebase, db, timediff, normstn, patch,
   main, section, div, h2, span, strong
 } = window
 
@@ -88,38 +88,21 @@ function render ({ user, stations, messages }) {
 }
 
 function renderStation (station) {
+  const [on, at] = normstn(station.name)
   function onclick () {
 
   }
   return div({ class: 'option', onclick }, [
     div({ class: 'option-lhs' }, [
-      span({ class: 'option-text' }, station.name),
+      span({ class: 'option-text' }, on),
       span({ class: 'option-subtext' },
-        [strong(station.id), ' ‧ Route ', strong(station.route)])
+        [station.route, ' ‧ ', station.id, ' · on ', strong(at)])
     ]),
     div({ class: 'option-rhs' }, [
       span({ class: 'icon -option material-icons' }, 'chevron_right')
     ])
   ])
 }
-
-// function renderRecent (recent) {
-//   const newStation = recent.split('-')
-//   function onclick () {
-//     window.sessionStorage.setItem('after', newStation[4])
-//     window.sessionStorage.setItem('before', newStation[3])
-//     window.sessionStorage.setItem('stationId', newStation[0])
-//     window.sessionStorage.setItem('stationName', newStation[2])
-//     window.sessionStorage.setItem('route', newStation[1])
-//     window.location.href = 'station.html'
-//   }
-//   return div({ class: 'option', onclick: onclick },
-//     [div({ class: 'option-data' },
-//       [p({ class: 'option-text' }, [newStation[2]]),
-//         div({ class: 'option-subtext' }, ['Route ' + newStation[1] + ' ‧ ' + newStation[0]])
-//       ])
-//     ])
-// }
 
 function renderMessage (message) {
   const now = Date.now()
