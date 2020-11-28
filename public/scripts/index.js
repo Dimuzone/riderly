@@ -1,6 +1,6 @@
 const {
   firebase, db, timediff, normstn, patch,
-  main, section, div, h2, span, strong
+  main, section, div, h2, button, span, strong
 } = window
 
 const login = document.getElementById('login')
@@ -9,10 +9,14 @@ const page = document.querySelector('.page.-home')
 
 const state = {
   user: null,
+  tab: 'recents',
   recents: [],
   saves: [],
   messages: []
 }
+
+const switchtab = (state, newtab) =>
+  ({ ...state, tab: newtab })
 
 ;(async function main () {
   let cache = window.localStorage.getItem('recents')
@@ -61,20 +65,44 @@ firebase.auth().onAuthStateChanged(async user => {
   render(state)
 })
 
-function render ({ user, recents, saves, messages }) {
+function render (state) {
+  const { user, tab, recents, saves, messages } = state
   const name = user ? user.name.split(' ')[0] : ''
   patch(page, main({ class: 'page -home' }, [
-    !name
-      ? ''
-      : span({ class: 'greeting' },
-        ['Hi, ', strong(name), '!']),
+    user
+      ? span({ class: 'greeting' },
+          ['Hi, ', strong(name), '!'])
+      : '',
     section({ class: 'section -stations' }, [
       h2({ class: 'section-title' },
         (user ? '' : 'Recent ') + 'Stations'),
-      recents.length
-        ? div({ class: 'section-options' }, recents.map(renderStation))
-        : span({ class: 'section-notice' },
-          'When you view a station\'s info, it will appear here.')
+      div({ class: 'section-tabs' }, [
+        button({
+          class: 'section-tab' + (tab === 'recents' ? ' -select' : ''),
+          onclick: _ => render(switchtab(state, 'recents'))
+        }, [
+          span({ class: 'icon -tab material-icons' },
+            tab === 'recents' ? 'watch_later' : 'access_time'),
+          'History'
+        ]),
+        button({
+          class: 'section-tab' + (tab === 'saves' ? ' -select' : ''),
+          onclick: _ => render(switchtab(state, 'saves'))
+        }, [
+          span({ class: 'icon -tab material-icons' },
+            tab === 'saves' ? 'star' : 'star_outline'),
+          'Saved'
+        ])
+      ]),
+      tab === 'recents'
+        ? recents.length
+            ? div({ class: 'section-options' }, recents.map(renderStation))
+            : span({ class: 'section-notice' },
+              'When you view a station\'s info, it will appear here.')
+        : saves.length
+          ? div({ class: 'section-options' }, saves.map(renderStation))
+          : span({ class: 'section-notice' },
+            'When you save a station, it will appear here.')
     ]),
     section({ class: 'section -messages' }, [
       h2({ class: 'section-title' }, 'Recent Messages'),
