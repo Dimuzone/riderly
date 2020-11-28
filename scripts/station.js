@@ -1,4 +1,7 @@
-const { firebase, db, patch, div, span, localStorage, p, sessionStorage } = window
+const {
+  firebase, db, timediff, patch,
+  div, span, localStorage, p, sessionStorage
+} = window
 
 // The station ID ex. 34654
 const stationId = parseInt(sessionStorage.getItem('stationId'))
@@ -125,7 +128,6 @@ function removeStation (station) {
 
 // display recent message
 const messages = []
-const now = Date.now()
 const stationMessageWrap = document.getElementById('recentmsg')
 db.collection('messages').where('route', '==', routeId).orderBy('timestamp', 'desc').limit(3)
   .get().then(col => {
@@ -136,11 +138,13 @@ db.collection('messages').where('route', '==', routeId).orderBy('timestamp', 'de
   })
 
 function renderRecentMsg (recentmsg) {
+  const now = Date.now()
+  const ago = timediff(recentmsg.timestamp, now)
   return div({ class: 'option' }, [
     div({ class: 'option-data' }, [p({ class: 'option-text' }, [recentmsg.route]),
       div({ class: 'option-subtext' }, [recentmsg.username + ': ' + recentmsg.content])
     ]),
-    div({ class: 'timewrap' }, [span({ class: 'time' }, window.strifytime(recentmsg.timestamp, now)),
+    div({ class: 'timewrap' }, [span({ class: 'time' }, ago),
       span({ class: 'option-icon material-icons' }, 'chevron_right')])
   ])
 }
