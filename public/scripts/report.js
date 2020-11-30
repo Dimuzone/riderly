@@ -1,8 +1,18 @@
+// The Route ID ex. 49W
+const routeId = window.sessionStorage.getItem('route')
+
+// The station ID ex. 34654
+const stationId = parseInt(window.sessionStorage.getItem('stationId'))
+
+// Report status
 const seat = ['empty', 'standonly', 'full']
 const time = ['ontime', 'late', 'verylate']
 const mask = ['complete', 'partial', 'few']
 
 const form = document.querySelector('.report-form')
+
+// set page title
+document.getElementById('name').innerText = routeId + '-' + stationId
 
 // Reporting
 form.onsubmit = event => {
@@ -16,8 +26,8 @@ form.onsubmit = event => {
 
   newReport.set({
     author: 'guest',
-    station: 52500,
-    route: '49W',
+    station: stationId,
+    route: routeId,
     seating: seat.indexOf(seatStatus),
     timing: time.indexOf(timeStatus),
     masks: mask.indexOf(maskStatus),

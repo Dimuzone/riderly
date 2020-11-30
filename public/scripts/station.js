@@ -165,3 +165,11 @@ if (localStorage.getItem('recents') == null) {
   }
   console.log(localStorage.getItem('recents'))
 }
+
+// Update report
+const update = document.getElementById('update')
+update.onclick = function report () {
+  window.sessionStorage.setItem('stationId', station.id)
+  window.sessionStorage.setItem('route', station.route)
+  window.location.href = 'report.html'
+}
