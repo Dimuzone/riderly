@@ -1,5 +1,5 @@
 const {
-  firebase, db, timediff, patch,
+  firebase, db, timediff, normstn, patch,
   div, span, localStorage, p, sessionStorage
 } = window
 
@@ -8,78 +8,86 @@ back.onclick = _ => {
   window.history.back()
 }
 
-// The station ID ex. 34654
-const stationId = parseInt(sessionStorage.getItem('stationId'))
+const cache = {
+  stationId: +sessionStorage.getItem('stationId'),
+  stationName: sessionStorage.getItem('stationName'),
+  stationEnd: sessionStorage.getItem('stationEnd'),
+  route: sessionStorage.getItem('route'),
+  before: sessionStorage.getItem('before'),
+  after: sessionStorage.getItem('after')
+}
 
-// The Current Station Name ex. Birney Ave
-const currentStation = sessionStorage.getItem('stationName')
+sessionStorage.removeItem('stationEnd')
 
-// The Route ID ex. 49W
-const routeId = sessionStorage.getItem('route')
+let name = cache.stationName
+let before = cache.before
+let after = cache.after
 
-// The station Before the current station
-const before = sessionStorage.getItem('before')
+if (cache.stationEnd === 'first') {
+  before = cache.stationName
+  name = cache.after
+  after = cache.before
+  document.querySelector('.station.-current').classList.remove('-select')
+  document.querySelector('.station.-before').classList.add('-select')
+} else if (cache.stationEnd === 'last') {
+  before = cache.after
+  name = cache.before
+  after = cache.stationName
+  document.querySelector('.station.-current').classList.remove('-select')
+  document.querySelector('.station.-after').classList.add('-select')
+}
 
-// The Station After the current Station
-const after = sessionStorage.getItem('after')
-
-// Splitting the station names as they are
-// "Eastbound Central Blvd @ Willingdon Ave" and we only want the name
-const [on, at] = currentStation.split(' @ ')
-const name = at.startsWith('Bay') ? on : at
-const [onB, atB] = before.split(' @ ')
-const beforeName = atB.startsWith('Bay') ? onB : atB
-const [onA, atA] = after.split(' @ ')
-const afterName = atA.startsWith('Bay') ? onA : atA
+before = normstn(before)[0]
+name = normstn(name)[0]
+after = normstn(after)[0]
 
 const join = document.getElementById('join')
-join.innerText = 'Join chat for Route ' + routeId
+join.innerText = 'Join chat for Route ' + cache.route
 join.onclick = _ => {
   window.location.href = 'chat.html'
 }
 
+document.getElementById('name').innerText = normstn(cache.stationName)[0]
+document.getElementById('routeAndId').innerText = cache.route + ' - #' + cache.stationId
+document.getElementById('routeId').innerText = cache.route
 document.getElementById('currentName').innerText = name
-document.getElementById('name').innerText = name
-document.getElementById('routeAndId').innerText = routeId + ' - #' + stationId
-document.getElementById('routeId').innerText = routeId
-document.getElementById('currentName').innerText = name
-document.getElementById('before').innerText = beforeName
-document.getElementById('after').innerText = afterName
+document.getElementById('before').innerText = before
+document.getElementById('after').innerText = after
 
 // Display recent report
-const seating = ['Empty', 'Seating Only', 'Full']
-const timing = ['On time', 'Late', 'Very late']
-const mask = ['Complete', 'Parial', 'Few']
+const seating = ['Empty', 'Seating only', 'Full']
+const timing = ['On time', 'Late', 'Very Late']
+const mask = ['Complete', 'Partial', 'Few']
 const colors = ['-green', '-yellow', '-red']
 
 db.collection('reports')
-  .where('station', '==', stationId)
-  .where('route', '==', routeId)
+  .where('station', '==', cache.stationId)
+  .where('route', '==', cache.route)
   .orderBy('timestamp', 'desc').limit(1)
   .get()
   .then(col => {
     const reports = []
     col.forEach(doc => reports.push(doc.data()))
     const report = reports[0]
-    console.log(report)
+    if (report) {
+      const seatingStatus = document.getElementsByClassName('-seating')[0]
+      seatingStatus.innerText = seating[report.seating]
+      seatingStatus.classList.add(colors[report.seating])
 
-    const seatingStatus = document.getElementsByClassName('-seating')[0]
-    seatingStatus.innerText = seating[report.seating]
-    seatingStatus.classList.add(colors[report.seating])
+      const timingStatus = document.getElementsByClassName('-timing')[0]
+      timingStatus.innerText = timing[report.timing]
+      timingStatus.classList.add(colors[report.timing])
 
-    const timingStatus = document.getElementsByClassName('-timing')[0]
-    timingStatus.innerText = timing[report.timing]
-    timingStatus.classList.add(colors[report.timing])
-
-    const maskStatus = document.getElementsByClassName('-mask')[0]
-    maskStatus.innerText = mask[report.masks]
-    maskStatus.classList.add(colors[report.masks])
+      const maskStatus = document.getElementsByClassName('-mask')[0]
+      maskStatus.innerText = mask[report.masks]
+      maskStatus.classList.add(colors[report.masks])
+    }
   })
 
-const station = stationId
-const route = routeId
+const station = cache.stationId
+const route = cache.route
 const star = document.getElementById('star')
-const stationName = currentStation
+const stationName = cache.currentStation
 const previous = sessionStorage.getItem('before')
 const thisStation = station + '-' + route + '-' + stationName + '-' + previous + '-' + after
 
@@ -134,7 +142,7 @@ function removeStation (station) {
 // display recent message
 const messages = []
 const stationMessageWrap = document.getElementById('recentmsg')
-db.collection('messages').where('route', '==', routeId).orderBy('timestamp', 'desc').limit(3)
+db.collection('messages').where('route', '==', cache.route).orderBy('timestamp', 'desc').limit(3)
   .get().then(col => {
     col.forEach(doc => messages.push(doc.data()))
     console.log(messages)

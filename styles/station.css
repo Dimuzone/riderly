@@ -1,4 +1,5 @@
 /*********** Header *************/
+
 .title {
     font-size: 16px;
 }
@@ -10,14 +11,14 @@
 }
 
 /*********** station-table ***********/
+
 .route {
-    height: 80px;
+    width: 90%;
+    margin: 0 auto;
     border-bottom: thin solid var(--color-outline);
 }
 
-.this-station,
-.before,
-.after {
+.this-station, .before, .after {
     font-weight: bold;
     font-size: .75em;
 }
@@ -29,22 +30,16 @@
     padding-bottom: 4px;
 }
 
-.before {
+.stations-below {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     text-transform: uppercase;
-    float: left;
     padding-top: 4px;
     padding-bottom: 12px;
 }
 
-.after {
-    text-transform: uppercase;
-    float: right;
-    padding-top: 4px;
-}
-
 .station-table {
-    width: 90%;
-    margin: 0 auto 0 auto;
     display: flex;
     justify-content: space-between;
     position: relative;
@@ -60,6 +55,7 @@
 }
 
 /*********** lines ***********/
+
 .station+.station::before {
     content: "";
     display: block;
@@ -73,24 +69,16 @@
 }
 
 .station.-select {
-    border-color: var(--blue);
-}
-
-/*********** selection circle ***********/
-.station.-select::after {
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
+    margin: 2px;
     background: var(--blue);
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    border-color: white;
+    box-shadow: 0 0 0 2px var(--blue);
 }
 
 /*********** TRANSIT INFORMATION ***********/
+
 .info-title {
     font-weight: 700;
     font-size: 0.75em;
@@ -137,6 +125,7 @@
 }
 
 /*********** TOP MESSAGE ***********/
+
 .message-title {
     font-weight: 700;
     font-size: 0.75em;
@@ -148,4 +137,13 @@
 
 .button {
     margin-top: 22px;
+}
+
+.time {
+    font-size: 0.875rem;
+}
+
+.timewrap {
+    display: flex;
+    align-items: center;
 }

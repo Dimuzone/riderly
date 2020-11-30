@@ -19,6 +19,7 @@
     <script defer src="./scripts/h2.js"></script>
     <script defer src="./scripts/db.js"></script>
     <script defer src="./scripts/timediff.js"></script>
+	<script defer src="./scripts/normstn.js"></script>
     <script defer src="./scripts/station.js"></script>
 </head>
 
@@ -41,15 +42,13 @@
         <div class="route">
             <div id="currentName" class="this-station">CENTRAL BLVD E</div>
             <div class="station-table">
-                <div class="station"></div>
-                <div class="station -select"></div>
-                <div class="station"></div>
+                <div class="station -before"></div>
+                <div class="station -current -select"></div>
+                <div class="station -after"></div>
             </div>
-            <div id="before" class="before">
-                METROTOWN
-            </div>
-            <div id="after" class="after">
-                WAVERLEY AVE
+            <div class="stations-below">
+                <div id="before" class="before">METROTOWN</div>
+                <div id="after" class="after">WAVERLEY AVE</div>
             </div>
         </div>
         <div class="info-title">
@@ -65,7 +64,7 @@
                     <div class="status -timing -green">On time</div>
                 </div>
                 <div class="mask">MASK USAGE
-                    <div class="status -mask -green">Partial</div>
+                    <div class="status -mask -green">Complete</div>
                 </div>
             </div>
         </div>
