@@ -13,7 +13,8 @@
 /*********** station-table ***********/
 
 .route {
-    height: 80px;
+    width: 90%;
+    margin: 0 auto;
     border-bottom: thin solid var(--color-outline);
 }
 
@@ -29,22 +30,16 @@
     padding-bottom: 4px;
 }
 
-.before {
+.stations-below {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     text-transform: uppercase;
-    float: left;
     padding-top: 4px;
     padding-bottom: 12px;
 }
 
-.after {
-    text-transform: uppercase;
-    float: right;
-    padding-top: 4px;
-}
-
 .station-table {
-    width: 90%;
-    margin: 0 auto 0 auto;
     display: flex;
     justify-content: space-between;
     position: relative;
