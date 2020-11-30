@@ -1,4 +1,5 @@
 /*********** Header *************/
+
 .title {
     font-size: 16px;
 }
@@ -10,14 +11,13 @@
 }
 
 /*********** station-table ***********/
+
 .route {
     height: 80px;
     border-bottom: thin solid var(--color-outline);
 }
 
-.this-station,
-.before,
-.after {
+.this-station, .before, .after {
     font-weight: bold;
     font-size: .75em;
 }
@@ -60,6 +60,7 @@
 }
 
 /*********** lines ***********/
+
 .station+.station::before {
     content: "";
     display: block;
@@ -74,9 +75,11 @@
 
 .station.-select {
     border-color: var(--blue);
+    position: relative;
 }
 
 /*********** selection circle ***********/
+
 .station.-select::after {
     content: "";
     display: block;
@@ -91,6 +94,7 @@
 }
 
 /*********** TRANSIT INFORMATION ***********/
+
 .info-title {
     font-weight: 700;
     font-size: 0.75em;
@@ -137,6 +141,7 @@
 }
 
 /*********** TOP MESSAGE ***********/
+
 .message-title {
     font-weight: 700;
     font-size: 0.75em;

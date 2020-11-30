@@ -111,11 +111,19 @@ function renderStation (station) {
 
   function onclick () {
     const index = currentRoute.path.indexOf(station.id)
-    const before = currentRoute.stations[index - 1].name
-    const after = currentRoute.stations[index + 1].name
+    let before = currentRoute.stations[index - 1]
+    let after = currentRoute.stations[index + 1]
 
-    window.sessionStorage.setItem('after', after)
-    window.sessionStorage.setItem('before', before)
+    if (!before) {
+      before = currentRoute.stations[index + 2]
+      window.sessionStorage.setItem('stationEnd', 'first')
+    } else if (!after) {
+      after = currentRoute.stations[index - 2]
+      window.sessionStorage.setItem('stationEnd', 'last')
+    }
+
+    window.sessionStorage.setItem('after', after.name)
+    window.sessionStorage.setItem('before', before.name)
     window.sessionStorage.setItem('stationId', station.id)
     window.sessionStorage.setItem('stationName', station.name)
     window.sessionStorage.setItem('route', currentRoute.id)
