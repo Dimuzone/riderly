@@ -15,16 +15,14 @@ const form = document.querySelector('.report-form')
 document.getElementById('name').innerText = routeId + '-' + stationId
 
 // Reporting
-form.onsubmit = event => {
+form.onsubmit = async event => {
   const formdata = new window.FormData(event.target)
   const seatStatus = formdata.get('seating')
   const timeStatus = formdata.get('timing')
   const maskStatus = formdata.get('mask-usage')
   event.preventDefault()
 
-  const newReport = window.db.collection('reports').doc()
-
-  newReport.set({
+  await window.db.collection('reports').add({
     author: 'guest',
     station: stationId,
     route: routeId,
@@ -33,6 +31,8 @@ form.onsubmit = event => {
     masks: mask.indexOf(maskStatus),
     timestamp: Date.now()
   })
+
+  window.history.back()
 }
 
 // Go back button
