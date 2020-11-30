@@ -34,3 +34,9 @@ form.onsubmit = event => {
     timestamp: Date.now()
   })
 }
+
+// Go back button
+const back = document.getElementById('back')
+back.onclick = _ => {
+  window.history.back()
+}
