@@ -4,7 +4,6 @@ const {
 } = window
 
 const login = document.getElementById('login')
-const welcome = document.getElementById('welcome')
 const page = document.querySelector('.page.-home')
 
 const state = {
@@ -41,7 +40,7 @@ const switchtab = (state, newtab) =>
 login.onclick = async function () {
   const signin = firebase.auth().currentUser
   if (signin) {
-    welcome.innerText = ''
+    document.querySelector('.greeting').innerText = ''
     await firebase.auth().signOut()
     window.location.href = 'index.html'
   } else {
