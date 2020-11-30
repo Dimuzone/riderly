@@ -17,13 +17,12 @@ const cache = {
   after: sessionStorage.getItem('after')
 }
 
-// Splitting the station names as they are
-// "Eastbound Central Blvd @ Willingdon Ave" and we only want the name
+sessionStorage.removeItem('stationEnd')
+
 let name = cache.stationName
 let before = cache.before
 let after = cache.after
 
-console.log(cache.stationEnd)
 if (cache.stationEnd === 'first') {
   before = cache.stationName
   name = cache.after

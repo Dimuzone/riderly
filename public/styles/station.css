@@ -74,23 +74,12 @@
 }
 
 .station.-select {
-    border-color: var(--blue);
-    position: relative;
-}
-
-/*********** selection circle ***********/
-
-.station.-select::after {
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
+    margin: 2px;
     background: var(--blue);
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    border-color: white;
+    box-shadow: 0 0 0 2px var(--blue);
 }
 
 /*********** TRANSIT INFORMATION ***********/
