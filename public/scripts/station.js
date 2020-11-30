@@ -87,7 +87,7 @@ db.collection('reports')
 const station = cache.stationId
 const route = cache.route
 const star = document.getElementById('star')
-const stationName = cache.currentStation
+const stationName = cache.stationName
 const previous = sessionStorage.getItem('before')
 const thisStation = station + '-' + route + '-' + stationName + '-' + previous + '-' + after
 
