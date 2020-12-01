@@ -10,9 +10,11 @@
     <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
 
+    <link href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" rel="stylesheet" crossorigin=""/>
     <link href="styles/bus-dating.css" rel="stylesheet" />
     <link href="styles/station.css" rel="stylesheet" />
 
+    <script defer src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
@@ -51,6 +53,7 @@
                 <div id="after" class="after">WAVERLEY AVE</div>
             </div>
         </div>
+        <div id="map"></div>
         <div class="info-title">
             TRANSIT INFORMATION
             <div id='update' class="report-button" onclick="report">Update <span class="update-icon material-icons">keyboard_arrow_right</span></div>

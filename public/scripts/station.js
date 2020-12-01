@@ -1,5 +1,5 @@
 const {
-  firebase, db, timediff, normstn, patch,
+  firebase, db, timediff, normstn, L, patch,
   div, span, localStorage, p, sessionStorage
 } = window
 
@@ -7,6 +7,16 @@ const back = document.querySelector('.back')
 back.onclick = _ => {
   window.history.back()
 }
+
+const leaflet = L.map('map', { zoomSnap: 0.25, zoomDelta: 0.5 })
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2VtaWJyYW4iLCJhIjoiY2tpMnc2cTMxMWl2czJ5cGRpYWR4YWExNyJ9.cNgXsMZb5K-7DKOr6jw8ag', {
+  id: 'mapbox/streets-v11',
+  attribution: 'Data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
+    ', Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  maxZoom: 18,
+  tileSize: 512,
+  zoomOffset: -1
+}).addTo(leaflet)
 
 const cache = {
   stationId: +sessionStorage.getItem('stationId'),

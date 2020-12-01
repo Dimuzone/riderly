@@ -3,17 +3,16 @@ const search = document.getElementById('search-bar')
 const routewrap = document.getElementById('routes')
 
 const state = { routes: [] }
+const routes = JSON.parse(window.localStorage.routes || '[]')
 
 ;(async function main () {
-  let routes = JSON.parse(window.localStorage.getItem('routes'))
   if (!routes) {
     // Get all routes from Firestore and rerender
-    routes = []
     const col = await db.collection('routes').get()
     for (const doc of col.docs) {
       routes.push({ ...doc.data(), id: doc.id })
     }
-    window.localStorage.setItem('routes', JSON.stringify(routes))
+    window.localStorage.routes = JSON.stringify(routes)
   }
   state.routes = routes
   render(state)

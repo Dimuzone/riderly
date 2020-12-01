@@ -1,31 +1,27 @@
 const { db, normstn, patch, div, p, span } = window
 
+const stations = JSON.parse(window.localStorage.stations || '[]')
+const routes = JSON.parse(window.localStorage.routes || '[]')
+const routeid = window.sessionStorage.getItem('route')
+const route = routes.find(route => route.id === routeid)
+
 // Setting variables for elements to be changed later
 const search = document.getElementById('search-bar')
 const stationWrap = document.getElementById('stations')
-const swapClick = document.getElementById('swap')
 const routeName = document.getElementById('route')
 const directionStart = document.getElementById('starting')
 const directionEnd = document.getElementById('ending')
 
 // Set an initial route for the first route the user chose
 let initialRoute = {
-  id: window.sessionStorage.getItem('route'),
-  name: window.sessionStorage.getItem('endingStation'),
-  path: window.sessionStorage.getItem('stations_Id').split(',').map(Number),
-  stations: null
-}
-
-// For storing the reverse option of the route
-let reverseRoute = {
-  id: null,
-  name: null,
-  path: null,
+  id: routeid,
+  name: route.name,
+  path: route.path,
   stations: null
 }
 
 // Set the current route to be the initial route
-let currentRoute = initialRoute
+const currentRoute = initialRoute
 
 // The main function for rendering the page with stations
 ;(async function main () {
@@ -39,64 +35,46 @@ let currentRoute = initialRoute
     )
     render(stations)
   }
-  swapClick.onclick = onSwap
 })()
 
 // get the route information from the database
 async function getRoute (route) {
-  const stations = []
-  if (!route.path) {
-    const path = await db.collection('routes').doc(route.id).get()
-    route.path = path.data().path
-    route.name = path.data().name
-  }
-  const gets = []
-  for (let i = 0; i < route.path.length; i += 10) {
-    const chunk = route.path.slice(i, i + 10)
-    const promise = db.collection('stations').where('id', 'in', chunk).get()
-    gets.push(promise)
-  }
-  const cols = await Promise.all(gets)
-  for (const col of cols) {
-    for (const doc of col.docs) {
-      stations.push(doc.data())
+  route.stations = []
+  const missing = []
+  for (const id of route.path) {
+    const station = stations.find(station => +station.id === id)
+    if (station) {
+      route.stations.push(station)
+    } else {
+      missing.push(id)
     }
   }
-  stations.sort((a, b) => route.path.indexOf(a.id) - route.path.indexOf(b.id))
-  route.stations = stations
+  if (missing.length) {
+    const gets = []
+    for (let i = 0; i < missing.length; i += 10) {
+      const chunk = missing.slice(i, i + 10)
+      const promise = db.collection('stations').where('id', 'in', chunk).get()
+      console.log('queueing get for', chunk)
+      gets.push(promise)
+    }
+    const cols = await Promise.all(gets)
+    for (const col of cols) {
+      for (const doc of col.docs) {
+        const station = doc.data()
+        console.log('got', station)
+        route.stations.push(station)
+        stations.push(station)
+      }
+    }
+  }
+  route.stations.sort((a, b) => route.path.indexOf(a.id) - route.path.indexOf(b.id))
+  window.localStorage.stations = JSON.stringify(stations)
   return route
-}
-
-// The function for when the user clicks the swap button
-async function onSwap () {
-  if (currentRoute === initialRoute) {
-    if (reverseRoute.stations == null) {
-      const char = initialRoute.id[initialRoute.id.length - 1]
-      const newRoute = initialRoute.id.slice(0, -1) + swapChar(char)
-      reverseRoute.id = newRoute
-      reverseRoute = await getRoute(reverseRoute)
-    }
-    currentRoute = reverseRoute
-  } else {
-    currentRoute = initialRoute
-  }
-  routeName.innerText = 'Route ' + currentRoute.id
-  render(currentRoute.stations)
 }
 
 // Calling the render station function to re-arrange the page.
 function render (stations) {
   patch(stationWrap, div({ id: 'stations' }, stations.map(renderStation)))
-}
-
-// Function used for swapping West with East and North with South
-function swapChar (char) {
-  switch (char) {
-    case 'W' : return 'E'
-    case 'E' : return 'W'
-    case 'S' : return 'N'
-    case 'N' : return 'S'
-  }
 }
 
 // Changing the html with the data gotten
