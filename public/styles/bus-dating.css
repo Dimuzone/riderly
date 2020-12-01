@@ -299,38 +299,57 @@ h2 {
 }
 
 .option {
-  border-bottom: thin solid var(--lightgray);
+  color: var(--gray);
+  background: white;
+  box-shadow: var(--shadow);
+  border: thin solid var(--silver);
+  border-radius: 4px;
   padding: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.option + .option {
+  margin-top: 6px;
+}
+
 .option-lhs {
   display: flex;
-  flex-direction: column;
-  min-width: 0;
+  align-items: center;
 }
 
 .option-rhs {
   display: flex;
   align-items: center;
-  padding-left: 8px;
-  font-size: 0.875rem;
-  font-weight: bold;
 }
 
-.option-text {
-  color: var(--darkgray);
-  font-weight: bold;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+.option-meta {
+  margin-left: 8px;
 }
 
-.option-subtext {
-  color: var(--gray);
+.option-name {
+  color: black;
+  font-weight: bold;
   font-size: 0.875rem;
+}
+
+.option-data {
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+.option-time {
+  font-size: 0.75rem;
+  margin-right: -4px;
+}
+
+.icon.-route {
+  color: var(--blue);
+}
+
+.icon.-message {
+  color: var(--green);
 }
 
 .page {

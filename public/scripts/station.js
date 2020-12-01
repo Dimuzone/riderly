@@ -1,6 +1,7 @@
 const {
   db, timediff, fmtstn, L: Leaflet, getstns, patch,
-  main, header, div, section, h1, h2, h3, span, a, button
+  main, header, div, section,
+  h1, h2, h3, span, a, strong, button
 } = window
 
 const $main = document.querySelector('main')
@@ -44,15 +45,15 @@ const levels = {
   db.collection('reports')
     .orderBy('timestamp', 'desc')
     .onSnapshot(col => {
-      const newreports = []
+      const news = []
       for (const doc of col.docs) {
         const rep = { ...doc.data(), id: doc.id }
         if (!state.reports.find(cached => cached.id === rep.id)) {
-          newreports.push(rep)
+          news.push(rep)
         }
       }
-      const reports = [...state.reports, ...newreports]
-      if (newreports.length) {
+      const reports = [...state.reports, ...news]
+      if (news.length) {
         window.localStorage.reports = JSON.stringify(reports)
       }
       update({ reports })
@@ -62,14 +63,18 @@ const levels = {
   db.collection('messages')
     .orderBy('timestamp', 'desc')
     .onSnapshot(col => {
-      const messages = []
+      const news = []
       for (const doc of col.docs) {
         const msg = { ...doc.data(), id: doc.id }
         if (!state.messages.find(cached => cached.id === msg.id)) {
-          messages.push(msg)
+          news.push(msg)
         }
       }
-      update({ messages: [...state.messages, ...messages] })
+      const messages = [...state.messages, ...news]
+      if (news.length) {
+        window.localStorage.messages = JSON.stringify(messages)
+      }
+      update({ messages })
     })
 
   update({ route, station })
@@ -136,7 +141,7 @@ const StationPage = (state) => {
     section({ class: 'section -messages' }, [
       h3({ class: 'section-header section-title' }, 'Recent Messages'),
       messages.length
-        ? div({ class: 'section-content messages' }, messages.map(msg => msg.content))
+        ? div({ class: 'section-content messages' }, messages.slice(0, 3).map(Message))
         : span({ class: 'section-content section-notice' }, 'Be the first to say something.'),
       a({ class: 'button -action -chat' }, [
         span({ class: 'icon -talk material-icons-outlined' },
@@ -163,6 +168,28 @@ const Info = (report, category) => {
         span({ class: 'info-value' + flag }, value)
       ]),
       span({ class: 'icon material-icons-outlined' }, 'info')
+    ])
+  ])
+}
+
+const Message = (message) => {
+  const { timestamp, route: routeid, username, content } = message
+  const now = Date.now()
+  const ago = timediff(timestamp, now)
+  return a({ class: 'option -message', href: 'chat.html#' + routeid }, [
+    div({ class: 'option-lhs' }, [
+      span({ class: 'icon -message material-icons-outlined' },
+        'sms'),
+      div({ class: 'option-meta' }, [
+        div({ class: 'option-name' }, `"${content}"`),
+        div({ class: 'option-data' },
+          ['from ', strong(username), ' on ', strong(routeid)])
+      ])
+    ]),
+    div({ class: 'option-rhs' }, [
+      span({ class: 'option-time' }, ago),
+      span({ class: 'icon -arrow material-icons' },
+        'keyboard_arrow_right')
     ])
   ])
 }
