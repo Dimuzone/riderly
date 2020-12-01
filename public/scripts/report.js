@@ -1,21 +1,36 @@
-// The Route ID ex. 49W
-const routeId = window.sessionStorage.getItem('route')
+const {
+  patch, fmtstn, getstns,
+  header, div, h1, button, span, a
+} = window
 
-// The station ID ex. 34654
-const stationId = parseInt(window.sessionStorage.getItem('stationId'))
+const $main = document.querySelector('main')
+const $header = document.querySelector('header')
+const $form = document.querySelector('.report')
 
-// Report status
-const seat = ['empty', 'standonly', 'full']
-const time = ['ontime', 'late', 'verylate']
-const mask = ['complete', 'partial', 'few']
+const state = {
+  routes: JSON.parse(window.localStorage.routes || '[]'),
+  station: null,
+  path: null
+}
 
-// set page title
-document.getElementById('name').innerText = routeId + '-' + stationId
+;(async function init () {
+  const [rtid, stnid] = window.location.hash.slice(1).split('/')
+  const route = state.routes.find(rt => rt.id === rtid)
+  if (!route) {
+    return patch($main, 'not found')
+  }
 
-const form = document.querySelector('.report')
+  route.path = await getstns(route.path)
+  const station = route.path.find(stn => stn.id === +stnid)
+  if (!station) {
+    return patch($main, 'not found')
+  }
+
+  patch($header, Header(station, route))
+})()
 
 // Reporting
-form.onsubmit = async event => {
+$form.onsubmit = async event => {
   const formdata = new window.FormData(event.target)
   const seatStatus = formdata.get('seating')
   const timeStatus = formdata.get('timing')
@@ -35,8 +50,18 @@ form.onsubmit = async event => {
   window.history.back()
 }
 
-// Go back button
-const back = document.getElementById('back')
-back.onclick = _ => {
-  window.history.back()
-}
+const Header = (station, route) =>
+  header({ class: 'header header-text -color -primary' }, [
+    div({ class: 'title-row' }, [
+      h1({ class: 'title' }, 'Report changes'),
+      button({ class: 'back', onclick: _ => window.history.back() }, [
+        span({ class: 'icon -back material-icons' },
+          'keyboard_arrow_left'),
+        station.id
+      ])
+    ]),
+    span({ class: 'subtitle' }, [
+      fmtstn(station.name)[0],
+      ' (', a({ href: 'route.html#' + route.id }, route.id), ')'
+    ])
+  ])

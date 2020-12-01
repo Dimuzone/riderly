@@ -15,24 +15,17 @@
   <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
   <script defer src="./scripts/db.js"></script>
+  <script defer src="./scripts/h2.js"></script>
+  <script defer src="./scripts/normname.js"></script>
+  <script defer src="./scripts/fmtstn.js"></script>
+  <script defer src="./scripts/getstns.js"></script>
   <script defer src="./scripts/report.js"></script>
 </head>
 
 <body>
   <main class="page -update">
-    <header class="header -color -primary">
-      <div class="header-text">
-        <div class="headings">
-          <h1 class="title">Update</h1>
-          <span id='name' class="subtitle">49W - #52500</span>
-        </div>
-        <button id="back" class="back">
-          <span class="material-icons">keyboard_arrow_left</span> Metrotown
-        </button>
-      </div>
-    </header>
-    <p class="page-desc">Is our info out of date? Let us know if seating on the bus is full or if the bus is running
-      late.</p>
+    <header></header>
+    <p class="page-desc">Is our info out of date? Let us know if seating on the bus is full or if the bus is running late.</p>
     <form class="report">
       <fieldset class="section -seating">
         <legend class="section-header">
@@ -40,7 +33,7 @@
           <span class="section-subtitle">Select one</span>
         </legend>
         <div class="section-content">
-            <input id="empty" type="radio" name="seating" value="empty" checked />
+            <input id="empty" type="radio" name="seating" value="0" checked />
           <label for="empty" class="card -green">
             <div class="card-text">
               <span class="card-name">Empty</span>
@@ -50,7 +43,7 @@
               <span class="material-icons">check</span>
             </div>
           </label>
-          <input id="standonly" type="radio" name="seating" value="standonly" />
+          <input id="standonly" type="radio" name="seating" value="1" />
           <label for="standonly" class="card -yellow">
             <div class="card-text">
               <span class="card-name">Standing only</span>
@@ -60,7 +53,7 @@
               <span class="material-icons">check</span>
             </div>
           </label>
-          <input id="full" type="radio" name="seating" value="full" />
+          <input id="full" type="radio" name="seating" value="2" />
           <label for="full" class="card -red">
             <div class="card-text">
               <span class="card-name">Full</span>
@@ -78,7 +71,7 @@
           <span class="section-subtitle">Select one</span>
         </legend>
         <div class="section-content">
-          <input id="ontime" type="radio" name="timing" value="ontime" checked />
+          <input id="ontime" type="radio" name="timing" value="0" checked />
           <label for="ontime" class="card -green">
             <div class="card-text">
               <span class="card-name">On time</span>
@@ -88,7 +81,7 @@
               <span class="material-icons">check</span>
             </div>
           </label>
-          <input id="late" type="radio" name="timing" value="late" />
+          <input id="late" type="radio" name="timing" value="1" />
           <label for="late" class="card -yellow">
             <div class="card-text">
               <span class="card-name">Late</span>
@@ -98,7 +91,7 @@
               <span class="material-icons">check</span>
             </div>
           </label>
-          <input id="verylate" type="radio" name="timing" value="verylate" />
+          <input id="verylate" type="radio" name="timing" value="2" />
           <label for="verylate" class="card -red">
             <div class="card-text">
               <span class="card-name">Very Late</span>
@@ -116,7 +109,7 @@
           <span class="section-subtitle">Select one</span>
         </legend>
         <div class="section-content">
-          <input id="complete" type="radio" name="masking" value="complete" checked />
+          <input id="complete" type="radio" name="masking" value="0" checked />
           <label for="complete" class="card -green">
             <div class="card-text">
               <span class="card-name">Complete</span>
@@ -126,7 +119,7 @@
               <span class="material-icons">check</span>
             </div>
           </label>
-          <input id="partial" type="radio" name="masking" value="partial" />
+          <input id="partial" type="radio" name="masking" value="1" />
           <label for="partial" class="card -yellow">
             <div class="card-text">
               <span class="card-name">Partial</span>
@@ -136,7 +129,7 @@
               <span class="material-icons">check</span>
             </div>
           </label>
-          <input id="few" type="radio" name="masking" value="few" />
+          <input id="few" type="radio" name="masking" value="2" />
           <label for="few" class="card -red">
             <div class="card-text">
               <span class="card-name">Few</span>
