@@ -1,16 +1,16 @@
 const {
   firebase, db, timediff, fmtstn, L, getstns, patch,
-  header, div, h1, h2, p, span, button
+  main, header, div, h1, h2, p, span, button
 } = window
 
-const $header = document.querySelector('header')
+const $main = document.querySelector('main')
 
 const cache = {
   stations: JSON.parse(window.localStorage.stations || '[]'),
   routes: JSON.parse(window.localStorage.routes || '[]')
 }
 
-;(async function main () {
+;(async function init () {
   const [stnid, rtid] = window.location.hash.slice(1).split('/')
   const route = cache.routes.find(rt => rt.id === rtid)
   if (!route) {
@@ -30,17 +30,67 @@ const cache = {
   station.name = stnfmt[0]
   station.subname = stnfmt[1]
 
-  patch($header, header({ class: 'header -color -primary' }, [
-    div({ class: 'header-text' }, [
-      div({ class: 'title-row' }, [
-        h1({ class: 'title' }, station.name),
-        button({ class: 'back', onclick: window.history.back }, [
-          span({ class: 'icon -back material-icons' }, 'keyboard_arrow_left'),
-          'Home'
-        ])
+  const stoporder = getstoporder(station, path)
+  const [leftstop, centerstop, rightstop] = stoporder
+  const [leftname, centername, rightname] = stoporder.map(stop => fmtstn(stop.name)[0])
+  const left = leftstop.id === station.id
+  const center = centerstop.id === station.id
+  const right = rightstop.id === station.id
+
+  const switchstop = _ => _
+
+  patch($main, main({ class: `page -station -${station.id}` }, [
+    header({ class: 'header -color -primary' }, [
+      div({ class: 'header-text' }, [
+        div({ class: 'title-row' }, [
+          h1({ class: 'title' }, station.name),
+          button({ class: 'back', onclick: window.history.back }, [
+            span({ class: 'icon -back material-icons' }, 'keyboard_arrow_left'),
+            'Home'
+          ])
+        ]),
+        h2({ class: 'subtitle' }, `${station.id} · ${station.subname}`)
+      ])
+    ]),
+    div({ class: 'station-map' }, [
+      center
+        ? div({ class: 'station-labels -above' }, [
+            span({ class: 'station-label -center -select' }, centername)
+          ])
+        : div({ class: 'station-labels -above' }, [
+          left
+            ? span({ class: 'station-label -left -select' }, leftname)
+            : span({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
+              leftname),
+          right
+            ? span({ class: 'station-label -right -select' }, rightname)
+            : span({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
+              rightname)
+        ]),
+      div({ class: 'station-circles' }, [
+        left
+          ? div({ class: 'station-circle -left -select' })
+          : div({ class: 'station-circle -left', onclick: _ => switchstop(leftstop) }),
+        center
+          ? div({ class: 'station-circle -center -select' })
+          : div({ class: 'station-circle -center', onclick: _ => switchstop(centerstop) }),
+        right
+          ? div({ class: 'station-circle -right -select' })
+          : div({ class: 'station-circle -right', onclick: _ => switchstop(rightstop) }),
       ]),
-      h2({ class: 'subtitle' }, station.subname)
-    ])
+      center
+        ? div({ class: 'station-labels -below' }, [
+            span({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
+              leftname),
+            span({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
+              rightname)
+          ])
+        : div({ class: 'station-labels -below' }, [
+          span({ class: 'station-label -center', onclick: _ => switchstop(centerstop) },
+            centername)
+        ])
+    ]),
+    div({ id: 'map' })
   ]))
 
   const leaflet = L.map('map', { zoomSnap: 0.25, zoomDelta: 0.5 })
@@ -64,6 +114,21 @@ const cache = {
     .bindTooltip('<strong>' + station.name + '</strong>')
     .openTooltip()
 })()
+
+const getstoporder = (stop, path) => {
+  const index = path.indexOf(path.find(id => id === stop.id))
+  const prev = path[index - 1]
+  const next = path[index + 1]
+  if (prev && next) {
+    return [prev, stop, next]
+  } else if (!prev) {
+    const nxnx = path[index + 2]
+    return [stop, next, nxnx]
+  } else if (!next) {
+    const pvpv = path[index - 2]
+    return [pvpv, prev, stop]
+  }
+}
 
 // const cache = {
 //   stationId: +sessionStorage.getItem('stationId'),
