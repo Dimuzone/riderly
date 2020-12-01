@@ -1,18 +1,27 @@
 const {
   firebase, db, timediff, fmtstn, L, getstns, patch,
-  main, header, div, h1, h2, p, span, button
+  main, header, div, section, h1, h2, h3, p, span, button
 } = window
 
 const $main = document.querySelector('main')
 
-const cache = {
-  stations: JSON.parse(window.localStorage.stations || '[]'),
-  routes: JSON.parse(window.localStorage.routes || '[]')
+const state = {
+  routes: JSON.parse(window.localStorage.routes || '[]'),
+  reports: JSON.parse(window.localStorage.reports || '[]'),
+  station: null,
+  path: null
+}
+
+const levels = {
+  flags: ['-good', '-okay', '-bad'],
+  seating: ['Empty', 'Seating only', 'Full'],
+  timing: ['On time', 'Late', 'Very late'],
+  masking: ['Complete', 'Partial', 'Few']
 }
 
 ;(async function init () {
   const [stnid, rtid] = window.location.hash.slice(1).split('/')
-  const route = cache.routes.find(rt => rt.id === rtid)
+  const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch(document.body, 'not found')
   }
@@ -30,16 +39,57 @@ const cache = {
   station.name = stnfmt[0]
   station.subname = stnfmt[1]
 
-  const stoporder = getstoporder(station, path)
-  const [leftstop, centerstop, rightstop] = stoporder
-  const [leftname, centername, rightname] = stoporder.map(stop => fmtstn(stop.name)[0])
-  const left = leftstop.id === station.id
-  const center = centerstop.id === station.id
-  const right = rightstop.id === station.id
+  db.collection('reports')
+    .orderBy('timestamp', 'desc')
+    .onSnapshot(col => {
+      const reports = []
+      for (const doc of col.docs) {
+        const rep = { ...doc.data(), id: doc.id }
+        if (!state.reports.find(cached => cached.id === rep.id)) {
+          reports.push(rep)
+        }
+      }
+      update({ reports: [...state.reports, reports] })
+    })
 
-  const switchstop = _ => _
+  update({ route, station, path })
 
-  patch($main, main({ class: `page -station -${station.id}` }, [
+  const leaflet = L.map('map', { zoomSnap: 0.25, zoomDelta: 0.5 })
+
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2VtaWJyYW4iLCJhIjoiY2tpMnc2cTMxMWl2czJ5cGRpYWR4YWExNyJ9.cNgXsMZb5K-7DKOr6jw8ag', {
+    id: 'mapbox/streets-v11',
+    attribution: 'Data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
+    ', Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    tileSize: 512,
+    zoomOffset: -1
+  }).addTo(leaflet)
+
+  leaflet.setView([station.lat, station.lon], 13)
+
+  L.polyline(path.map(station => [station.lat, station.lon]), {
+    color: 'rgba(0, 0, 255, 0.5)'
+  }).addTo(leaflet)
+
+  L.marker([station.lat, station.lon])
+    .addTo(leaflet)
+    .bindTooltip('<strong>' + station.name + '</strong>')
+    .openTooltip()
+})()
+
+function update (data) {
+  Object.assign(state, data)
+  patch($main, StationPage(state))
+}
+
+const StationPage = (state) => {
+  const { station, path, route, reports } = state
+
+  const report = reports
+    .filter(rpt => rpt.station === station.id && rpt.route === route.id)
+    .sort(byTime)[0]
+
+  return main({ class: `page -station -${station.id}` }, [
     header({ class: 'header -color -primary' }, [
       div({ class: 'header-text' }, [
         div({ class: 'title-row' }, [
@@ -52,70 +102,90 @@ const cache = {
         h2({ class: 'subtitle' }, `${station.id} · ${station.subname}`)
       ])
     ]),
-    div({ class: 'station-map' }, [
-      center
-        ? div({ class: 'station-labels -above' }, [
-            span({ class: 'station-label -center -select' }, centername)
-          ])
-        : div({ class: 'station-labels -above' }, [
-          left
-            ? span({ class: 'station-label -left -select' }, leftname)
-            : span({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
-              leftname),
-          right
-            ? span({ class: 'station-label -right -select' }, rightname)
-            : span({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
-              rightname)
-        ]),
-      div({ class: 'station-circles' }, [
-        left
-          ? div({ class: 'station-circle -left -select' })
-          : div({ class: 'station-circle -left', onclick: _ => switchstop(leftstop) }),
-        center
-          ? div({ class: 'station-circle -center -select' })
-          : div({ class: 'station-circle -center', onclick: _ => switchstop(centerstop) }),
-        right
-          ? div({ class: 'station-circle -right -select' })
-          : div({ class: 'station-circle -right', onclick: _ => switchstop(rightstop) }),
+    Minimap(station, getStopOrder(station, path)),
+    div({ id: 'map', key: 'map' }),
+    Infos(report)
+  ])
+}
+
+const Infos = (report) =>
+  section({ class: 'section -info' }, [
+    h3({ class: 'section-header section-title' }, 'Transit Information'),
+    div({ class: 'section-content infos' }, [
+      Info(report, 'seating'),
+      Info(report, 'timing'),
+      Info(report, 'masking')
+    ])
+  ])
+
+const Info = (report, category) => {
+  const value = levels[category][report ? report[category] : 0]
+  const flag = (report ? ' ' + levels.flags[report[category]] : '')
+  const { name, icon } = {
+    seating: { name: 'Seat availability', icon: 'airline_seat_recline_normal' },
+    timing: { name: 'Timing', icon: 'schedule' },
+    masking: { name: 'Mask usage', icon: 'masks' }
+  }[category]
+  return div({ class: 'info' }, [
+    span({ class: `icon -metric -${category} material-icons` + flag }, icon),
+    div({ class: 'info-box' }, [
+      div({ class: 'info-meta' }, [
+        span({ class: 'info-name' }, name),
+        span({ class: 'info-value' }, value)
       ]),
-      center
-        ? div({ class: 'station-labels -below' }, [
-            span({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
-              leftname),
-            span({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
-              rightname)
-          ])
-        : div({ class: 'station-labels -below' }, [
-          span({ class: 'station-label -center', onclick: _ => switchstop(centerstop) },
-            centername)
+      span({ class: 'icon material-icons-outlined' }, 'info')
+    ])
+  ])
+}
+
+const Minimap = (station, order) => {
+  const [leftstop, centerstop, rightstop] = order
+  const [leftname, centername, rightname] = order.map(stop => fmtstn(stop.name)[0])
+  const left = leftstop.id === station.id
+  const center = centerstop.id === station.id
+  const right = rightstop.id === station.id
+  const switchstop = _ => _
+  return div({ class: 'station-map' }, [
+    center
+      ? div({ class: 'station-labels -above' }, [
+          span({ class: 'station-label -center -select' }, centername)
         ])
+      : div({ class: 'station-labels -above' }, [
+        left
+          ? span({ class: 'station-label -left -select' }, leftname)
+          : span({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
+            leftname),
+        right
+          ? span({ class: 'station-label -right -select' }, rightname)
+          : span({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
+            rightname)
+      ]),
+    div({ class: 'station-circles' }, [
+      left
+        ? div({ class: 'station-circle -left -select' })
+        : div({ class: 'station-circle -left', onclick: _ => switchstop(leftstop) }),
+      center
+        ? div({ class: 'station-circle -center -select' })
+        : div({ class: 'station-circle -center', onclick: _ => switchstop(centerstop) }),
+      right
+        ? div({ class: 'station-circle -right -select' })
+        : div({ class: 'station-circle -right', onclick: _ => switchstop(rightstop) }),
     ]),
-    div({ id: 'map' })
-  ]))
+    center
+      ? div({ class: 'station-labels -below' }, [
+          span({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
+            leftname),
+          span({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
+            rightname)
+        ])
+      : div({ class: 'station-labels -below' }, [
+        span({ class: 'station-label -center', onclick: _ => switchstop(centerstop) },
+          centername)
+      ])
+  ])
+}
 
-  const leaflet = L.map('map', { zoomSnap: 0.25, zoomDelta: 0.5 })
-  leaflet.setView([station.lat, station.lon], 13)
-
-  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2VtaWJyYW4iLCJhIjoiY2tpMnc2cTMxMWl2czJ5cGRpYWR4YWExNyJ9.cNgXsMZb5K-7DKOr6jw8ag', {
-    id: 'mapbox/streets-v11',
-    attribution: 'Data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-      ', Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    tileSize: 512,
-    zoomOffset: -1
-  }).addTo(leaflet)
-
-  L.polyline(path.map(station => [station.lat, station.lon]), {
-    color: 'rgba(0, 0, 255, 0.5)'
-  }).addTo(leaflet)
-
-  L.marker([station.lat, station.lon])
-    .addTo(leaflet)
-    .bindTooltip('<strong>' + station.name + '</strong>')
-    .openTooltip()
-})()
-
-const getstoporder = (stop, path) => {
+const getStopOrder = (stop, path) => {
   const index = path.indexOf(path.find(id => id === stop.id))
   const prev = path[index - 1]
   const next = path[index + 1]
@@ -129,6 +199,9 @@ const getstoporder = (stop, path) => {
     return [pvpv, prev, stop]
   }
 }
+
+const byTime = (a, b) =>
+  b.timestamp - a.timestamp
 
 // const cache = {
 //   stationId: +sessionStorage.getItem('stationId'),

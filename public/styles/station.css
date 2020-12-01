@@ -1,3 +1,7 @@
+.page.-station {
+  background: var(--white);
+}
+
 .header.-color {
   color: white;
   border: 0;
@@ -22,7 +26,6 @@
   color: rgba(255, 255, 255, 0.5);
   text-align: right;
   text-transform: uppercase;
-  letter-spacing: 0.0625rem;
 }
 
 .header .title-row {
@@ -100,6 +103,55 @@
   width: 14px;
   height: 14px;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.info {
+  background: white;
+  box-shadow: var(--shadow);
+  border: thin solid var(--silver);
+  border-radius: 8px;
+  padding: 12px;
+  height: 56px;
+  display: flex;
+}
+
+.info + .info {
+  margin-top: 4px;
+}
+
+.icon.-metric {
+  color: var(--blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-box {
+  background: white;
+  color: var(--lightgray);
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-meta {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+
+.info-name {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: var(--kerning);
+  margin-bottom: 1px;
+}
+
+.info-value {
+  color: black;
+  font-weight: bold;
 }
 
 /*********** Header *************/
