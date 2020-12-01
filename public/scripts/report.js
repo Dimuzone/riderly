@@ -27,28 +27,26 @@ const state = {
   }
 
   patch($header, Header(station, route))
+
+  // Reporting
+  $form.onsubmit = event => {
+    const formdata = new window.FormData(event.target)
+    const seating = +formdata.get('seating')
+    const timing = +formdata.get('timing')
+    const masking = +formdata.get('masking')
+    event.preventDefault()
+
+    window.db.collection('reports').add({
+      timestamp: Date.now(),
+      author: 'guest',
+      station: station.id,
+      route: route.id,
+      seating,
+      timing,
+      masking
+    }).then(_ => window.history.back())
+  }
 })()
-
-// Reporting
-$form.onsubmit = async event => {
-  const formdata = new window.FormData(event.target)
-  const seatStatus = formdata.get('seating')
-  const timeStatus = formdata.get('timing')
-  const maskStatus = formdata.get('masking')
-  event.preventDefault()
-
-  await window.db.collection('reports').add({
-    author: 'guest',
-    station: stationId,
-    route: routeId,
-    seating: seat.indexOf(seatStatus),
-    timing: time.indexOf(timeStatus),
-    masks: mask.indexOf(maskStatus),
-    timestamp: Date.now()
-  })
-
-  window.history.back()
-}
 
 const Header = (station, route) =>
   header({ class: 'header header-text -color -primary' }, [

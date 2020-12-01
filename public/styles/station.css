@@ -115,6 +115,14 @@
   font-weight: bold;
 }
 
+.info-value.-okay {
+  color: var(--yellow);
+}
+
+.info-value.-bad {
+  color: var(--red);
+}
+
 /*********** Header *************/
 
 .title {

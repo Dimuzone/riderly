@@ -51,7 +51,7 @@ const levels = {
           reports.push(rep)
         }
       }
-      update({ reports: [...state.reports, reports] })
+      update({ reports: [...state.reports, ...reports] })
     })
 
   // listen for messages
@@ -65,7 +65,7 @@ const levels = {
           messages.push(msg)
         }
       }
-      update({ reports: [...state.messages, messages] })
+      update({ messages: [...state.messages, ...messages] })
     })
 
   update({ route, station })
@@ -98,7 +98,7 @@ const StationPage = (state) => {
     .sort(byTime)
 
   const report = state.reports
-    .filter(rpt => rpt.station === station.id && rpt.route === route.id)
+    .filter(rpt => +rpt.station === station.id && rpt.route === route.id)
     .sort(byTime)[0]
 
   return main({ class: `page -station -${station.id}` }, [
@@ -123,7 +123,7 @@ const StationPage = (state) => {
         Info(report, 'timing'),
         Info(report, 'masking')
       ]),
-      a({ class: 'button -action -report', href: 'report.html' }, [
+      a({ class: 'button -action -report', href: `report.html#${route.id}/${station.id}` }, [
         span({ class: 'icon -edit material-icons-outlined' },
           'edit'),
         'Report changes'
@@ -152,11 +152,11 @@ const Info = (report, category) => {
     masking: { name: 'Mask usage', icon: 'masks' }
   }[category]
   return div({ class: 'info' }, [
-    span({ class: `icon -metric -${category} material-icons` + flag }, icon),
+    span({ class: `icon -metric -${category} material-icons` }, icon),
     div({ class: 'info-box' }, [
       div({ class: 'info-meta' }, [
         span({ class: 'info-name' }, name),
-        span({ class: 'info-value' }, value)
+        span({ class: 'info-value' + flag }, value)
       ]),
       span({ class: 'icon material-icons-outlined' }, 'info')
     ])
@@ -194,7 +194,7 @@ const Minimap = (station, route) => {
         : div({ class: 'station-circle -center', onclick: _ => switchstop(centerstop) }),
       right
         ? div({ class: 'station-circle -right -select' })
-        : div({ class: 'station-circle -right', onclick: _ => switchstop(rightstop) }),
+        : div({ class: 'station-circle -right', onclick: _ => switchstop(rightstop) })
     ]),
     center
       ? div({ class: 'station-labels -below' }, [
