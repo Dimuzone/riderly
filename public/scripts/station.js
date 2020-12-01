@@ -1,7 +1,9 @@
 const {
   firebase, db, timediff, fmtstn, L, getstns, patch,
-  div, span, localStorage, p, sessionStorage
+  header, div, h1, h2, p, span, button
 } = window
+
+const $header = document.querySelector('header')
 
 const cache = {
   stations: JSON.parse(window.localStorage.stations || '[]'),
@@ -24,6 +26,23 @@ const cache = {
   console.log(stnid, rtid)
   console.log(station, route)
 
+  const stnfmt = fmtstn(station.name)
+  station.name = stnfmt[0]
+  station.subname = stnfmt[1]
+
+  patch($header, header({ class: 'header -color -primary' }, [
+    div({ class: 'header-text' }, [
+      div({ class: 'title-row' }, [
+        h1({ class: 'title' }, station.name),
+        button({ class: 'back', onclick: window.history.back }, [
+          span({ class: 'icon -back material-icons' }, 'keyboard_arrow_left'),
+          'Home'
+        ])
+      ]),
+      h2({ class: 'subtitle' }, station.subname)
+    ])
+  ]))
+
   const leaflet = L.map('map', { zoomSnap: 0.25, zoomDelta: 0.5 })
   leaflet.setView([station.lat, station.lon], 13)
 
@@ -42,7 +61,7 @@ const cache = {
 
   L.marker([station.lat, station.lon])
     .addTo(leaflet)
-    .bindTooltip('<strong>' + fmtstn(station.name)[0] + '</strong>')
+    .bindTooltip('<strong>' + station.name + '</strong>')
     .openTooltip()
 })()
 

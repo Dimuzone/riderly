@@ -36,7 +36,8 @@
 	position: relative;
 	margin: 0;
 	padding: 0;
-	border: 0;
+  border: 0;
+  background: 0 0;
 	color: inherit;
 	font: inherit;
 	text-align: inherit;
@@ -238,7 +239,6 @@ h2 {
 }
 
 .page {
-	padding: 0 16px;
 	margin-top: var(--header-height);
 }
 
