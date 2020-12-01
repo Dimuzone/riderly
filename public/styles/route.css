@@ -7,6 +7,10 @@ body {
   padding-bottom: 2rem;
 }
 
+.section-subtitle {
+  color: var(--lightblue);
+}
+
 .search {
   background: var(--darkblue);
   color: var(--lightblue);

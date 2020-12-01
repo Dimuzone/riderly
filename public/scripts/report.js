@@ -9,17 +9,17 @@ const seat = ['empty', 'standonly', 'full']
 const time = ['ontime', 'late', 'verylate']
 const mask = ['complete', 'partial', 'few']
 
-const form = document.querySelector('.report-form')
-
 // set page title
 document.getElementById('name').innerText = routeId + '-' + stationId
+
+const form = document.querySelector('.report')
 
 // Reporting
 form.onsubmit = async event => {
   const formdata = new window.FormData(event.target)
   const seatStatus = formdata.get('seating')
   const timeStatus = formdata.get('timing')
-  const maskStatus = formdata.get('mask-usage')
+  const maskStatus = formdata.get('masking')
   event.preventDefault()
 
   await window.db.collection('reports').add({

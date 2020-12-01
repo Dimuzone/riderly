@@ -1,6 +1,6 @@
 const {
   db, timediff, fmtstn, L: Leaflet, getstns, patch,
-  main, header, div, section, h1, h2, h3, span, button
+  main, header, div, section, h1, h2, h3, span, a, button
 } = window
 
 const $main = document.querySelector('main')
@@ -116,32 +116,32 @@ const StationPage = (state) => {
     ]),
     Minimap(station, route),
     div({ id: 'map', key: 'map' }),
-    Infos(report),
-    Messages(messages, route)
+    section({ class: 'section -info' }, [
+      h3({ class: 'section-header section-title' }, 'Transit Information'),
+      div({ class: 'section-content infos' }, [
+        Info(report, 'seating'),
+        Info(report, 'timing'),
+        Info(report, 'masking')
+      ]),
+      a({ class: 'button -action -report', href: 'report.html' }, [
+        span({ class: 'icon -edit material-icons-outlined' },
+          'edit'),
+        'Report changes'
+      ])
+    ]),
+    section({ class: 'section -messages' }, [
+      h3({ class: 'section-header section-title' }, 'Recent Messages'),
+      messages.length
+        ? div({ class: 'section-content messages' }, messages.map(msg => msg.content))
+        : span({ class: 'section-content section-notice' }, 'Be the first to say something.'),
+      a({ class: 'button -action -chat' }, [
+        span({ class: 'icon -talk material-icons-outlined' },
+          'question_answer'),
+        `Chat on Route ${route.id}`
+      ])
+    ])
   ])
 }
-
-const Messages = (messages, route) =>
-  section({ class: 'section -messages' }, [
-    h3({ class: 'section-header section-title' }, 'Recent Messages'),
-    messages.length
-      ? div({ class: 'section-content messages' }, messages.map(msg => msg.content))
-      : span({ class: 'section-content section-notice' }, 'Be the first to say something.'),
-    button({ class: 'button -action -chat' }, [
-      span({ class: 'icon material-icons-outlined' }, 'question_answer'),
-      `Chat on Route ${route.id}`
-    ])
-  ])
-
-const Infos = (report) =>
-  section({ class: 'section -info' }, [
-    h3({ class: 'section-header section-title' }, 'Transit Information'),
-    div({ class: 'section-content infos' }, [
-      Info(report, 'seating'),
-      Info(report, 'timing'),
-      Info(report, 'masking')
-    ])
-  ])
 
 const Info = (report, category) => {
   const value = levels[category][report ? report[category] : 0]
