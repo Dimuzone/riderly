@@ -44,14 +44,18 @@ const levels = {
   db.collection('reports')
     .orderBy('timestamp', 'desc')
     .onSnapshot(col => {
-      const reports = []
+      const newreports = []
       for (const doc of col.docs) {
         const rep = { ...doc.data(), id: doc.id }
         if (!state.reports.find(cached => cached.id === rep.id)) {
-          reports.push(rep)
+          newreports.push(rep)
         }
       }
-      update({ reports: [...state.reports, ...reports] })
+      const reports = [...state.reports, ...newreports]
+      if (newreports.length) {
+        window.localStorage.reports = JSON.stringify(reports)
+      }
+      update({ reports })
     })
 
   // listen for messages
