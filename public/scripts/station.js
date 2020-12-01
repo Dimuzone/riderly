@@ -21,7 +21,7 @@ const levels = {
 }
 
 ;(async function init () {
-  const [stnid, rtid] = window.location.hash.slice(1).split('/')
+  const [rtid, stnid] = window.location.hash.slice(1).split('/')
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch(document.body, 'not found')
@@ -219,7 +219,7 @@ const Minimap = (station, order) => {
 }
 
 const getStopOrder = (stop, path) => {
-  const index = path.indexOf(path.find(id => id === stop.id))
+  const index = path.indexOf(stop)
   const prev = path[index - 1]
   const next = path[index + 1]
   if (prev && next) {
@@ -235,82 +235,6 @@ const getStopOrder = (stop, path) => {
 
 const byTime = (a, b) =>
   b.timestamp - a.timestamp
-
-// const cache = {
-//   stationId: +sessionStorage.getItem('stationId'),
-//   stationName: sessionStorage.getItem('stationName'),
-//   stationEnd: sessionStorage.getItem('stationEnd'),
-//   route: sessionStorage.getItem('route'),
-//   before: sessionStorage.getItem('before'),
-//   after: sessionStorage.getItem('after')
-// }
-
-// sessionStorage.removeItem('stationEnd')
-
-// let name = cache.stationName
-// let before = cache.before
-// let after = cache.after
-
-// if (cache.stationEnd === 'first') {
-//   before = cache.stationName
-//   name = cache.after
-//   after = cache.before
-//   document.querySelector('.station.-current').classList.remove('-select')
-//   document.querySelector('.station.-before').classList.add('-select')
-// } else if (cache.stationEnd === 'last') {
-//   before = cache.after
-//   name = cache.before
-//   after = cache.stationName
-//   document.querySelector('.station.-current').classList.remove('-select')
-//   document.querySelector('.station.-after').classList.add('-select')
-// }
-
-// before = normstn(before)[0]
-// name = normstn(name)[0]
-// after = normstn(after)[0]
-
-// const join = document.getElementById('join')
-// join.innerText = 'Join chat for Route ' + cache.route
-// join.onclick = _ => {
-//   window.location.href = 'chat.html'
-// }
-
-// document.getElementById('name').innerText = normstn(cache.stationName)[0]
-// document.getElementById('routeAndId').innerText = cache.route + ' - #' + cache.stationId
-// document.getElementById('routeId').innerText = cache.route
-// document.getElementById('currentName').innerText = name
-// document.getElementById('before').innerText = before
-// document.getElementById('after').innerText = after
-
-// // Display recent report
-// const seating = ['Empty', 'Seating only', 'Full']
-// const timing = ['On time', 'Late', 'Very Late']
-// const mask = ['Complete', 'Partial', 'Few']
-// const colors = ['-green', '-yellow', '-red']
-
-// db.collection('reports')
-//   .where('station', '==', cache.stationId)
-//   .where('route', '==', cache.route)
-//   .orderBy('timestamp', 'desc').limit(1)
-//   .get()
-//   .then(col => {
-//     const reports = []
-//     col.forEach(doc => reports.push(doc.data()))
-//     const report = reports[0]
-//     if (report) {
-//       const seatingStatus = document.getElementsByClassName('-seating')[0]
-//       seatingStatus.innerText = seating[report.seating]
-//       seatingStatus.classList.add(colors[report.seating])
-
-//       const timingStatus = document.getElementsByClassName('-timing')[0]
-//       timingStatus.innerText = timing[report.timing]
-//       timingStatus.classList.add(colors[report.timing])
-
-//       const maskStatus = document.getElementsByClassName('-mask')[0]
-//       maskStatus.innerText = mask[report.masks]
-//       maskStatus.classList.add(colors[report.masks])
-//     }
-//   })
 
 // const station = cache.stationId
 // const route = cache.route

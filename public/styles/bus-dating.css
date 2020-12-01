@@ -14,11 +14,11 @@
   --darkgray: #676767;
   --blue: #5E83E2;
   --darkblue: #3565C2;
-  --green: #65A164;
-  --yellow: #EEBC3B;
-  --red: #E92554;
+  --green: #62B579;
   --lightgreen: #DEF5DE;
+  --yellow: #EEBC3B;
   --lightyellow: #FFF8E5;
+  --red: #E92554;
   --lightred: #FFE1EC;
   --color-bg: var(--white);
   --color-input: var(--white);
@@ -140,6 +140,7 @@ h2 {
   font-weight: bold;
   display: flex;
   align-items: center;
+  margin-bottom: -3px;
 }
 
 .back .material-icons {
