@@ -59,6 +59,7 @@
       }
     }
     for (let i = 0; i < content.length; i++) {
+      if (content[i] == null) continue
       const child = manifest(content[i])
       element.appendChild(child)
     }
@@ -68,8 +69,8 @@
   // patch(Element, vnode)
   // Updates an existing DOM element to match the given vnode.
   function patch (el, node) {
-    if (!(el instanceof window.Element)) {
-      throw new Error('Patch operation failed: No target element specified')
+    if (!(el instanceof window.Element || el instanceof window.Text)) {
+      throw new Error('Patch operation failed: Provided target is not an Element or Text node')
     }
 
     if (Array.isArray(node)) {
@@ -81,13 +82,17 @@
     const content = el.childNodes
 
     // just create a new element if the new tag is different
-    if (typeof tag !== typeof node.tag || tag !== node.tag.toUpperCase()) {
+    if (!tag || typeof tag !== typeof node.tag ||
+    tag !== node.tag.toUpperCase() || el.key !== node.data.key) {
       const newel = manifest(node)
       if (el.parentNode) {
         el.parentNode.replaceChild(newel, el)
       }
       return newel
     }
+
+    // leave keyed elements alone
+    if (el.key) return el
 
     // remove attributes on old element
     // if they are missing from new node
@@ -101,13 +106,30 @@
 
     // add new node attributes to old element
     // if they are missing from old element
-    for (const attrid in node.data) {
-      const attrval = node.data[attrid]
-      if (typeof attrval === 'function') {
-        if (el[attrid] === attrval) continue
-        el[attrid] = attrval
-      } else if (el.getAttribute(attrid) !== attrval.toString()) {
-        el.setAttribute(attrid, attrval)
+    for (const propname in node.data) {
+      const propval = node.data[propname]
+      if (typeof propval === 'function') {
+        if (el[propname] === propval) continue
+        el[propname] = propval
+      } else if (propname === 'key') {
+        el.key = propval
+      } else if (el.getAttribute(propname) !== propval.toString()) {
+        el.setAttribute(propname, propval)
+      }
+    }
+
+    // ignore whitespace in old element
+    for (let i = 0; i < content.length; i++) {
+      const child = content[i]
+      if (child instanceof window.Text && !child.data.trim()) {
+        el.removeChild(child)
+      }
+    }
+
+    // remove null children in new node
+    for (let i = 0; i < node.content.length; i++) {
+      if (node.content[i] == null) {
+        node.content.splice(i--, 1)
       }
     }
 
@@ -119,14 +141,6 @@
       el.removeChild(content[content.length - 1])
     }
 
-    // ignore whitespace
-    for (let i = 0; i < content.length; i++) {
-      const child = content[i]
-      if (child instanceof window.Text && !child.data.trim()) {
-        el.removeChild(child)
-      }
-    }
-
     // patch remaining children
     for (let i = 0; i < node.content.length; i++) {
       const child = content[i]
@@ -134,9 +148,8 @@
       if (!child) {
         // nothing to patch, add a new element
         el.appendChild(manifest(newchild))
-      } else if (child.nodeName !== '#comment' && (child instanceof window.Element ||
-      typeof newchild === 'object')) {
-        // general situation: patch child to reflect new child data
+      } else if (child instanceof window.Element || typeof newchild === 'object') {
+        // general situation: patch existing child to reflect new child data
         patch(child, newchild)
       } else if (child.data !== newchild) {
         // for textnode: just change content

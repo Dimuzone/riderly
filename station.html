@@ -2,79 +2,38 @@
 <html lang="en" dir="ltr">
 
 <head>
-    <meta charset="utf-8">
-    <title>BusDating - station Profile</title>
+  <meta charset="utf-8">
+  <title>BusDating - station Profile</title>
 
-    <meta charset="utf-8">
-    <meta name="description" content="bus dating">
-    <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
+  <meta charset="utf-8">
+  <meta name="description" content="bus dating">
+  <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
 
-    <link href="styles/bus-dating.css" rel="stylesheet" />
-    <link href="styles/station.css" rel="stylesheet" />
+  <link href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    rel="stylesheet" crossorigin="" />
+  <link href="styles/bus-dating.css" rel="stylesheet" />
+  <link href="styles/station.css" rel="stylesheet" />
 
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
-    <script defer src="./scripts/h2.js"></script>
-    <script defer src="./scripts/db.js"></script>
-    <script defer src="./scripts/timediff.js"></script>
-	<script defer src="./scripts/normstn.js"></script>
-    <script defer src="./scripts/station.js"></script>
+  <script defer src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+  <script defer src="./scripts/h2.js"></script>
+  <script defer src="./scripts/db.js"></script>
+  <script defer src="./scripts/timediff.js"></script>
+  <script defer src="./scripts/getstns.js"></script>
+  <script defer src="./scripts/normname.js"></script>
+  <script defer src="./scripts/fmtstn.js"></script>
+  <script defer src="./scripts/leaflet.js"></script>
+  <script defer src="./scripts/station.js"></script>
 </head>
 
 <body>
-    <header class="header">
-        <div class="header-text">
-            <div class="headings">
-                <div class="star">
-                    <span id="star" class="star-icon material-icons">star_border</span>
-                </div>
-                <h1 id="name" class="title"></h1>
-                <span id="routeAndId" class="subtitle"></span>
-            </div>
-            <div class="back">
-                <span class="material-icons">keyboard_arrow_left</span> <span id="routeId"></span>
-            </div>
-        </div>
-    </header>
-    <main class="page">
-        <div class="route">
-            <div id="currentName" class="this-station">CENTRAL BLVD E</div>
-            <div class="station-table">
-                <div class="station -before"></div>
-                <div class="station -current -select"></div>
-                <div class="station -after"></div>
-            </div>
-            <div class="stations-below">
-                <div id="before" class="before">METROTOWN</div>
-                <div id="after" class="after">WAVERLEY AVE</div>
-            </div>
-        </div>
-        <div class="info-title">
-            TRANSIT INFORMATION
-            <div id='update' class="report-button" onclick="report">Update <span class="update-icon material-icons">keyboard_arrow_right</span></div>
-        </div>
-        <div class="info-content">
-            <div class="statuses">
-                <div class="seating">SEATING
-                    <div class="status -seating -green">Stand only</div>
-                </div>
-                <div class="timing">TIMING
-                    <div class="status -timing -green">On time</div>
-                </div>
-                <div class="mask">MASK USAGE
-                    <div class="status -mask -green">Complete</div>
-                </div>
-            </div>
-        </div>
-        <div class="message-title">
-            RECENT MESSAGES
-        </div>
-        <div id="recentmsg" class="message-content">
-        </div>
-        <button id="join" class="button"></button>
-    </main>
+  <main></main>
 </body>
 
 </html>

@@ -1,3 +1,128 @@
+.page.-station {
+  padding-bottom: 2rem;
+}
+
+.station-map {
+  background: var(--darkblue);
+  padding: 1rem 2rem;
+}
+
+.station-labels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.station-label {
+  color: var(--lightblue);
+  font-size: 0.875rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.station-label.-right {
+  text-align: right;
+}
+
+.station-label:first-child:last-child {
+  text-align: center;
+  width: 100%;
+}
+
+.station-label.-select {
+  color: white;
+  text-transform: initial;
+  font-size: 1rem;
+}
+
+.station-circles {
+  padding: 6px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.station-circles::before {
+  content: "";
+  background: var(--lightblue);
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.station-circle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--lightblue);
+  border-radius: 50%;
+  background: var(--darkblue);
+}
+
+.station-circle.-select {
+  background: white;
+  border: 2px solid var(--darkblue);
+  width: 14px;
+  height: 14px;
+  box-shadow: 0 0 0 2px var(--lightblue);
+}
+
+.info {
+  background: white;
+  box-shadow: var(--shadow);
+  border: thin solid var(--silver);
+  border-radius: 8px;
+  padding: 12px;
+  height: 56px;
+  display: flex;
+}
+
+.info + .info {
+  margin-top: 4px;
+}
+
+.icon.-metric {
+  color: var(--blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-box {
+  background: white;
+  color: var(--lightgray);
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-meta {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+
+.info-name {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: var(--kerning);
+  margin-bottom: 1px;
+}
+
+.info-value {
+  color: black;
+  font-weight: bold;
+}
+
+.info-value.-okay {
+  color: var(--yellow);
+}
+
+.info-value.-bad {
+  color: var(--red);
+}
+
 /*********** Header *************/
 
 .title {

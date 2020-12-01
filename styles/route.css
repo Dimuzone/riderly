@@ -1,13 +1,45 @@
+body {
+  background: var(--blue);
+  color: white;
+}
+
+.page {
+  padding-bottom: 2rem;
+}
+
+.section-subtitle {
+  color: var(--lightblue);
+}
+
+.search {
+  background: var(--darkblue);
+  color: var(--lightblue);
+  border: thin solid var(--darkblue);
+}
+
+.search-input {
+  font-size: 0.875rem;
+}
+
+.search-input::placeholder {
+  color: inherit;
+}
+
+.search-input:focus::placeholder {
+  color: var(--lightblue);
+}
+
+.search:focus-within {
+  background: var(--darkblue);
+  color: white;
+  border-color: white;
+  box-shadow: none;
+}
+
 .east-icon {
 	font-size: 12px;
 	margin-left: 2px;
 	margin-right: 2px;
-}
-
-.subtitle {
-	display: flex;
-	align-items: center;
-	color: var(--gray);
 }
 
 .station-wrap {
@@ -19,24 +51,54 @@
 }
 
 .station {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
-.station-text {
-	font-weight: bold;
-	color: var(--darkgray);
+.station-meta {
+  margin-left: 12px;
+  margin-top: 1px;
 }
 
-.route {
-	font-size: 11px;
+.station-name {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: bold;
 }
 
-.stn-route-number {
-	font-weight: bold;
-	color: var(--gray);
+.station-desc {
+  color: var(--lightblue);
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 4px;
 }
 
-.station-icon {
-	color: var(--lightgray);
+.station-lhs {
+  display: flex;
+}
+
+.station-lhs::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--lightblue);
+  border-radius: 50%;
+}
+
+.station + .station .station-lhs::after {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 100%;
+  background: var(--lightblue);
+  position: absolute;
+  left: 7px;
+  bottom: 100%;
+}
+
+.station-rhs {
+  color: var(--lightblue);
+  font-size: 20px;
 }
