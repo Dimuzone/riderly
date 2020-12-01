@@ -32,9 +32,7 @@ function render (state) {
 // Defines the HTML structure for a single bus route
 function renderRoute (route) {
   function onclick () {
-    window.sessionStorage.setItem('route', route.id)
-    window.sessionStorage.setItem('stations_Id', route.path)
-    window.sessionStorage.setItem('endingStation', route.name)
+    window.sessionStorage.route = route.id
     window.location.href = 'route.html'
   }
   return div({ class: 'option', onclick }, [
