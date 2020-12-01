@@ -2,50 +2,35 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>BusDating</title>
+  <meta charset="utf-8">
+  <title>BusDating</title>
 
-    <meta name="description" content="bus dating">
-    <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
+  <meta name="description" content="bus dating">
+  <meta name="author" content="dimuzone, semibran, zzzbnbzzz">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,maximum-scale=1" />
 
-    <link href="styles/bus-dating.css" rel="stylesheet" />
-    <link href="styles/route.css" rel="stylesheet" />
+  <link href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    rel="stylesheet" crossorigin="" />
+  <link href="styles/bus-dating.css" rel="stylesheet" />
+  <link href="styles/route.css" rel="stylesheet" />
 
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
-    <script defer src="./scripts/db.js"></script>
-    <script defer src="./scripts/h2.js"></script>
-    <script defer src="./scripts/normstn.js"></script>
-    <script defer src="./scripts/route.js"></script>
+  <script defer src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+  <script defer src="./scripts/db.js"></script>
+  <script defer src="./scripts/h2.js"></script>
+  <script defer src="./scripts/normname.js"></script>
+  <script defer src="./scripts/fmtstn.js"></script>
+  <script defer src="./scripts/getstns.js"></script>
+  <script defer src="./scripts/leaflet.js"></script>
+  <script defer src="./scripts/route.js"></script>
 </head>
 
 <body>
-    <header class="header -search">
-        <div class="header-text">
-            <div class="headings">
-                <h1 id="route" class="title"></h1>
-                <span id="swap" class="subtitle">
-                    <span id="starting"></span>
-                    <span class="east-icon material-icons">east</span>
-                    <span id="ending"></span>
-                </span>
-            </div>
-            <a href="./search.html" class="back">
-                <span class="material-icons">keyboard_arrow_left</span> Search
-            </a>
-        </div>
-        <div class="search-bar">
-            <span class="search-icon material-icons">search</span>
-            <input id="search-bar" class="search-input" type="text" placeholder="Search routes" name="search">
-        </div>
-    </header>
-
-    <main class="page -home">
-        <section class="stations-section">
-            <div id="stations"></div>
-        </section>
-    </main>
+  <main></main>
 </body>
 
 </html>

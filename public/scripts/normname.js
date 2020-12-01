@@ -1,4 +1,4 @@
-window.normstn = function normstn (str) {
+window.normname = function normname (str) {
   if (str === 'U B C') return 'UBC'
   return str.split(' ')
     .map(word => {

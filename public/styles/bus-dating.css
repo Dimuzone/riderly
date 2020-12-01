@@ -109,12 +109,47 @@ h2 {
   align-items: stretch;
 }
 
-.header-text {
-  padding: 8px 0;
-  flex: 1;
+.header.-color {
+  color: white;
+  border: 0;
+  margin: 0;
+  padding: 0 1rem;
+  width: 100%;
+  z-index: 2;
+}
+
+.header.-color.-primary {
+  background: var(--blue);
+}
+
+.header.-color .title, .header.-color .back {
+  color: white;
+}
+
+.header.-color .title {
+  font-size: 1.25rem;
+}
+
+.header.-color .subtitle {
+  color: var(--lightblue);
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: var(--kerning);
+}
+
+.header .title-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+  order: 2;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  padding: 0.75rem 0;
 }
 
 .headings {
@@ -288,6 +323,6 @@ h2 {
 }
 
 #map {
-  height: 160px;
+  height: 200px;
   z-index: -1;
 }

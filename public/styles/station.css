@@ -2,47 +2,6 @@
   padding-bottom: 2rem;
 }
 
-.header.-color {
-  color: white;
-  border: 0;
-  margin: 0;
-  padding: 0 1rem;
-  width: 100%;
-  z-index: 2;
-}
-
-.header.-color.-primary {
-  background: var(--blue);
-}
-
-.header.-color .title, .header.-color .back {
-  color: white;
-}
-
-.header.-color .title {
-  font-size: 1.25rem;
-}
-
-.header.-color .subtitle {
-  color: var(--lightblue);
-  text-align: right;
-  text-transform: uppercase;
-}
-
-.header .title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  order: 2;
-}
-
-.header-text {
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: stretch;
-  padding: 0.75rem 0;
-}
-
 .station-map {
   background: var(--darkblue);
   padding: 1rem 2rem;

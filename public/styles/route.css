@@ -4,12 +4,6 @@
 	margin-right: 2px;
 }
 
-.subtitle {
-	display: flex;
-	align-items: center;
-	color: var(--gray);
-}
-
 .station-wrap {
 	display: flex;
 	justify-content: space-between;

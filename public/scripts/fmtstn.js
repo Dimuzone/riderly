@@ -1,5 +1,5 @@
 window.fmtstn = function fmtstn (name) {
-  const norm = window.normstn
+  const norm = window.normname
   const dirs = ['Westbound', 'Eastbound', 'Northbound', 'Southbound']
   const switchwords = ['Bay', 'Unload', 'Layover', 'Block']
   let [on, at] = name.split(' @ ')

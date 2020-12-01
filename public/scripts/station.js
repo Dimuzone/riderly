@@ -1,6 +1,6 @@
 const {
-  firebase, db, timediff, fmtstn, L, getstns, patch,
-  main, header, div, section, h1, h2, h3, p, span, button
+  db, timediff, fmtstn, L: Leaflet, getstns, patch,
+  main, header, div, section, h1, h2, h3, span, button
 } = window
 
 const $main = document.querySelector('main')
@@ -24,13 +24,13 @@ const levels = {
   const [rtid, stnid] = window.location.hash.slice(1).split('/')
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
-    return patch(document.body, 'not found')
+    return patch($main, 'not found')
   }
 
-  const path = await getstns(route.path)
-  const station = path.find(stn => stn.id === +stnid)
+  route.path = await getstns(route.path)
+  const station = route.path.find(stn => stn.id === +stnid)
   if (!station) {
-    return patch(document.body, 'not found')
+    return patch($main, 'not found')
   }
 
   console.log(stnid, rtid)
@@ -68,27 +68,19 @@ const levels = {
       update({ reports: [...state.messages, messages] })
     })
 
-  update({ route, station, path })
+  update({ route, station })
 
-  const leaflet = L.map('map', { zoomSnap: 0.25, zoomDelta: 0.5 })
+  const map = Leaflet.mount('map')
+  map.setView([station.lat, station.lon], 13)
 
-  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2VtaWJyYW4iLCJhIjoiY2tpMnc2cTMxMWl2czJ5cGRpYWR4YWExNyJ9.cNgXsMZb5K-7DKOr6jw8ag', {
-    id: 'mapbox/streets-v11',
-    attribution: 'Data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-    ', Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    tileSize: 512,
-    zoomOffset: -1
-  }).addTo(leaflet)
-
-  leaflet.setView([station.lat, station.lon], 13)
-
-  L.polyline(path.map(station => [station.lat, station.lon]), {
+  // route line
+  Leaflet.polyline(route.path.map(station => [station.lat, station.lon]), {
     color: 'rgba(0, 0, 255, 0.5)'
-  }).addTo(leaflet)
+  }).addTo(map)
 
-  L.marker([station.lat, station.lon])
-    .addTo(leaflet)
+  // station marker
+  Leaflet.marker([station.lat, station.lon])
+    .addTo(map)
     .bindTooltip('<strong>' + station.name + '</strong>')
     .openTooltip()
 })()
@@ -99,7 +91,7 @@ function update (data) {
 }
 
 const StationPage = (state) => {
-  const { station, path, route } = state
+  const { station, route } = state
 
   const messages = state.messages
     .filter(msg => msg.route === route.id)
@@ -122,7 +114,7 @@ const StationPage = (state) => {
         h2({ class: 'subtitle' }, `${station.id} · ${station.subname}`)
       ])
     ]),
-    Minimap(station, getStopOrder(station, path)),
+    Minimap(station, route),
     div({ id: 'map', key: 'map' }),
     Infos(report),
     Messages(messages, route)
@@ -171,9 +163,9 @@ const Info = (report, category) => {
   ])
 }
 
-const Minimap = (station, order) => {
-  const [leftstop, centerstop, rightstop] = order
-  const [leftname, centername, rightname] = order.map(stop => fmtstn(stop.name)[0])
+const Minimap = (station, route) => {
+  const [leftstop, centerstop, rightstop] = getStopOrder(station, route)
+  const [leftname, centername, rightname] = route.path.map(stop => fmtstn(stop.name)[0])
   const left = leftstop.id === station.id
   const center = centerstop.id === station.id
   const right = rightstop.id === station.id
@@ -218,17 +210,17 @@ const Minimap = (station, order) => {
   ])
 }
 
-const getStopOrder = (stop, path) => {
-  const index = path.indexOf(stop)
-  const prev = path[index - 1]
-  const next = path[index + 1]
+const getStopOrder = (stop, route) => {
+  const index = route.path.indexOf(stop)
+  const prev = route.path[index - 1]
+  const next = route.path[index + 1]
   if (prev && next) {
     return [prev, stop, next]
   } else if (!prev) {
-    const nxnx = path[index + 2]
+    const nxnx = route.path[index + 2]
     return [stop, next, nxnx]
   } else if (!next) {
-    const pvpv = path[index - 2]
+    const pvpv = route.path[index - 2]
     return [pvpv, prev, stop]
   }
 }
