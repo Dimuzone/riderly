@@ -20,7 +20,7 @@
   --lightgreen: #DEF5DE;
   --lightyellow: #FFF8E5;
   --lightred: #FFE1EC;
-  --color-bg: white;
+  --color-bg: var(--white);
   --color-input: var(--white);
   --color-disable: var(--silver);
   --color-outline: var(--lightgray);
@@ -70,7 +70,6 @@ strong {
 
 body {
   background: var(--color-bg);
-  color: var(--color-content);
 }
 
 input, button, body {
@@ -211,6 +210,38 @@ h2 {
   margin: 0 1rem;
 }
 
+.section-notice {
+  border: thin solid var(--lightgray);
+  color: var(--gray);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  padding: 1rem 0;
+  border-radius: 4px;
+  display: block;
+  text-align: center;
+}
+
+.button.-action {
+  background: var(--blue);
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  width: calc(100% - 2rem);
+  height: 48px;
+  margin: 0.75rem 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button.-action .icon {
+  margin-right: 8px;
+}
+
+.button.-action.-chat {
+  background: var(--green);
+}
+
 .option {
   border-bottom: thin solid var(--lightgray);
   padding: 12px;
@@ -254,19 +285,7 @@ h2 {
   line-height: 1.5;
 }
 
-.button {
-  background: var(--blue);
-  color: white;
-  font-size: 1em;
-  font-weight: bold;
-  width: 100%;
-  height: 48px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 #map {
   height: 160px;
+  z-index: -1;
 }

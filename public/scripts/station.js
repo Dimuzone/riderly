@@ -8,6 +8,7 @@ const $main = document.querySelector('main')
 const state = {
   routes: JSON.parse(window.localStorage.routes || '[]'),
   reports: JSON.parse(window.localStorage.reports || '[]'),
+  messages: JSON.parse(window.localStorage.messages || '[]'),
   station: null,
   path: null
 }
@@ -39,6 +40,7 @@ const levels = {
   station.name = stnfmt[0]
   station.subname = stnfmt[1]
 
+  // listen for reports
   db.collection('reports')
     .orderBy('timestamp', 'desc')
     .onSnapshot(col => {
@@ -50,6 +52,20 @@ const levels = {
         }
       }
       update({ reports: [...state.reports, reports] })
+    })
+
+  // listen for messages
+  db.collection('messages')
+    .orderBy('timestamp', 'desc')
+    .onSnapshot(col => {
+      const messages = []
+      for (const doc of col.docs) {
+        const msg = { ...doc.data(), id: doc.id }
+        if (!state.messages.find(cached => cached.id === msg.id)) {
+          messages.push(msg)
+        }
+      }
+      update({ reports: [...state.messages, messages] })
     })
 
   update({ route, station, path })
@@ -83,9 +99,13 @@ function update (data) {
 }
 
 const StationPage = (state) => {
-  const { station, path, route, reports } = state
+  const { station, path, route } = state
 
-  const report = reports
+  const messages = state.messages
+    .filter(msg => msg.route === route.id)
+    .sort(byTime)
+
+  const report = state.reports
     .filter(rpt => rpt.station === station.id && rpt.route === route.id)
     .sort(byTime)[0]
 
@@ -104,9 +124,22 @@ const StationPage = (state) => {
     ]),
     Minimap(station, getStopOrder(station, path)),
     div({ id: 'map', key: 'map' }),
-    Infos(report)
+    Infos(report),
+    Messages(messages, route)
   ])
 }
+
+const Messages = (messages, route) =>
+  section({ class: 'section -messages' }, [
+    h3({ class: 'section-header section-title' }, 'Recent Messages'),
+    messages.length
+      ? div({ class: 'section-content messages' }, messages.map(msg => msg.content))
+      : span({ class: 'section-content section-notice' }, 'Be the first to say something.'),
+    button({ class: 'button -action -chat' }, [
+      span({ class: 'icon material-icons-outlined' }, 'question_answer'),
+      `Chat on Route ${route.id}`
+    ])
+  ])
 
 const Infos = (report) =>
   section({ class: 'section -info' }, [

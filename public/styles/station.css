@@ -1,5 +1,5 @@
 .page.-station {
-  background: var(--white);
+  padding-bottom: 2rem;
 }
 
 .header.-color {
@@ -8,6 +8,7 @@
   margin: 0;
   padding: 0 1rem;
   width: 100%;
+  z-index: 2;
 }
 
 .header.-color.-primary {
