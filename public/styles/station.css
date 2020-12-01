@@ -24,7 +24,7 @@
 }
 
 .header.-color .subtitle {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--lightblue);
   text-align: right;
   text-transform: uppercase;
 }
@@ -54,7 +54,7 @@
 }
 
 .station-label {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--lightblue);
   font-size: 0.875rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -83,7 +83,7 @@
 
 .station-circles::before {
   content: "";
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--lightblue);
   width: 100%;
   height: 2px;
   position: absolute;
@@ -94,7 +94,7 @@
 .station-circle {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid var(--lightblue);
   border-radius: 50%;
   background: var(--darkblue);
 }
@@ -104,7 +104,7 @@
   border: 2px solid var(--darkblue);
   width: 14px;
   height: 14px;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 2px var(--lightblue);
 }
 
 .info {
