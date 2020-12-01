@@ -9,12 +9,27 @@ body {
 
 .search {
   background: var(--darkblue);
-  border: thin solid var(--darkblue);
   color: var(--lightblue);
+  border: thin solid var(--darkblue);
+}
+
+.search-input {
+  font-size: 0.875rem;
 }
 
 .search-input::placeholder {
   color: inherit;
+}
+
+.search-input:focus::placeholder {
+  color: var(--lightblue);
+}
+
+.search:focus-within {
+  background: var(--darkblue);
+  color: white;
+  border-color: white;
+  box-shadow: none;
 }
 
 .east-icon {

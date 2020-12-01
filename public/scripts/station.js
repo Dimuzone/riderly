@@ -106,9 +106,9 @@ const StationPage = (state) => {
       div({ class: 'header-text' }, [
         div({ class: 'title-row' }, [
           h1({ class: 'title' }, station.name),
-          button({ class: 'back', onclick: window.history.back }, [
+          button({ class: 'back', onclick: _ => window.history.back() }, [
             span({ class: 'icon -back material-icons' }, 'keyboard_arrow_left'),
-            'Home'
+            route.id
           ])
         ]),
         h2({ class: 'subtitle' }, `${station.id} · ${station.subname}`)

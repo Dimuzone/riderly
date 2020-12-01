@@ -1,6 +1,6 @@
 const {
   fmtstn, normname, getstns, L: Leaflet,
-  patch, main, header, div, h1, h2, span, p, button, input
+  patch, main, header, div, h1, h2, span, a, button, input
 } = window
 
 const $main = document.querySelector('main')
@@ -88,22 +88,20 @@ const RoutePage = (state) => {
               : `${stations.length} stops`)
         ]),
         div({ class: 'section-content' }, [
-          div({ class: 'search' }, [
-            div({ class: 'search-bar' }, [
-              span({ class: 'icon -search material-icons' },
-                'search'),
-              input({
-                id: 'filter',
-                class: 'search-input',
-                placeholder: 'Filter stations',
-                autocomplete: 'off',
-                oninput: evt => evt
-              }),
-              filter.query
-                ? span({ class: 'icon -close material-icons', onclick: evt => evt },
-                    'close')
-                : null
-            ])
+          div({ class: 'search search-bar' }, [
+            span({ class: 'icon -search material-icons' },
+              'search'),
+            input({
+              id: 'filter',
+              class: 'search-input',
+              placeholder: 'Filter stations',
+              autocomplete: 'off',
+              oninput: evt => evt
+            }),
+            filter.query
+              ? span({ class: 'icon -close material-icons', onclick: evt => evt },
+                  'close')
+              : null
           ]),
           div({ class: 'stations' },
             (filter.query ? filter.results : stations).map(stn => Station(stn, route)))

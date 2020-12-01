@@ -41,6 +41,7 @@
   margin: 0;
   padding: 0;
   border: 0;
+  outline: 0;
   background: 0 0;
   color: inherit;
   font: inherit;
@@ -195,7 +196,6 @@ h2 {
   background-color: var(--color-input);
   border: thin solid var(--silver);
   margin-bottom: 8px;
-  border-radius: 16px;
 }
 
 .search-bar {
@@ -205,6 +205,7 @@ h2 {
   font-size: small;
   align-items: center;
   height: 32px;
+  border-radius: 16px;
 }
 
 .search-input {
@@ -216,13 +217,13 @@ h2 {
   color: var(--blue);
 }
 
-.search-bar:focus-within {
+.search:focus-within {
   background: var(--color-bg);
   border-color: var(--blue);
   box-shadow: 0 2px 2px var(--silver);
 }
 
-.search-bar:focus-within .search-icon {
+.search:focus-within .search-icon {
   color: var(--blue);
 }
 
@@ -231,14 +232,15 @@ h2 {
 }
 
 .section-header {
-  margin: 0 1rem 4px;
+  font-size: 0.75rem;
+  margin: 0 1rem;
+  height: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .section-title {
-  font-size: 0.75rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: var(--kerning);
