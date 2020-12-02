@@ -7,6 +7,7 @@ const $main = document.querySelector('main')
 
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
+  search: JSON.parse(window.sessionStorage.search || null),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   recents: JSON.parse(window.localStorage.recents || '[]')
     .map(id => {
@@ -30,6 +31,11 @@ const switchtab = (state, newtab) =>
       recent.station = state.stations.find(station => station.id === recent.station)
     }
   }
+
+  if (state.search) {
+    delete window.sessionStorage.search
+  }
+
   render(state)
 
   // get chat messages and rerender
@@ -64,6 +70,7 @@ function render (state) {
       window.location.href = 'login.html'
     } else {
       await firebase.auth().signOut()
+      delete window.sessionStorage.user
       window.location.href = 'index.html'
     }
   }
@@ -91,7 +98,7 @@ function render (state) {
       section({ class: 'section -stations' }, [
         h2({ class: 'section-title section-header' },
           tab === 'recents' ? 'Recent Stations' : 'Saved Stations'),
-        div({ class: 'section-tabs' }, [
+        user && div({ class: 'section-tabs' }, [
           button({
             class: 'section-tab' + (tab === 'recents' ? ' -select' : ''),
             onclick: _ => render(switchtab(state, 'recents'))
