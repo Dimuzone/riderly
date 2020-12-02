@@ -1,5 +1,5 @@
 const {
-  firebase, db, timediff, normname, patch,
+  firebase, db, timediff, fmtstn, normname, patch, getstns,
   main, header, section, div, h1, h2, button, span, strong, a
 } = window
 
@@ -7,8 +7,13 @@ const $main = document.querySelector('main')
 
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
+  stations: JSON.parse(window.localStorage.stations || '[]'),
+  recents: JSON.parse(window.localStorage.recents || '[]')
+    .map(id => {
+      const [route, station] = id.split('/')
+      return { route, station: +station }
+    }),
   tab: 'recents',
-  recents: [],
   saves: [],
   messages: []
 }
@@ -17,14 +22,14 @@ const switchtab = (state, newtab) =>
   ({ ...state, tab: newtab })
 
 ;(async function main () {
-  const cache = window.localStorage.getItem('recents')
-  state.recents = !cache
-    ? state.recents
-    : cache.split(',')
-      .reverse()
-      .slice(0, 3)
-      .map(decodestn)
-
+  if (state.recents.length) {
+    const stnids = state.recents.map(save => save.station)
+    state.stations.push(...await getstns(stnids))
+    window.localStorage.stations = JSON.stringify(state.stations)
+    for (const recent of state.recents) {
+      recent.station = state.stations.find(station => station.id === recent.station)
+    }
+  }
   render(state)
 
   // get chat messages and rerender
@@ -45,14 +50,9 @@ firebase.auth().onAuthStateChanged(async user => {
   const doc = await db.collection('users').doc(user.uid).get()
   const userdata = doc.data()
   state.user = userdata
-  state.saves = userdata.saves.reverse().map(decodestn)
+  state.saves = userdata.saves
   render(state)
 })
-
-function decodestn (stn) {
-  const [id, route, name, before, after] = stn.split('-')
-  return { id, route, name, before, after }
-}
 
 function render (state) {
   const { user, tab, recents, saves, messages } = state
@@ -111,11 +111,11 @@ function render (state) {
         ]),
         tab === 'recents'
           ? recents.length
-              ? div({ class: 'section-content stations -recent' }, recents.map(renderstn))
+              ? div({ class: 'section-content stations -recent' }, recents.map(Save))
               : span({ class: 'section-content section-notice' },
                 'When you view a station, it will appear here.')
           : saves.length
-            ? div({ class: 'section-content stations -saves' }, saves.map(renderstn))
+            ? div({ class: 'section-content stations -saves' })
             : span({ class: 'section-content section-notice' },
               'When you save a station, it will appear here.')
       ]),
@@ -130,21 +130,19 @@ function render (state) {
   ]))
 }
 
-function renderstn (station) {
-  const [on, at] = normname(station.name)
-  function onclick () {
-    window.sessionStorage.setItem('stationId', station.id)
-    window.sessionStorage.setItem('route', station.route)
-    window.sessionStorage.setItem('stationName', station.name)
-    window.sessionStorage.setItem('before', station.before)
-    window.sessionStorage.setItem('after', station.after)
-    window.location.href = 'station.html'
-  }
-  return div({ class: 'option', onclick }, [
+function Save (save) {
+  const { station, route } = save
+  const [name, subname] = fmtstn(station.name)
+  const addendum = subname ? [' · ', strong(subname)] : []
+  return a({ class: 'option', href: `station.html#${route}/${station.id}` }, [
     div({ class: 'option-lhs' }, [
-      span({ class: 'option-text' }, on),
-      span({ class: 'option-subtext' },
-        [station.route, ' ‧ ', station.id, ...(at ? [' · ', strong(at)] : [])])
+      span({ class: 'icon -route material-icons-outlined' },
+        'place'),
+      div({ class: 'option-meta' }, [
+        div({ class: 'option-name' }, `${name} (${route})`),
+        div({ class: 'option-data' },
+          [station.id, ...addendum])
+      ])
     ]),
     div({ class: 'option-rhs' }, [
       span({ class: 'icon -option material-icons' }, 'chevron_right')

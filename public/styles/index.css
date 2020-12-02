@@ -21,7 +21,7 @@
   background: var(--white);
   display: block;
   margin-top: 6px;
-  padding: 10px 16px;
+  padding: 9px 3.5rem;
   border-radius: 4px;
   font-size: 0.875rem;
   line-height: 1.25;
@@ -32,9 +32,8 @@
   background: white;
   display: flex;
   border-top: thin solid var(--silver);
-  border-bottom: thin solid var(--silver);
-  margin-bottom: 1rem;
   box-shadow: var(--shadow);
+  margin-bottom: 0.5rem;
 }
 
 .section-tab {

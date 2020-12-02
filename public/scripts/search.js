@@ -10,6 +10,7 @@ const state = {
   routes: JSON.parse(window.localStorage.routes || '[]'),
   search: JSON.parse(window.sessionStorage.search || null) || {
     query: '',
+    keywords: [],
     results: []
   }
 }
@@ -20,6 +21,10 @@ const state = {
     ({ ...route, name: normname(route.name) }))
 
   update()
+
+  if (state.search) {
+    $input.value = state.search.query
+  }
 
   $input.oninput = _ => {
     const query = $input.value
@@ -32,6 +37,7 @@ const state = {
 function update (data) {
   Object.assign(state, data)
   patch($results, Results(state))
+  window.sessionStorage.search = JSON.stringify(state.search)
 }
 
 function Results (state) {

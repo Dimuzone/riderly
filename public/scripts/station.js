@@ -10,10 +10,12 @@ const $main = document.querySelector('main')
 
 const state = {
   routes: JSON.parse(window.localStorage.routes || '[]'),
+  recents: JSON.parse(window.localStorage.recents || '[]'),
   reports: JSON.parse(window.sessionStorage.reports || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
   users: JSON.parse(window.sessionStorage.users || '[]'),
   user: JSON.parse(window.sessionStorage.user || null),
+  search: JSON.parse(window.sessionStorage.search || null),
   station: null,
   route: null,
   path: null,
@@ -56,7 +58,7 @@ async function mount (user) {
   if (state.init) return
   state.init = true
 
-  const { route, station, users } = state
+  const { route, station, recents, users } = state
 
   // if a user we haven't cached yet is logged in
   if (user && !state.user) {
@@ -75,6 +77,13 @@ async function mount (user) {
   const stnfmt = fmtstn(station.name)
   station.name = stnfmt[0]
   station.subname = stnfmt[1]
+
+  const id = route.id + '/' + station.id
+  if (recents.includes(id)) {
+    recents.splice(recents.indexOf(id), 1)
+  }
+  recents.push(id)
+  window.localStorage.recents = JSON.stringify(recents)
 
   update({ route, station })
 
@@ -135,7 +144,7 @@ function update (data) {
 }
 
 const StationPage = (state) => {
-  const { station, route, user } = state
+  const { station, route, user, search } = state
 
   const messages = state.messages
     .filter(msg => msg.route === route.id)
@@ -160,7 +169,7 @@ const StationPage = (state) => {
           h1({ class: 'title -small' }, station.name),
           button({ class: 'back', onclick: _ => window.history.back() }, [
             span({ class: 'icon -back material-icons' }, 'keyboard_arrow_left'),
-            route.id
+            search ? route.id : 'Home'
           ])
         ]),
         h2({ class: 'subtitle' }, `${station.id} · ${station.subname}`)
@@ -238,8 +247,9 @@ const Message = (message) => {
 }
 
 const Minimap = (station, route) => {
-  const [leftstop, centerstop, rightstop] = getStopOrder(station, route)
-  const [leftname, centername, rightname] = route.path.map(stop => fmtstn(stop.name)[0])
+  const order = getStopOrder(station, route)
+  const [leftstop, centerstop, rightstop] = order
+  const [leftname, centername, rightname] = order.map(stop => fmtstn(stop.name)[0])
   const left = leftstop.id === station.id
   const center = centerstop.id === station.id
   const right = rightstop.id === station.id
