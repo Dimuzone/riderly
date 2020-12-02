@@ -51,7 +51,7 @@ function Results (state) {
 function Result (route, keywords) {
   const name = route.id + ' ' + route.name
   const tokens = tokenize(name, keywords)
-  return a({ class: 'result' }, [
+  return a({ class: 'result', href: 'route.html#' + route.id }, [
     span({ class: 'icon -route material-icons-outlined' },
       'directions_bus'),
     span({ class: 'result-name' },

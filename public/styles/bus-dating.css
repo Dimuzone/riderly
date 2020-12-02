@@ -239,6 +239,10 @@ h2 {
   line-height: 1rem;
 }
 
+.search-input::placeholder {
+  color: var(--gray);
+}
+
 .search:focus-within {
   border-color: var(--blue);
 }
@@ -247,7 +251,7 @@ h2 {
   color: var(--blue);
 }
 
-.search-input:not(:placeholder-shown) {
+.search-input:focus:not(:placeholder-shown) {
   color: var(--blue);
 }
 

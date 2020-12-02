@@ -3,7 +3,6 @@ const {
   main, header, section, div, h1, h2, button, span, strong, a
 } = window
 
-const login = document.getElementById('login')
 const $main = document.querySelector('main')
 
 const state = {
@@ -47,7 +46,6 @@ firebase.auth().onAuthStateChanged(async user => {
   const userdata = doc.data()
   state.user = userdata
   state.saves = userdata.saves.reverse().map(decodestn)
-  console.log(state.saves)
   render(state)
 })
 
@@ -77,10 +75,12 @@ function render (state) {
         button({ class: 'button -login', onclick: onlogin },
           !user ? 'Login' : 'Logout')
       ]),
-      a({ href: './search.html', class: 'search search-bar' }, [
-        span({ class: 'search-icon material-icons' },
-          'search'),
-        span({ class: 'search-input' }, 'Search routes')
+      a({ href: './search.html', class: 'search' }, [
+        div({ class: 'search-bar' }, [
+          span({ class: 'icon -search material-icons' },
+            'search'),
+          span({ class: 'search-input' }, 'Search routes')
+        ])
       ])
     ]),
     div({ class: 'page-content' }, [
