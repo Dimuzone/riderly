@@ -22,6 +22,9 @@ const state = {
   }
 
   route.path = await getstns(route.path)
+  if (!route.path.length) {
+    return patch($main, 'not found')
+  }
 
   update({ route })
 

@@ -15,6 +15,7 @@ body {
   background: var(--darkblue);
   color: var(--lightblue);
   border: thin solid var(--darkblue);
+  box-shadow: none;
 }
 
 .search-input {
@@ -29,11 +30,19 @@ body {
   color: var(--lightblue);
 }
 
+.search-input:focus:not(:placeholder-shown) {
+  color: white;
+}
+
 .search:focus-within {
   background: var(--darkblue);
   color: white;
   border-color: white;
   box-shadow: none;
+}
+
+.search:focus-within .icon.-search {
+  color: white;
 }
 
 .east-icon {

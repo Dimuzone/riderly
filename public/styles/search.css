@@ -47,6 +47,10 @@
   overflow-y: scroll;
 }
 
+.results:empty {
+  margin: 0;
+}
+
 .result {
   font-size: 0.875rem;
   line-height: 1.25;
