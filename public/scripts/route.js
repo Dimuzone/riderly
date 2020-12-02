@@ -1,14 +1,20 @@
 const {
-  getrts, getstns, fmtstn, normname, L: Leaflet,
+  getrts, getstns, fmtstn, normname, L: Leaflet, kwsplit, filter: filterBy,
   patch, main, header, div, h1, h2, span, a, button, input
 } = window
 
 const $main = document.querySelector('main')
+let $input = null
+
 const state = {
   stations: JSON.parse(window.localStorage.stations || '[]'),
   routes: JSON.parse(window.localStorage.routes || '[]'),
   search: JSON.parse(window.sessionStorage.search || '{}'),
-  filter: JSON.parse(window.sessionStorage.filter || '{}'),
+  filter: JSON.parse(window.sessionStorage.filter || null) || {
+    query: '',
+    keywords: [],
+    results: []
+  },
   path: null
 }
 
@@ -61,13 +67,22 @@ const state = {
 function update (data) {
   Object.assign(state, data)
   patch($main, RoutePage(state))
+  if (!$input) {
+    $input = document.querySelector('.search-input')
+    if (state.filter) $input.value = state.filter.query
+  }
 }
 
 const RoutePage = (state) => {
   const { route, search, filter } = state
   const stations = route.path
 
-  const oninput = _ => _
+  const oninput = evt => {
+    const query = $input.value
+    const keywords = kwsplit(query)
+    const results = !query ? [] : filterBy(stations, keywords)
+    update({ filter: { ...state.filter, query, keywords, results } })
+  }
 
   return main({ class: `page -route -${route.id}` }, [
     header({ class: 'header -color -primary' }, [

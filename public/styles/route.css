@@ -11,6 +11,10 @@ body {
   color: var(--lightblue);
 }
 
+.section-content {
+  margin-top: 4px;
+}
+
 .search {
   background: var(--darkblue);
   color: var(--lightblue);
