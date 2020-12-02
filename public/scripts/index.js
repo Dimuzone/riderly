@@ -139,7 +139,7 @@ function render (state) {
       section({ class: 'section -messages' }, [
         h2({ class: 'section-title section-header' }, 'Recent Messages'),
         messages.length
-          ? div({ class: 'section-content messages' }, messages.map(Message))
+          ? div({ class: 'section-content messages' }, messages.slice(0, 3).map(Message))
           : span({ class: 'section-content section-notice' },
             'No recent user activity!')
       ])
