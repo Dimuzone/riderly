@@ -279,7 +279,7 @@ const Minimap = (station, route) => {
   const right = rightstop.id === station.id
 
   const switchstop = station => {
-    window.location.assign(`/station.html#${route.id}+${station.id}`)
+    window.history.replaceState(null, '', `/station.html#${route.id}+${station.id}`)
     visit(state, station)
   }
 
