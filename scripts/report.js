@@ -51,7 +51,7 @@ const state = {
 const Header = (station, route) =>
   header({ class: 'header header-text -color -primary' }, [
     div({ class: 'title-row' }, [
-      h1({ class: 'title' }, 'Report changes'),
+      h1({ class: 'title -small' }, 'Report changes'),
       button({ class: 'back', onclick: _ => window.history.back() }, [
         span({ class: 'icon -back material-icons' },
           'keyboard_arrow_left'),

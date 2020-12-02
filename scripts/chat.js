@@ -1,63 +1,109 @@
-const { firebase, db, patch, main, div, input, button, span } = window
+const {
+  firebase, db, patch, getstns,
+  div, input, button, span
+} = window
+
+const $main = document.querySelector('main')
+const $page = document.querySelector('.page-content')
+const $subtitle = document.querySelector('.subtitle')
+const $back = document.querySelector('.back-text')
+let $input = null
+let $groups = null
+let $wrap = null
 
 const auth = firebase.auth()
-const backButton = window.sessionStorage.getItem('backButton')
-const route = window.sessionStorage.getItem('route')
-const station = window.sessionStorage.getItem('stationName')
-const subtitle = document.getElementById('subtitle')
-const back = document.getElementById('back')
-const page = document.querySelector('.page.-chat')
-let textbox = null
-let wrap = null
-let groups = null
+
 const state = {
+  users: JSON.parse(window.localStorage.users || '[]'),
+  messages: JSON.parse(window.localStorage.messages || '[]'),
+  stations: JSON.parse(window.localStorage.stations || '[]'),
+  routes: JSON.parse(window.localStorage.routes || '[]'),
+  route: null,
   userid: null,
   username: 'guest',
-  messages: []
+  init: false
 }
 
-subtitle.innerText = `Route ${route}`
-if (station !== null) {
-  back.innerText = `${station.split(' @ ')[1]}`
-} else {
-  back.innerTest = route
-}
+;(async function init () {
+  const [rtid, stnid] = window.location.hash.slice(1).split('/')
+  const route = state.routes.find(rt => rt.id === rtid)
+  if (!route) {
+    return patch($main, 'not found')
+  }
 
-updateUser(auth.currentUser)
-auth.onAuthStateChanged(updateUser)
-
-db.collection('messages')
-  .where('route', '==', route)
-  .onSnapshot(col => {
-    for (const doc of col.docs) {
-      if (!state.messages.find(msg => msg.id === doc.id)) {
-        state.messages.push({ id: doc.id, ...doc.data() })
-      }
+  state.route = route
+  route.path = await getstns(route.path)
+  if (stnid) {
+    const station = route.path.find(stn => stn.id === +stnid)
+    if (!station) {
+      return patch($main, 'not found')
     }
-    state.messages.sort((a, b) => a.timestamp - b.timestamp)
-    render(state)
+  }
+
+  $subtitle.innerText = `Route ${rtid}`
+  if (stnid) {
+    $back.innerText = stnid
+  } else {
+    $back.innerText = 'Home'
+  }
+
+  auth.onAuthStateChanged(user => {
+    updateUser(user)
+
+    if (!state.init) {
+      state.init = true
+      window.addEventListener('resize', scroll)
+
+      // listen for messages
+      db.collection('messages')
+        .orderBy('timestamp', 'desc')
+        .onSnapshot(col => {
+          const news = []
+          for (const doc of col.docs) {
+            const msg = { ...doc.data(), id: doc.id }
+            if (!state.messages.find(cached => cached.id === msg.id)) {
+              news.push(msg)
+            }
+          }
+          const messages = [...state.messages, ...news]
+          if (news.length) {
+            window.localStorage.messages = JSON.stringify(messages)
+          }
+          update({ messages })
+        })
+    }
   })
+})()
 
 async function updateUser (user) {
   if (user) {
-    const userdoc = await db.collection('users').doc(user.uid).get()
-    state.userid = userdoc.data().email
-    state.username = userdoc.data().name
-    render(state)
+    const doc = await db.collection('users').doc(user.uid).get()
+    update({ userid: doc.data().email, username: doc.data().name })
   } else {
-    let token = window.localStorage.getItem('token')
+    let token = window.localStorage.token
     if (!token) {
       token = Math.random().toString().slice(2)
-      window.localStorage.setItem('token', token)
+      window.localStorage.token = token
     }
-    state.userid = token
-    render(state)
+    update({ userid: token })
   }
 }
 
-function render (state) {
-  patch(page, main({ class: 'page -chat' }, [
-    div({ class: 'messages' }, [renderMessages(state)]),
+function update (data) {
+  Object.assign(state, data)
+  patch($page, ChatPage(state))
+  if (!$wrap) $wrap = document.querySelector('.messages')
+  if (!$input) $input = document.querySelector('.message-input')
+  if (!$groups) $groups = document.querySelector('.message-groups')
+  scroll()
+}
+
+function ChatPage (state) {
+  const messages = state.messages
+    .filter(msg => msg.route === state.route.id)
+    .sort((a, b) => a.timestamp - b.timestamp)
+  return div({ class: 'page-content' }, [
+    div({ class: 'messages' }, [MessageGroups(messages, state.userid)]),
     div({ class: 'message-bar' }, [
       input({
         class: 'message-input',
@@ -69,50 +115,40 @@ function render (state) {
         onclick: _ => send(state)
       }, 'arrow_upward')
     ])
-  ]))
-  textbox = document.querySelector('.message-input')
-  groups = document.querySelector('.message-groups')
-  wrap = document.querySelector('.messages')
-  window.addEventListener('resize', scroll)
-  scroll()
+  ])
 }
 
 function send (state) {
-  if (!textbox.value) return false
+  if (!$input.value) return false
   const message = {
     timestamp: Date.now(),
-    route: route,
+    route: state.route.id,
     username: state.username,
     userid: state.userid,
-    content: textbox.value,
-    likes: 0
+    content: $input.value
   }
+  $input.value = ''
   db.collection('messages').add(message)
-  render({
-    ...state,
-    messages: [...state.messages, message]
-  })
-  textbox.value = ''
   return true
 }
 
 function scroll () {
-  if (groups.clientHeight > wrap.clientHeight) {
-    wrap.classList.add('-scroll')
-    wrap.scrollTop = groups.clientHeight - wrap.clientHeight
-  } else if (wrap.classList.contains('-scroll')) {
-    wrap.classList.remove('-scroll')
+  if ($groups.clientHeight > $wrap.clientHeight) {
+    $wrap.classList.add('-scroll')
+    $wrap.scrollTop = $groups.clientHeight - $wrap.clientHeight
+  } else if ($wrap.classList.contains('-scroll')) {
+    $wrap.classList.remove('-scroll')
   }
 }
 
-function renderMessages (state) {
+function MessageGroups(messages, userid) {
   const groups = []
   let group = null
   let author = null
-  for (const msg of state.messages) {
+  for (const msg of messages) {
     if (msg.userid !== author) {
       author = msg.userid
-      group = author === state.userid
+      group = author === userid
         ? div({ class: 'message-group -user' }, [
             span({ class: 'message-author' }, [msg.username + ' (You)'])
           ])
@@ -128,11 +164,3 @@ function renderMessages (state) {
   const el = div({ class: 'message-groups' }, groups)
   return el
 }
-
-if (backButton === null) {
-  console.log('hi')
-} else {
-  subtitle.innerText = route
-  back.innerText = backButton
-}
-window.sessionStorage.removeItem('backButton')

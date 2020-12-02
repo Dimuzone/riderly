@@ -66,7 +66,7 @@ const RoutePage = (state) => {
     header({ class: 'header -color -primary' }, [
       div({ class: 'header-text' }, [
         div({ class: 'title-row' }, [
-          h1({ class: 'title' }, `${route.id} ${normname(route.name)}`),
+          h1({ class: 'title -small' }, `${route.id} ${normname(route.name)}`),
           button({ class: 'back', onclick: window.history.back }, [
             span({ class: 'icon -back material-icons' },
               'keyboard_arrow_left'),

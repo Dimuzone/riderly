@@ -128,16 +128,23 @@ h2 {
   background: var(--blue);
 }
 
+.header.-color.-primary .subtitle {
+  color: var(--lightblue);
+}
+
+.header.-color.-secondary {
+  background: var(--green);
+}
+
+.header.-color.-secondary .subtitle {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .header.-color .title, .header.-color .back {
   color: white;
 }
 
-.header.-color .title {
-  font-size: 1.25rem;
-}
-
 .header.-color .subtitle {
-  color: var(--lightblue);
   text-align: right;
   text-transform: uppercase;
   letter-spacing: var(--kerning);
@@ -173,10 +180,16 @@ h2 {
   order: 2;
 }
 
+.title.-small {
+  font-size: 1.25rem;
+  text-align: right;
+}
+
 .subtitle {
   color: var(--color-outline);
   font-size: 1em;
   font-weight: bold;
+  margin-bottom: 2px;
 }
 
 .back {
@@ -237,7 +250,7 @@ h2 {
 }
 
 .section {
-  margin-top: 24px;
+  margin-top: 1rem;
 }
 
 .section-header {
