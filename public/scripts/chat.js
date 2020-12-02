@@ -92,8 +92,11 @@ function update (data) {
 }
 
 function ChatPage (state) {
+  const messages = state.messages
+    .filter(msg => msg.route === state.route.id)
+    .sort((a, b) => a.timestamp - b.timestamp)
   return div({ class: 'page-content' }, [
-    div({ class: 'messages' }, [MessageGroups(state.messages, state.userid)]),
+    div({ class: 'messages' }, [MessageGroups(messages, state.userid)]),
     div({ class: 'message-bar' }, [
       input({
         class: 'message-input',
