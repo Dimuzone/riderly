@@ -15,6 +15,7 @@ const auth = firebase.auth()
 
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
+  users: JSON.parse(window.sessionStorage.users || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   routes: JSON.parse(window.localStorage.routes || '[]'),
@@ -23,7 +24,7 @@ const state = {
 }
 
 ;(async function init () {
-  const [rtid, stnid] = window.location.hash.slice(1).split('/')
+  const [rtid, stnid] = window.location.hash.slice(1).split('+')
 
   state.routes = await getrts()
   const route = state.routes.find(rt => rt.id === rtid)

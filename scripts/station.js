@@ -30,7 +30,7 @@ const levels = {
 }
 
 ;(async function init () {
-  const [rtid, stnid] = window.location.hash.slice(1).split('/')
+  const [rtid, stnid] = window.location.hash.slice(1).split('+')
 
   state.routes = await getrts()
   const route = state.routes.find(rt => rt.id === rtid)
@@ -186,7 +186,7 @@ const StationPage = (state) => {
         Info(report, 'timing'),
         Info(report, 'masking')
       ]),
-      a({ class: 'button -action -report', href: `report.html#${route.id}/${station.id}` }, [
+      a({ class: 'button -action -report', href: `report.html#${route.id}+${station.id}` }, [
         span({ class: 'icon -edit material-icons-outlined' },
           'edit'),
         'Report changes'
@@ -197,7 +197,7 @@ const StationPage = (state) => {
       messages.length
         ? div({ class: 'section-content messages' }, messages.slice(0, 3).map(Message))
         : span({ class: 'section-content section-notice' }, 'Be the first to say something.'),
-      a({ class: 'button -action -chat', href: `chat.html#${route.id}/${station.id}` }, [
+      a({ class: 'button -action -chat', href: `chat.html#${route.id}+${station.id}` }, [
         span({ class: 'icon -talk material-icons-outlined' },
           'question_answer'),
         `Chat on Route ${route.id}`

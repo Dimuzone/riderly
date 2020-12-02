@@ -3,11 +3,13 @@ const {
   main, header, section, div, h1, h2, button, span, strong, a
 } = window
 
-const $main = document.querySelector('main')
+const auth = firebase.auth()
+const $page = document.querySelector('main')
 
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
   search: JSON.parse(window.sessionStorage.search || null),
+  users: JSON.parse(window.sessionStorage.users || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   recents: JSON.parse(window.localStorage.recents || '[]')
@@ -16,11 +18,12 @@ const state = {
       return { route, station: +station }
     }),
   saves: [],
-  tab: 'recents'
+  tab: 'recents',
+  init: false
 }
 
 const switchtab = (state, newtab) =>
-  ({ ...state, tab: newtab })
+  ({ tab: newtab })
 
 ;(async function main () {
   if (state.user) {
@@ -30,20 +33,19 @@ const switchtab = (state, newtab) =>
     })
   }
 
-  const stnids = []
-
-  if (state.recents.length) {
-    stnids.push(...state.recents.map(save => save.station))
-  }
-
-  if (state.saves.length) {
-    stnids.push(...state.saves.map(save => save.station))
-  }
+  const stnids = [
+    ...state.recents.map(save => save.station),
+    ...state.saves.map(save => save.station)
+  ]
 
   if (stnids.length) {
-    await getstns(stnids)
-    window.localStorage.stations = JSON.stringify(state.stations)
+    const news = await getstns(stnids)
+    if (news.length) {
+      state.stations.push(...news)
+      window.localStorage.stations = JSON.stringify(state.stations)
+    }
   }
+
 
   for (const recent of state.recents) {
     recent.station = state.stations.find(station => station.id === recent.station)
@@ -53,12 +55,60 @@ const switchtab = (state, newtab) =>
     save.station = state.stations.find(station => station.id === save.station)
   }
 
+  // clear search whenever user returns to search page
   if (state.search) {
     delete window.sessionStorage.search
   }
 
-  render(state)
 
+  if (state.user) {
+    mount(state.user)
+  } else {
+    auth.onAuthStateChanged(mount)
+  }
+})()
+
+async function mount (user) {
+  if (state.init) return
+  state.init = true
+
+  const { users } = state
+
+  // if a user we haven't cached yet is logged in
+  if (user && !state.user) {
+    const userdata = (await db.collection('users').doc(user.uid).get()).data()
+    userdata.uid = user.uid
+    userdata.id = userdata.email
+    delete userdata.email
+    users.push(userdata)
+
+    const saves = userdata.saves.map(id => {
+      const [route, station] = id.split('/')
+      return { route, station: +station }
+    })
+    state.saves.push(...saves)
+
+    const stnids = saves.map(save => save.station)
+    if (stnids.length) {
+      const news = await getstns(stnids)
+      if (news.length) {
+        state.stations.push(...news)
+        window.localStorage.stations = JSON.stringify(state.stations)
+      }
+    }
+
+    for (const save of state.saves) {
+      save.station = state.stations.find(station => station.id === save.station)
+    }
+
+    window.sessionStorage.user = JSON.stringify(userdata)
+    window.sessionStorage.users = JSON.stringify(users)
+    state.user = userdata
+  } else if (!user) {
+    state.user = { saves: [] }
+  }
+
+  update()
   // listen for messages
   db.collection('messages')
     .orderBy('timestamp', 'desc')
@@ -74,23 +124,16 @@ const switchtab = (state, newtab) =>
       if (news.length) {
         window.sessionStorage.messages = JSON.stringify(messages)
       }
-      render({ ...state, messages })
+      update({ messages })
     })
-})()
+}
 
-firebase.auth().onAuthStateChanged(async user => {
-  // if user isn't logged in, we don't need to do anything extra.
-  // just render and exit
-  if (!user) return render(state)
+function update (data) {
+  Object.assign(state, data)
+  patch($page, HomePage(state))
+}
 
-  // save user data
-  const doc = await db.collection('users').doc(user.uid).get()
-  const userdata = doc.data()
-  state.user = userdata
-  render(state)
-})
-
-function render (state) {
+function HomePage (state) {
   const { user, tab, recents, saves, messages } = state
   const name = user ? user.name.split(' ')[0] : ''
 
@@ -105,7 +148,7 @@ function render (state) {
     }
   }
 
-  patch($main, main({ class: 'page -home' }, [
+  return main({ class: 'page -home' }, [
     header({ class: 'header -search -home' }, [
       div({ class: 'title-row' }, [
         h1({ class: 'title' }, 'Home'),
@@ -131,7 +174,7 @@ function render (state) {
         user && div({ class: 'section-tabs' }, [
           button({
             class: 'section-tab' + (tab === 'recents' ? ' -select' : ''),
-            onclick: _ => render(switchtab(state, 'recents'))
+            onclick: _ => update(switchtab(state, 'recents'))
           }, [
             span({ class: 'icon -tab material-icons' },
               tab === 'recents' ? 'watch_later' : 'access_time'),
@@ -139,7 +182,7 @@ function render (state) {
           ]),
           button({
             class: 'section-tab' + (tab === 'saves' ? ' -select' : ''),
-            onclick: _ => render(switchtab(state, 'saves'))
+            onclick: _ => update(switchtab(state, 'saves'))
           }, [
             span({ class: 'icon -tab material-icons' },
               tab === 'saves' ? 'star' : 'star_outline'),
@@ -164,14 +207,14 @@ function render (state) {
             'No recent user activity!')
       ])
     ])
-  ]))
+  ])
 }
 
 function Save (save) {
   const { station, route } = save
   const [name, subname] = fmtstn(station.name)
   const addendum = subname ? [' · ', strong(subname)] : []
-  return a({ class: 'option', href: `station.html#${route}/${station.id}` }, [
+  return a({ class: 'option', href: `station.html#${route}+${station.id}` }, [
     div({ class: 'option-lhs' }, [
       span({ class: 'icon -route material-icons-outlined' },
         'place'),
@@ -187,7 +230,7 @@ function Save (save) {
   ])
 }
 
-const Message = (message) => {
+function Message (message) {
   const { timestamp, route: routeid, username, content } = message
   const now = Date.now()
   const ago = timediff(timestamp, now)
