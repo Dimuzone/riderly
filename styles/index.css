@@ -1,4 +1,13 @@
-.header.-home .title {
+.header {
+  background: var(--white);
+}
+
+.header .title-row {
+  order: initial;
+  padding-bottom: 0.5rem;
+}
+
+.header .title {
   order: initial;
 }
 
@@ -12,7 +21,7 @@
   background: var(--white);
   display: block;
   margin-top: 6px;
-  padding: 10px 16px;
+  padding: 9px 3.5rem;
   border-radius: 4px;
   font-size: 0.875rem;
   line-height: 1.25;
@@ -20,8 +29,11 @@
 }
 
 .section-tabs {
+  background: white;
   display: flex;
-  border-bottom: thin solid var(--lightgray);
+  border-top: thin solid var(--silver);
+  box-shadow: var(--shadow);
+  margin-bottom: 0.5rem;
 }
 
 .section-tab {
@@ -53,5 +65,5 @@
   font-size: 0.875rem;
   text-align: center;
   padding-top: 12px;
-  margin-bottom: -10px;
+  color: var(--gray);
 }

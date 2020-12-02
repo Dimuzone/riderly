@@ -1,0 +1,63 @@
+.header {
+  position: relative;
+}
+
+.header.-search {
+  height: calc(6rem - 10px);
+}
+
+.title {
+  line-height: 2rem;
+}
+
+.header .title-row {
+  margin-bottom: 0.5rem;
+  align-items: flex-end;
+}
+
+.search {
+  margin: 0 1rem;
+}
+
+.search-results {
+  color: black;
+  position: relative;
+  z-index: 1;
+}
+
+.search-results:not(:empty) {
+  border-top: thin solid var(--silver);
+  padding-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.icon.-route {
+  margin-right: 0.25rem;
+}
+
+.results-count {
+  padding: 0 3px;
+  font-size: 0.75rem;
+  color: var(--gray);
+}
+
+.results {
+  margin-top: 12px;
+  max-height: 216px;
+  overflow-y: scroll;
+}
+
+.results:empty {
+  margin: 0;
+}
+
+.result {
+  font-size: 0.875rem;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+}
+
+.result + .result {
+  margin-top: 10px;
+}

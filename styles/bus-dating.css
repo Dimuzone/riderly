@@ -96,18 +96,15 @@ h2 {
 }
 
 .page {
-  min-height: 100vh;
   padding-bottom: 2rem;
 }
 
 .header {
-  background: white;
-  border-bottom: thin solid var(--color-outline);
   position: fixed;
   top: 0;
   z-index: 1;
-  margin: 0 15px;
-  width: calc(100% - 30px);
+  padding: 0 1rem;
+  width: 100%;
   height: var(--header-height);
   display: flex;
   flex-direction: column;
@@ -215,38 +212,51 @@ h2 {
 }
 
 .search {
-  background-color: var(--color-input);
+  background: white;
+  color: var(--gray);
+  box-shadow: var(--shadow);
   border: thin solid var(--silver);
+  border-radius: 16px;
   margin-bottom: 8px;
+  padding: 0 1rem;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
-  padding: 4px 8px;
   font-size: small;
   align-items: center;
   height: 32px;
-  border-radius: 16px;
+}
+
+.icon.-search {
+  margin-right: 0.25rem;
 }
 
 .search-input {
-  margin-left: 4px;
   flex: 1;
+  font-size: 0.875rem;
+  line-height: 1rem;
 }
 
-.search-input:focus::placeholder {
-  color: var(--blue);
+.search-input::placeholder {
+  color: var(--gray);
 }
 
 .search:focus-within {
-  background: var(--color-bg);
   border-color: var(--blue);
-  box-shadow: 0 2px 2px var(--silver);
 }
 
-.search:focus-within .search-icon {
+.search:focus-within .icon.-search {
   color: var(--blue);
+}
+
+.search-input:focus:not(:placeholder-shown) {
+  color: var(--blue);
+}
+
+.header.-search + .page-content {
+  margin-top: var(--header-height-search);
 }
 
 .section {
@@ -289,18 +299,21 @@ h2 {
   text-align: center;
 }
 
-.button.-action {
+.button {
   background: var(--blue);
   color: white;
   font-weight: bold;
   border-radius: 8px;
   box-shadow: var(--shadow-heavy);
-  width: calc(100% - 2rem);
-  height: 48px;
-  margin: 0.75rem 1rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.button.-action {
+  width: calc(100% - 2rem);
+  height: 48px;
+  margin: 0.75rem 1rem 0;
 }
 
 .button.-action .icon {

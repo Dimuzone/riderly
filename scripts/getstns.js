@@ -18,14 +18,12 @@ window.getstns = async function getstns (path) {
     for (let i = 0; i < missing.length; i += 10) {
       const chunk = missing.slice(i, i + 10)
       const promise = db.collection('stations').where('id', 'in', chunk).get()
-      console.log('queueing get for', chunk)
       gets.push(promise)
     }
     const cols = await Promise.all(gets)
     for (const col of cols) {
       for (const doc of col.docs) {
         const station = doc.data()
-        console.log('got', station)
         cache.push(station)
         stations.push(station)
       }
