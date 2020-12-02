@@ -143,7 +143,7 @@ const StationPage = (state) => {
       messages.length
         ? div({ class: 'section-content messages' }, messages.slice(0, 3).map(Message))
         : span({ class: 'section-content section-notice' }, 'Be the first to say something.'),
-      a({ class: 'button -action -chat' }, [
+      a({ class: 'button -action -chat', href: 'route.html#' + route.id }, [
         span({ class: 'icon -talk material-icons-outlined' },
           'question_answer'),
         `Chat on Route ${route.id}`
