@@ -1,17 +1,23 @@
 const {
-  db, timediff, fmtstn, L: Leaflet, getstns, patch,
+  firebase, db, timediff, L: Leaflet,
+  getrts, getstns, fmtstn, patch,
   main, header, div, section,
   h1, h2, h3, span, a, strong, button
 } = window
 
+const auth = firebase.auth()
 const $main = document.querySelector('main')
 
 const state = {
   routes: JSON.parse(window.localStorage.routes || '[]'),
   reports: JSON.parse(window.sessionStorage.reports || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
+  users: JSON.parse(window.sessionStorage.users || '[]'),
+  user: JSON.parse(window.sessionStorage.user || null),
   station: null,
-  path: null
+  route: null,
+  path: null,
+  init: false
 }
 
 const levels = {
@@ -23,6 +29,8 @@ const levels = {
 
 ;(async function init () {
   const [rtid, stnid] = window.location.hash.slice(1).split('/')
+
+  state.routes = await getrts()
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch($main, 'not found')
@@ -34,8 +42,36 @@ const levels = {
     return patch($main, 'not found')
   }
 
-  console.log(stnid, rtid)
-  console.log(station, route)
+  state.route = route
+  state.station = station
+  if (state.user) {
+    mount(state.user)
+  } else {
+    auth.onAuthStateChanged(mount)
+  }
+})()
+
+async function mount (user) {
+  // we only want to perform this procedure once
+  if (state.init) return
+  state.init = true
+
+  const { route, station, users } = state
+
+  // if a user we haven't cached yet is logged in
+  if (user && !state.user) {
+    const userdata = (await db.collection('users').doc(user.uid).get()).data()
+    userdata.uid = user.uid
+    userdata.id = userdata.email
+    delete userdata.email
+    users.push(userdata)
+    window.sessionStorage.user = JSON.stringify(userdata)
+    window.sessionStorage.users = JSON.stringify(users)
+    state.user = userdata
+  } else if (!user) {
+    state.user = { saves: [] }
+  }
+  console.log(state.user)
 
   const stnfmt = fmtstn(station.name)
   station.name = stnfmt[0]
@@ -92,7 +128,7 @@ const levels = {
     .addTo(map)
     .bindTooltip('<strong>' + station.name + '</strong>')
     .openTooltip()
-})()
+}
 
 function update (data) {
   Object.assign(state, data)
@@ -100,7 +136,7 @@ function update (data) {
 }
 
 const StationPage = (state) => {
-  const { station, route } = state
+  const { station, route, user } = state
 
   const messages = state.messages
     .filter(msg => msg.route === route.id)
@@ -112,6 +148,14 @@ const StationPage = (state) => {
 
   return main({ class: `page -station -${station.id}` }, [
     header({ class: 'header -color -primary' }, [
+      user && div({ class: 'star' }, [
+        span({
+          class: 'icon -star material-icons',
+          onclick: _ => update(toggleSave(state, station.id))
+        }, [
+          user.saves.includes(station.id) ? 'star' : 'star_outline'
+        ])
+      ]),
       div({ class: 'header-text' }, [
         div({ class: 'title-row' }, [
           h1({ class: 'title -small' }, station.name),
@@ -239,6 +283,22 @@ const Minimap = (station, route) => {
           centername)
       ])
   ])
+}
+
+const toggleSave = (state, stnid) => {
+  const user = state.user
+  const saves = user.saves
+  if (!saves.includes(stnid)) {
+    saves.push(stnid)
+  } else {
+    saves.splice(saves.indexOf(stnid), 1)
+  }
+  user.saves = saves
+  window.sessionStorage.user = JSON.stringify(user)
+  window.sessionStorage.users = JSON.stringify(state.users)
+  db.collection('users').doc(user.uid).update({ saves })
+  console.log(saves)
+  return { saves }
 }
 
 const getStopOrder = (stop, route) => {
