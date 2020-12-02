@@ -8,8 +8,8 @@ const $main = document.querySelector('main')
 
 const state = {
   routes: JSON.parse(window.localStorage.routes || '[]'),
-  reports: JSON.parse(window.localStorage.reports || '[]'),
-  messages: JSON.parse(window.localStorage.messages || '[]'),
+  reports: JSON.parse(window.sessionStorage.reports || '[]'),
+  messages: JSON.parse(window.sessionStorage.messages || '[]'),
   station: null,
   path: null
 }
@@ -54,7 +54,7 @@ const levels = {
       }
       const reports = [...state.reports, ...news]
       if (news.length) {
-        window.localStorage.reports = JSON.stringify(reports)
+        window.sessionStorage.reports = JSON.stringify(reports)
       }
       update({ reports })
     })
@@ -72,7 +72,7 @@ const levels = {
       }
       const messages = [...state.messages, ...news]
       if (news.length) {
-        window.localStorage.messages = JSON.stringify(messages)
+        window.sessionStorage.messages = JSON.stringify(messages)
       }
       update({ messages })
     })
@@ -258,92 +258,3 @@ const getStopOrder = (stop, route) => {
 
 const byTime = (a, b) =>
   b.timestamp - a.timestamp
-
-// const station = cache.stationId
-// const route = cache.route
-// const stationName = cache.stationName
-// const previous = sessionStorage.getItem('before')
-// const thisStation = station + '-' + route + '-' + stationName + '-' + previous + '-' + after
-
-// // Save stations button
-// firebase.auth().onAuthStateChanged(user => {
-//   console.log(user.email)
-
-//   // user log in
-//   db.collection('users').doc(user.uid).get().then(users => {
-//     star.style.display = 'inherit'
-//     const saves = users.data().saves.slice()
-//     if (saves.includes(thisStation)) {
-//       star.innerText = 'star'
-//     }
-//   })
-// })
-
-// star.onclick = function onClick () {
-//   if (star.innerText === 'star_border') {
-//     saveStation(station)
-//     star.innerText = 'star'
-//   } else if (star.innerText === 'star') {
-//     removeStation(station)
-//     star.innerText = 'star_border'
-//   }
-// }
-
-// function saveStation (station) {
-//   firebase.auth().onAuthStateChanged(user => {
-//     const id = user.uid
-//     db.collection('users').doc(id).get().then(user => {
-//       const saves = user.data().saves.slice()
-//       saves.push(thisStation)
-//       db.collection('users').doc(id).update({ saves })
-//     })
-//   })
-// }
-
-// function removeStation (station) {
-//   firebase.auth().onAuthStateChanged(user => {
-//     const id = user.uid
-//     db.collection('users').doc(id).get().then(user => {
-//       const saves = user.data().saves.slice()
-//       if (saves.includes(thisStation)) {
-//         saves.splice(saves.indexOf(thisStation), 1)
-//       }
-//       db.collection('users').doc(id).update({ saves })
-//     })
-//   })
-// }
-
-// // display recent message
-// const messages = []
-// const stationMessageWrap = document.getElementById('recentmsg')
-// db.collection('messages').where('route', '==', cache.route).orderBy('timestamp', 'desc').limit(3)
-//   .get().then(col => {
-//     col.forEach(doc => messages.push(doc.data()))
-//     console.log(messages)
-//     console.log(stationMessageWrap)
-//     patch(stationMessageWrap, div({ id: 'recentmsg' }, messages.map(renderRecentMsg)))
-//   })
-
-// function renderRecentMsg (recentmsg) {
-//   const now = Date.now()
-//   const ago = timediff(recentmsg.timestamp, now)
-//   return div({ class: 'option' }, [
-//     div({ class: 'option-data' }, [p({ class: 'option-text' }, [recentmsg.route]),
-//       div({ class: 'option-subtext' }, [recentmsg.username + ': ' + recentmsg.content])
-//     ]),
-//     div({ class: 'timewrap' }, [span({ class: 'time' }, ago),
-//       span({ class: 'option-icon material-icons' }, 'chevron_right')])
-//   ])
-// }
-
-// // local storage for recent stations
-// if (localStorage.getItem('recents') == null) {
-//   localStorage.setItem('recents', thisStation)
-// } else {
-//   const recent = localStorage.getItem('recents').split(',')
-//   if (!recent.includes(thisStation)) {
-//     recent.push(thisStation)
-//     localStorage.setItem('recents', recent)
-//   }
-//   console.log(localStorage.getItem('recents'))
-// }

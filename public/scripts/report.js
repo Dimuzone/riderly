@@ -9,6 +9,7 @@ const $form = document.querySelector('.report')
 
 const state = {
   routes: JSON.parse(window.localStorage.routes || '[]'),
+  reports: JSON.parse(window.sessionStorage.reports || '[]'),
   station: null,
   path: null
 }
@@ -28,7 +29,7 @@ const state = {
 
   patch($header, Header(station, route))
 
-  // Reporting
+  // Parse form contents and submit report
   $form.onsubmit = event => {
     const formdata = new window.FormData(event.target)
     const seating = +formdata.get('seating')
@@ -36,7 +37,7 @@ const state = {
     const masking = +formdata.get('masking')
     event.preventDefault()
 
-    window.db.collection('reports').add({
+    const report = {
       timestamp: Date.now(),
       author: 'guest',
       station: station.id,
@@ -44,7 +45,11 @@ const state = {
       seating,
       timing,
       masking
-    }).then(_ => window.history.back())
+    }
+
+    state.reports.push(report)
+    window.sessionStorage.reports = JSON.stringify(state.reports)
+    window.db.collection('reports').add(report).then(_ => window.history.back())
   }
 })()
 
