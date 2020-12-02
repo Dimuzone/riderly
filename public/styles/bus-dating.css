@@ -96,7 +96,6 @@ h2 {
 }
 
 .page {
-  min-height: 100vh;
   padding-bottom: 2rem;
 }
 
@@ -104,8 +103,8 @@ h2 {
   position: fixed;
   top: 0;
   z-index: 1;
-  margin: 0 15px;
-  width: calc(100% - 30px);
+  padding: 0 1rem;
+  width: 100%;
   height: var(--header-height);
   display: flex;
   flex-direction: column;
@@ -213,7 +212,9 @@ h2 {
 }
 
 .search {
-  background-color: var(--color-input);
+  background: white;
+  color: var(--gray);
+  box-shadow: var(--shadow);
   border: thin solid var(--silver);
   margin-bottom: 8px;
 }
@@ -228,8 +229,11 @@ h2 {
   border-radius: 16px;
 }
 
+.search-icon {
+  margin-right: 8px;
+}
+
 .search-input {
-  margin-left: 4px;
   flex: 1;
 }
 

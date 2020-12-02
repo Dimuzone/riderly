@@ -78,7 +78,8 @@ function render (state) {
       ]),
       a({ href: './search.html', class: 'search search-bar' }, [
         span({ class: 'search-icon material-icons' },
-          'search')
+        'search'),
+        span('Search routes')
       ])
     ]),
     div({ class: 'page-content' }, [

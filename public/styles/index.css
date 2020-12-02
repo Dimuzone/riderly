@@ -1,3 +1,7 @@
+.header {
+  background: var(--white);
+}
+
 .header .title-row {
   order: initial;
   height: 3rem;
