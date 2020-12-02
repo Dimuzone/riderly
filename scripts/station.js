@@ -154,14 +154,16 @@ const StationPage = (state) => {
     .filter(rpt => +rpt.station === station.id && rpt.route === route.id)
     .sort(byTime)[0]
 
+  const id = route.id + '/' + station.id
+
   return main({ class: `page -station -${station.id}` }, [
     header({ class: 'header -color -primary' }, [
       user && div({ class: 'star' }, [
         span({
           class: 'icon -star material-icons',
-          onclick: _ => update(toggleSave(state, station.id))
+          onclick: _ => update(toggleSave(state, id))
         }, [
-          user.saves.includes(station.id) ? 'star' : 'star_outline'
+          user.saves.includes(id) ? 'star' : 'star_outline'
         ])
       ]),
       div({ class: 'header-text' }, [
@@ -294,13 +296,13 @@ const Minimap = (station, route) => {
   ])
 }
 
-const toggleSave = (state, stnid) => {
+const toggleSave = (state, id) => {
   const user = state.user
   const saves = user.saves
-  if (!saves.includes(stnid)) {
-    saves.push(stnid)
+  if (!saves.includes(id)) {
+    saves.push(id)
   } else {
-    saves.splice(saves.indexOf(stnid), 1)
+    saves.splice(saves.indexOf(id), 1)
   }
   user.saves = saves
   window.sessionStorage.user = JSON.stringify(user)

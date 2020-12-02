@@ -15,21 +15,42 @@ const state = {
       const [route, station] = id.split('/')
       return { route, station: +station }
     }),
-  tab: 'recents',
-  saves: []
+  saves: [],
+  tab: 'recents'
 }
 
 const switchtab = (state, newtab) =>
   ({ ...state, tab: newtab })
 
 ;(async function main () {
+  if (state.user) {
+    state.saves = state.user.saves.map(id => {
+      const [route, station] = id.split('/')
+      return { route, station: +station }
+    })
+  }
+
+  const stnids = []
+
   if (state.recents.length) {
-    const stnids = state.recents.map(save => save.station)
-    state.stations.push(...await getstns(stnids))
+    stnids.push(...state.recents.map(save => save.station))
+  }
+
+  if (state.saves.length) {
+    stnids.push(...state.saves.map(save => save.station))
+  }
+
+  if (stnids.length) {
+    await getstns(stnids)
     window.localStorage.stations = JSON.stringify(state.stations)
-    for (const recent of state.recents) {
-      recent.station = state.stations.find(station => station.id === recent.station)
-    }
+  }
+
+  for (const recent of state.recents) {
+    recent.station = state.stations.find(station => station.id === recent.station)
+  }
+
+  for (const save of state.saves) {
+    save.station = state.stations.find(station => station.id === save.station)
   }
 
   if (state.search) {
@@ -66,7 +87,6 @@ firebase.auth().onAuthStateChanged(async user => {
   const doc = await db.collection('users').doc(user.uid).get()
   const userdata = doc.data()
   state.user = userdata
-  state.saves = userdata.saves
   render(state)
 })
 
@@ -132,7 +152,7 @@ function render (state) {
               : span({ class: 'section-content section-notice' },
                 'When you view a station, it will appear here.')
           : saves.length
-            ? div({ class: 'section-content stations -saves' })
+            ? div({ class: 'section-content stations -saves' }, saves.map(Save))
             : span({ class: 'section-content section-notice' },
               'When you save a station, it will appear here.')
       ]),
