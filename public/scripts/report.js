@@ -1,5 +1,5 @@
 const {
-  patch, fmtstn, getstns,
+  patch, getrts, getstns, fmtstn,
   header, div, h1, button, span, a
 } = window
 
@@ -16,6 +16,8 @@ const state = {
 
 ;(async function init () {
   const [rtid, stnid] = window.location.hash.slice(1).split('/')
+
+  state.routes = await getrts()
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch($main, 'not found')

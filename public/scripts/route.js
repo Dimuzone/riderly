@@ -1,5 +1,5 @@
 const {
-  fmtstn, normname, getstns, L: Leaflet,
+  getrts, getstns, fmtstn, normname, L: Leaflet,
   patch, main, header, div, h1, h2, span, a, button, input
 } = window
 
@@ -14,6 +14,8 @@ const state = {
 
 ;(async function init () {
   const rtid = window.location.hash.slice(1)
+
+  state.routes = await getrts()
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch($main, 'not found')

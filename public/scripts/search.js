@@ -1,4 +1,4 @@
-const { db, patch, div, p, span } = window
+const { getrts, patch, div, p, span } = window
 const search = document.getElementById('search-bar')
 const routewrap = document.getElementById('routes')
 
@@ -6,15 +6,7 @@ const state = { routes: [] }
 const routes = JSON.parse(window.localStorage.routes || '[]')
 
 ;(async function main () {
-  if (!routes) {
-    // Get all routes from Firestore and rerender
-    const col = await db.collection('routes').get()
-    for (const doc of col.docs) {
-      routes.push({ ...doc.data(), id: doc.id })
-    }
-    window.localStorage.routes = JSON.stringify(routes)
-  }
-  state.routes = routes
+  state.routes = await getrts()
   render(state)
 
   search.oninput = _ => {

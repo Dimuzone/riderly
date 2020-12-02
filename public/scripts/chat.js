@@ -1,5 +1,5 @@
 const {
-  firebase, db, patch, getstns,
+  firebase, db, patch, getrts, getstns,
   div, input, button, span
 } = window
 
@@ -26,6 +26,8 @@ const state = {
 
 ;(async function init () {
   const [rtid, stnid] = window.location.hash.slice(1).split('/')
+
+  state.routes = await getrts()
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch($main, 'not found')
