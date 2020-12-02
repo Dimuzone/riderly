@@ -7,6 +7,7 @@ const $main = document.querySelector('main')
 
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
+  search: JSON.parse(window.sessionStorage.search || null),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   recents: JSON.parse(window.localStorage.recents || '[]')
     .map(id => {
@@ -30,6 +31,11 @@ const switchtab = (state, newtab) =>
       recent.station = state.stations.find(station => station.id === recent.station)
     }
   }
+
+  if (state.search) {
+    delete window.sessionStorage.search
+  }
+
   render(state)
 
   // get chat messages and rerender
