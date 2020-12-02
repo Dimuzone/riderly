@@ -46,7 +46,6 @@ const switchtab = (state, newtab) =>
     }
   }
 
-
   for (const recent of state.recents) {
     recent.station = state.stations.find(station => station.id === recent.station)
   }
@@ -59,7 +58,6 @@ const switchtab = (state, newtab) =>
   if (state.search) {
     delete window.sessionStorage.search
   }
-
 
   if (state.user) {
     mount(state.user)
