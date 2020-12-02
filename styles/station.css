@@ -22,8 +22,12 @@
 .station-label {
   color: var(--lightblue);
   font-size: 0.875rem;
+  line-height: 1.5rem;
   font-weight: bold;
   text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .station-label.-right {
@@ -42,7 +46,7 @@
 }
 
 .station-circles {
-  padding: 6px 0;
+  padding: 2px 0;
   display: flex;
   justify-content: space-between;
 }
