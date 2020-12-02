@@ -11,7 +11,6 @@ window.filter = function filter (data, keywords, limit) {
     // - strips out '_' and ' ' chars
     // - case-insensitive
     const id = ('' + val.id + val.name).replace(/_/g, ' ').toUpperCase()
-    console.log(id)
 
     // statement following this one adds to result,
     // so continue if a match isn't found within the calculated identifier
