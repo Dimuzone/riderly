@@ -14,13 +14,11 @@ let $wrap = null
 const auth = firebase.auth()
 
 const state = {
-  users: JSON.parse(window.localStorage.users || '[]'),
-  messages: JSON.parse(window.localStorage.messages || '[]'),
+  user: JSON.parse(window.sessionStorage.user || null),
+  messages: JSON.parse(window.sessionStorage.messages || '[]'),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   routes: JSON.parse(window.localStorage.routes || '[]'),
   route: null,
-  userid: null,
-  username: 'guest',
   init: false
 }
 
@@ -49,46 +47,63 @@ const state = {
     $back.innerText = 'Home'
   }
 
-  auth.onAuthStateChanged(user => {
-    updateUser(user)
-
-    if (!state.init) {
-      state.init = true
-      window.addEventListener('resize', scroll)
-
-      // listen for messages
-      db.collection('messages')
-        .orderBy('timestamp', 'desc')
-        .onSnapshot(col => {
-          const news = []
-          for (const doc of col.docs) {
-            const msg = { ...doc.data(), id: doc.id }
-            if (!state.messages.find(cached => cached.id === msg.id)) {
-              news.push(msg)
-            }
-          }
-          const messages = [...state.messages, ...news]
-          if (news.length) {
-            window.localStorage.messages = JSON.stringify(messages)
-          }
-          update({ messages })
-        })
-    }
-  })
+  if (state.user) {
+    mount(state.user)
+  } else {
+    auth.onAuthStateChanged(mount)
+  }
 })()
 
-async function updateUser (user) {
-  if (user) {
-    const doc = await db.collection('users').doc(user.uid).get()
-    update({ userid: doc.data().email, username: doc.data().name })
-  } else {
+async function mount (user) {
+  // we only want to perform this procedure once
+  if (state.init) return
+  state.init = true
+
+  const users = state.users
+
+  // if a user we haven't cached yet is logged in
+  if (user && !state.user) {
+    const userdata = (await db.collection('users').doc(user.uid).get()).data()
+    userdata.uid = user.uid
+    userdata.id = userdata.email
+    delete userdata.email
+    users.push(userdata)
+    window.sessionStorage.user = JSON.stringify(userdata)
+    window.sessionStorage.users = JSON.stringify(users)
+    state.user = userdata
+  } else if (!user) {
     let token = window.localStorage.token
     if (!token) {
       token = Math.random().toString().slice(2)
       window.localStorage.token = token
     }
-    update({ userid: token })
+    state.user = {
+      userid: token,
+      username: 'guest',
+      saves: []
+    }
   }
+
+  update()
+  window.addEventListener('resize', scroll)
+
+  // listen for messages
+  db.collection('messages')
+    .orderBy('timestamp', 'desc')
+    .onSnapshot(col => {
+      const news = []
+      for (const doc of col.docs) {
+        const msg = { ...doc.data(), id: doc.id }
+        if (!state.messages.find(cached => cached.id === msg.id)) {
+          news.push(msg)
+        }
+      }
+      const messages = [...state.messages, ...news]
+      if (news.length) {
+        window.sessionStorage.messages = JSON.stringify(messages)
+      }
+      update({ messages })
+    })
 }
 
 function update (data) {
@@ -105,7 +120,7 @@ function ChatPage (state) {
     .filter(msg => msg.route === state.route.id)
     .sort((a, b) => a.timestamp - b.timestamp)
   return div({ class: 'page-content' }, [
-    div({ class: 'messages' }, [MessageGroups(messages, state.userid)]),
+    div({ class: 'messages' }, [MessageGroups(messages, state.user.id)]),
     div({ class: 'message-bar' }, [
       input({
         class: 'message-input',
@@ -125,8 +140,8 @@ function send (state) {
   const message = {
     timestamp: Date.now(),
     route: state.route.id,
-    username: state.username,
-    userid: state.userid,
+    username: state.user.name,
+    userid: state.user.id,
     content: $input.value
   }
   $input.value = ''
@@ -143,7 +158,7 @@ function scroll () {
   }
 }
 
-function MessageGroups(messages, userid) {
+function MessageGroups (messages, userid) {
   const groups = []
   let group = null
   let author = null

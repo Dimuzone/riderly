@@ -71,11 +71,12 @@ async function mount (user) {
   } else if (!user) {
     state.user = { saves: [] }
   }
-  console.log(state.user)
 
   const stnfmt = fmtstn(station.name)
   station.name = stnfmt[0]
   station.subname = stnfmt[1]
+
+  update({ route, station })
 
   // listen for reports
   db.collection('reports')
@@ -112,8 +113,6 @@ async function mount (user) {
       }
       update({ messages })
     })
-
-  update({ route, station })
 
   const map = Leaflet.mount('map')
   map.setView([station.lat, station.lon], 13)
