@@ -70,6 +70,7 @@ function render (state) {
       window.location.href = 'login.html'
     } else {
       await firebase.auth().signOut()
+      delete window.sessionStorage.user
       window.location.href = 'index.html'
     }
   }
