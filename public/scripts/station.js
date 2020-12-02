@@ -277,45 +277,70 @@ const Minimap = (station, route) => {
   const left = leftstop.id === station.id
   const center = centerstop.id === station.id
   const right = rightstop.id === station.id
+
   const switchstop = station => {
     window.location.assign(`/station.html#${route.id}+${station.id}`)
     visit(state, station)
   }
+
+  const switchleft = _ =>
+    switchstop(leftstop)
+
+  const switchcenter = _ =>
+    switchstop(centerstop)
+
+  const switchright = _ =>
+    switchstop(rightstop)
+
   return div({ class: 'station-map' }, [
     center
       ? div({ class: 'station-labels -above' }, [
-          span({ class: 'station-label -center -select' }, centername)
+          span({ class: 'station-label -center -select' }, [
+            span({ class: 'icon -arrow -left material-icons', onclick: switchleft },
+              'arrow_left'),
+            centername,
+            span({ class: 'icon -arrow -right material-icons', onclick: switchright },
+              'arrow_right')
+          ])
         ])
       : div({ class: 'station-labels -above' }, [
         left
-          ? span({ class: 'station-label -left -select' }, leftname)
-          : button({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
+          ? span({ class: 'station-label -left -select' }, [
+              leftname,
+              span({ class: 'icon -arrow -right material-icons', onclick: switchright },
+                'arrow_right')
+            ])
+          : button({ class: 'station-label -left', onclick: switchleft },
             leftname),
         right
-          ? span({ class: 'station-label -right -select' }, rightname)
-          : button({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
+          ? span({ class: 'station-label -right -select' }, [
+              span({ class: 'icon -arrow -left material-icons', onclick: switchleft },
+                'arrow_left'),
+              rightname
+            ])
+          : button({ class: 'station-label -right', onclick: switchright },
             rightname)
       ]),
     div({ class: 'station-circles' }, [
       left
         ? div({ class: 'station-circle -left -select' })
-        : button({ class: 'station-circle -left', onclick: _ => switchstop(leftstop) }),
+        : button({ class: 'station-circle -left', onclick: switchleft }),
       center
         ? div({ class: 'station-circle -center -select' })
-        : button({ class: 'station-circle -center', onclick: _ => switchstop(centerstop) }),
+        : button({ class: 'station-circle -center', onclick: switchcenter }),
       right
         ? div({ class: 'station-circle -right -select' })
-        : button({ class: 'station-circle -right', onclick: _ => switchstop(rightstop) })
+        : button({ class: 'station-circle -right', onclick: switchright })
     ]),
     center
       ? div({ class: 'station-labels -below' }, [
-          button({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
+          button({ class: 'station-label -left', onclick: switchleft },
             leftname),
-          button({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
+          button({ class: 'station-label -right', onclick: switchright },
             rightname)
         ])
       : div({ class: 'station-labels -below' }, [
-        button({ class: 'station-label -center', onclick: _ => switchstop(centerstop) },
+        button({ class: 'station-label -center', onclick: switchcenter },
           centername)
       ])
   ])
