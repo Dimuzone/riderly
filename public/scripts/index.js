@@ -98,7 +98,7 @@ function render (state) {
       section({ class: 'section -stations' }, [
         h2({ class: 'section-title section-header' },
           tab === 'recents' ? 'Recent Stations' : 'Saved Stations'),
-        div({ class: 'section-tabs' }, [
+        user && div({ class: 'section-tabs' }, [
           button({
             class: 'section-tab' + (tab === 'recents' ? ' -select' : ''),
             onclick: _ => render(switchtab(state, 'recents'))

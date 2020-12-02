@@ -17,6 +17,10 @@
   font-size: 0.875rem;
 }
 
+.section.-stations:first-child {
+  padding-top: 16px;
+}
+
 .section-notice {
   background: var(--white);
   display: block;
