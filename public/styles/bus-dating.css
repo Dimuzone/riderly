@@ -101,8 +101,6 @@ h2 {
 }
 
 .header {
-  background: white;
-  border-bottom: thin solid var(--color-outline);
   position: fixed;
   top: 0;
   z-index: 1;
@@ -249,6 +247,10 @@ h2 {
   color: var(--blue);
 }
 
+.header.-search + .page-content {
+  margin-top: var(--header-height-search);
+}
+
 .section {
   margin-top: 1rem;
 }
@@ -289,18 +291,21 @@ h2 {
   text-align: center;
 }
 
-.button.-action {
+.button {
   background: var(--blue);
   color: white;
   font-weight: bold;
   border-radius: 8px;
   box-shadow: var(--shadow-heavy);
-  width: calc(100% - 2rem);
-  height: 48px;
-  margin: 0.75rem 1rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.button.-action {
+  width: calc(100% - 2rem);
+  height: 48px;
+  margin: 0.75rem 1rem 0;
 }
 
 .button.-action .icon {

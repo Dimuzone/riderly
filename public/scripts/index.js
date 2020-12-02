@@ -1,10 +1,10 @@
 const {
-  firebase, db, timediff, normstn, patch,
-  main, section, div, h2, button, span, strong
+  firebase, db, timediff, normname, patch,
+  main, header, section, div, h1, h2, button, span, strong, a
 } = window
 
 const login = document.getElementById('login')
-const page = document.querySelector('.page.-home')
+const $main = document.querySelector('main')
 
 const state = {
   user: null,
@@ -36,25 +36,10 @@ const switchtab = (state, newtab) =>
   render(state)
 })()
 
-// login/logout button
-login.onclick = async function () {
-  const signin = firebase.auth().currentUser
-  if (signin) {
-    document.querySelector('.greeting').innerText = ''
-    await firebase.auth().signOut()
-    window.location.href = 'index.html'
-  } else {
-    window.location.href = 'login.html'
-  }
-}
-
 firebase.auth().onAuthStateChanged(async user => {
   // if user isn't logged in, we don't need to do anything extra.
   // just render and exit
   if (!user) return render(state)
-
-  // set button text
-  login.innerText = 'Logout'
 
   // save user data
   const doc = await db.collection('users').doc(user.uid).get()
@@ -73,54 +58,78 @@ function decodestn (stn) {
 function render (state) {
   const { user, tab, recents, saves, messages } = state
   const name = user ? user.name.split(' ')[0] : ''
-  patch(page, main({ class: 'page -home' }, [
-    user
-      ? span({ class: 'greeting' },
-          ['Hi, ', strong(name), '!'])
-      : '',
-    section({ class: 'section -stations' }, [
-      h2({ class: 'section-title' },
-        tab === 'recents' ? 'Recent Stations' : 'Saved Stations'),
-      div({ class: 'section-tabs' }, [
-        button({
-          class: 'section-tab' + (tab === 'recents' ? ' -select' : ''),
-          onclick: _ => render(switchtab(state, 'recents'))
-        }, [
-          span({ class: 'icon -tab material-icons' },
-            tab === 'recents' ? 'watch_later' : 'access_time'),
-          'History'
-        ]),
-        button({
-          class: 'section-tab' + (tab === 'saves' ? ' -select' : ''),
-          onclick: _ => render(switchtab(state, 'saves'))
-        }, [
-          span({ class: 'icon -tab material-icons' },
-            tab === 'saves' ? 'star' : 'star_outline'),
-          'Saved'
-        ])
+
+  // login/logout button
+  const onlogin = async _ => {
+    if (!user) {
+      window.location.href = 'login.html'
+    } else {
+      await firebase.auth().signOut()
+      window.location.href = 'index.html'
+    }
+  }
+
+  patch($main, main({ class: 'page -home' }, [
+    header({ class: 'header -search -home' }, [
+      div({ class: 'title-row' }, [
+        h1({ class: 'title' }, 'Home'),
+        button({ class: 'button -login', onclick: onlogin },
+          !user ? 'Login' : 'Logout')
       ]),
-      tab === 'recents'
-        ? recents.length
-            ? div({ class: 'section-options' }, recents.map(renderstn))
-            : span({ class: 'section-notice' },
-              'When you view a station, it will appear here.')
-        : saves.length
-          ? div({ class: 'section-options' }, saves.map(renderstn))
-          : span({ class: 'section-notice' },
-            'When you save a station, it will appear here.')
+      a({ href: './search.html', class: 'search search-bar' }, [
+        span({ class: 'search-icon material-icons' },
+          'search')
+      ])
     ]),
-    section({ class: 'section -messages' }, [
-      h2({ class: 'section-title' }, 'Recent Messages'),
-      messages.length
-        ? div({ class: 'section-options' }, messages.map(rendermsg))
-        : span({ class: 'section-notice' },
-          'No recent user activity!')
+    div({ class: 'page-content' }, [
+      user
+        ? span({ class: 'greeting' },
+            ['Hi, ', strong(name), '!'])
+        : '',
+      section({ class: 'section -stations' }, [
+        h2({ class: 'section-title section-header' },
+          tab === 'recents' ? 'Recent Stations' : 'Saved Stations'),
+        div({ class: 'section-tabs' }, [
+          button({
+            class: 'section-tab' + (tab === 'recents' ? ' -select' : ''),
+            onclick: _ => render(switchtab(state, 'recents'))
+          }, [
+            span({ class: 'icon -tab material-icons' },
+              tab === 'recents' ? 'watch_later' : 'access_time'),
+            'History'
+          ]),
+          button({
+            class: 'section-tab' + (tab === 'saves' ? ' -select' : ''),
+            onclick: _ => render(switchtab(state, 'saves'))
+          }, [
+            span({ class: 'icon -tab material-icons' },
+              tab === 'saves' ? 'star' : 'star_outline'),
+            'Saved'
+          ])
+        ]),
+        tab === 'recents'
+          ? recents.length
+              ? div({ class: 'section-content stations -recent' }, recents.map(renderstn))
+              : span({ class: 'section-content section-notice' },
+                'When you view a station, it will appear here.')
+          : saves.length
+            ? div({ class: 'section-content stations -saves' }, saves.map(renderstn))
+            : span({ class: 'section-content section-notice' },
+              'When you save a station, it will appear here.')
+      ]),
+      section({ class: 'section -messages' }, [
+        h2({ class: 'section-title section-header' }, 'Recent Messages'),
+        messages.length
+          ? div({ class: 'section-content messages' }, messages.map(Message))
+          : span({ class: 'section-content section-notice' },
+            'No recent user activity!')
+      ])
     ])
   ]))
 }
 
 function renderstn (station) {
-  const [on, at] = normstn(station.name)
+  const [on, at] = normname(station.name)
   function onclick () {
     window.sessionStorage.setItem('stationId', station.id)
     window.sessionStorage.setItem('route', station.route)
@@ -141,24 +150,24 @@ function renderstn (station) {
   ])
 }
 
-function rendermsg (message) {
-  function onclick () {
-    window.sessionStorage.setItem('backButton', 'Home')
-    window.sessionStorage.setItem('route', message.route)
-    window.location.href = 'chat.html'
-  }
-
+const Message = (message) => {
+  const { timestamp, route: routeid, username, content } = message
   const now = Date.now()
-  const ago = timediff(message.timestamp, now)
-  return div({ class: 'option -message', onclick: onclick }, [
+  const ago = timediff(timestamp, now)
+  return a({ class: 'option -message', href: 'chat.html#' + routeid }, [
     div({ class: 'option-lhs' }, [
-      span({ class: 'option-text' }, `"${message.content}"`),
-      span({ class: 'option-subtext' },
-        ['from ', strong(message.username), ' on ', strong(message.route)])
+      span({ class: 'icon -message material-icons-outlined' },
+        'sms'),
+      div({ class: 'option-meta' }, [
+        div({ class: 'option-name' }, `"${content}"`),
+        div({ class: 'option-data' },
+          ['from ', strong(username), ' on ', strong(routeid)])
+      ])
     ]),
     div({ class: 'option-rhs' }, [
-      span({ class: 'option-iconlabel' }, ago),
-      span({ class: 'icon -option material-icons' }, 'chevron_right')
+      span({ class: 'option-time' }, ago),
+      span({ class: 'icon -arrow material-icons' },
+        'keyboard_arrow_right')
     ])
   ])
 }
