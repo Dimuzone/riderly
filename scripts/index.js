@@ -1,5 +1,5 @@
 const {
-  firebase, db, timediff, fmtstn, normname, patch, getstns,
+  firebase, db, timediff, fmtstn, patch, getstns,
   main, header, section, div, h1, h2, button, span, strong, a
 } = window
 
@@ -8,6 +8,7 @@ const $main = document.querySelector('main')
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
   search: JSON.parse(window.sessionStorage.search || null),
+  messages: JSON.parse(window.sessionStorage.messages || '[]'),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   recents: JSON.parse(window.localStorage.recents || '[]')
     .map(id => {
@@ -15,8 +16,7 @@ const state = {
       return { route, station: +station }
     }),
   tab: 'recents',
-  saves: [],
-  messages: []
+  saves: []
 }
 
 const switchtab = (state, newtab) =>
@@ -38,13 +38,23 @@ const switchtab = (state, newtab) =>
 
   render(state)
 
-  // get chat messages and rerender
-  const col = await db.collection('messages')
+  // listen for messages
+  db.collection('messages')
     .orderBy('timestamp', 'desc')
-    .limit(3).get()
-  for (const doc of col.docs) {
-    state.messages.push(doc.data())
-  }
+    .onSnapshot(col => {
+      const news = []
+      for (const doc of col.docs) {
+        const msg = { ...doc.data(), id: doc.id }
+        if (!state.messages.find(cached => cached.id === msg.id)) {
+          news.push(msg)
+        }
+      }
+      const messages = [...state.messages, ...news]
+      if (news.length) {
+        window.sessionStorage.messages = JSON.stringify(messages)
+      }
+      render({ ...state, messages })
+    })
 })()
 
 firebase.auth().onAuthStateChanged(async user => {
@@ -129,7 +139,7 @@ function render (state) {
       section({ class: 'section -messages' }, [
         h2({ class: 'section-title section-header' }, 'Recent Messages'),
         messages.length
-          ? div({ class: 'section-content messages' }, messages.map(Message))
+          ? div({ class: 'section-content messages' }, messages.slice(0, 3).map(Message))
           : span({ class: 'section-content section-notice' },
             'No recent user activity!')
       ])
