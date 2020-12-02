@@ -66,6 +66,9 @@ function update (data) {
 const RoutePage = (state) => {
   const { route, search, filter } = state
   const stations = route.path
+
+  const oninput = _ => _
+
   return main({ class: `page -route -${route.id}` }, [
     header({ class: 'header -color -primary' }, [
       div({ class: 'header-text' }, [
@@ -100,7 +103,7 @@ const RoutePage = (state) => {
               class: 'search-input',
               placeholder: 'Filter stations',
               autocomplete: 'off',
-              oninput: evt => evt
+              oninput
             }),
             filter.query
               ? span({ class: 'icon -close material-icons', onclick: evt => evt },
