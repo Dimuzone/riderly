@@ -1,6 +1,6 @@
 const {
-  firebase, db, patch,
-  main, div, input, button, span
+  firebase, db, patch, getstns,
+  div, input, button, span
 } = window
 
 const $main = document.querySelector('main')
@@ -18,7 +18,6 @@ const state = {
   messages: JSON.parse(window.localStorage.messages || '[]'),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   routes: JSON.parse(window.localStorage.routes || '[]'),
-  station: window.sessionStorage.station,
   route: null,
   userid: null,
   username: 'guest',
@@ -26,16 +25,24 @@ const state = {
 }
 
 ;(async function init () {
-  const routeid = window.location.hash.slice(1)
-  const route = state.routes.find(rt => rt.id === routeid)
+  const [rtid, stnid] = window.location.hash.slice(1).split('/')
+  const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch($main, 'not found')
   }
 
   state.route = route
-  $subtitle.innerText = `Route ${routeid}`
-  if (state.station) {
-    $back.innerText = state.station
+  route.path = await getstns(route.path)
+  if (stnid) {
+    const station = route.path.find(stn => stn.id === +stnid)
+    if (!station) {
+      return patch($main, 'not found')
+    }
+  }
+
+  $subtitle.innerText = `Route ${rtid}`
+  if (stnid) {
+    $back.innerText = stnid
   } else {
     $back.innerText = 'Home'
   }

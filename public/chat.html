@@ -17,6 +17,7 @@
   <script defer src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
   <script defer src="./scripts/h2.js"></script>
   <script defer src="./scripts/db.js"></script>
+  <script defer src="./scripts/getstns.js"></script>
   <script defer src="./scripts/chat.js"></script>
 </head>
 
@@ -24,11 +25,11 @@
   <main class="page -chat">
     <header class="header header-text -color -secondary">
       <div class="title-row">
-        <h1 class="title">Chat</h1>
-        <div class="back" onclick="window.history.back()">
+        <h1 class="title -small">Chat</h1>
+        <button class="back" onclick="window.history.back()">
           <span class="material-icons">keyboard_arrow_left</span>
           <span class="back-text">Station</span>
-        </div>
+        </button>
       </div>
       <span class="subtitle">Route 0</span>
     </header>
