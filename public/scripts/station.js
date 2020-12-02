@@ -19,6 +19,10 @@ const state = {
   station: null,
   route: null,
   path: null,
+  map: {
+    leaflet: null,
+    marker: null
+  },
   init: false
 }
 
@@ -58,7 +62,7 @@ async function mount (user) {
   if (state.init) return
   state.init = true
 
-  const { route, station, recents, users } = state
+  const { station, users } = state
 
   // if a user we haven't cached yet is logged in
   if (user && !state.user) {
@@ -71,21 +75,19 @@ async function mount (user) {
     window.sessionStorage.users = JSON.stringify(users)
     state.user = userdata
   } else if (!user) {
-    state.user = { saves: [] }
+    let token = window.localStorage.token
+    if (!token) {
+      token = Math.random().toString().slice(2)
+      window.localStorage.token = token
+    }
+    state.user = {
+      userid: token,
+      username: 'guest',
+      saves: []
+    }
   }
 
-  const stnfmt = fmtstn(station.name)
-  station.name = stnfmt[0]
-  station.subname = stnfmt[1]
-
-  const id = route.id + '/' + station.id
-  if (recents.includes(id)) {
-    recents.splice(recents.indexOf(id), 1)
-  }
-  recents.push(id)
-  window.localStorage.recents = JSON.stringify(recents)
-
-  update({ route, station })
+  visit(state, station)
 
   // listen for reports
   db.collection('reports')
@@ -122,18 +124,38 @@ async function mount (user) {
       }
       update({ messages })
     })
+}
 
-  const map = Leaflet.mount('map')
-  map.setView([station.lat, station.lon], 13)
+function visit (state, station) {
+  const { recents, route, map } = state
+  state.station = station
+
+  const stnfmt = fmtstn(station.name)
+  station.name = stnfmt[0]
+  station.subname = stnfmt[1]
+
+  const id = route.id + '/' + station.id
+  if (recents.includes(id)) {
+    recents.splice(recents.indexOf(id), 1)
+  }
+  recents.push(id)
+  window.localStorage.recents = JSON.stringify(recents)
+
+  update({ station, route })
+
+  if (!map.leaflet) map.leaflet = Leaflet.mount('map')
+  map.leaflet.setView([0, 0], 13)
+  map.leaflet.setView([station.lat, station.lon], 13)
 
   // route line
   Leaflet.polyline(route.path.map(station => [station.lat, station.lon]), {
     color: 'rgba(0, 0, 255, 0.5)'
-  }).addTo(map)
+  }).addTo(map.leaflet)
 
   // station marker
-  Leaflet.marker([station.lat, station.lon])
-    .addTo(map)
+  if (map.marker) map.marker.remove()
+  map.marker = Leaflet.marker([station.lat, station.lon])
+    .addTo(map.leaflet)
     .bindTooltip('<strong>' + station.name + '</strong>')
     .openTooltip()
 }
@@ -255,7 +277,10 @@ const Minimap = (station, route) => {
   const left = leftstop.id === station.id
   const center = centerstop.id === station.id
   const right = rightstop.id === station.id
-  const switchstop = _ => _
+  const switchstop = station => {
+    window.location.assign(`/station.html#${route.id}+${station.id}`)
+    visit(state, station)
+  }
   return div({ class: 'station-map' }, [
     center
       ? div({ class: 'station-labels -above' }, [
@@ -264,33 +289,33 @@ const Minimap = (station, route) => {
       : div({ class: 'station-labels -above' }, [
         left
           ? span({ class: 'station-label -left -select' }, leftname)
-          : span({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
+          : button({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
             leftname),
         right
           ? span({ class: 'station-label -right -select' }, rightname)
-          : span({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
+          : button({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
             rightname)
       ]),
     div({ class: 'station-circles' }, [
       left
         ? div({ class: 'station-circle -left -select' })
-        : div({ class: 'station-circle -left', onclick: _ => switchstop(leftstop) }),
+        : button({ class: 'station-circle -left', onclick: _ => switchstop(leftstop) }),
       center
         ? div({ class: 'station-circle -center -select' })
-        : div({ class: 'station-circle -center', onclick: _ => switchstop(centerstop) }),
+        : button({ class: 'station-circle -center', onclick: _ => switchstop(centerstop) }),
       right
         ? div({ class: 'station-circle -right -select' })
-        : div({ class: 'station-circle -right', onclick: _ => switchstop(rightstop) })
+        : button({ class: 'station-circle -right', onclick: _ => switchstop(rightstop) })
     ]),
     center
       ? div({ class: 'station-labels -below' }, [
-          span({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
+          button({ class: 'station-label -left', onclick: _ => switchstop(leftstop) },
             leftname),
-          span({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
+          button({ class: 'station-label -right', onclick: _ => switchstop(rightstop) },
             rightname)
         ])
       : div({ class: 'station-labels -below' }, [
-        span({ class: 'station-label -center', onclick: _ => switchstop(centerstop) },
+        button({ class: 'station-label -center', onclick: _ => switchstop(centerstop) },
           centername)
       ])
   ])

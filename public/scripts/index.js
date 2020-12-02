@@ -103,7 +103,16 @@ async function mount (user) {
     window.sessionStorage.users = JSON.stringify(users)
     state.user = userdata
   } else if (!user) {
-    state.user = { saves: [] }
+    let token = window.localStorage.token
+    if (!token) {
+      token = Math.random().toString().slice(2)
+      window.localStorage.token = token
+    }
+    state.user = {
+      id: token,
+      name: 'guest',
+      saves: []
+    }
   }
 
   update()
