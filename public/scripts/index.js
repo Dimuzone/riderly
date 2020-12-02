@@ -7,7 +7,7 @@ const login = document.getElementById('login')
 const $main = document.querySelector('main')
 
 const state = {
-  user: null,
+  user: JSON.parse(window.sessionStorage.user || null),
   tab: 'recents',
   recents: [],
   saves: [],
@@ -26,6 +26,8 @@ const switchtab = (state, newtab) =>
       .slice(0, 3)
       .map(decodestn)
 
+  render(state)
+
   // get chat messages and rerender
   const col = await db.collection('messages')
     .orderBy('timestamp', 'desc')
@@ -33,7 +35,6 @@ const switchtab = (state, newtab) =>
   for (const doc of col.docs) {
     state.messages.push(doc.data())
   }
-  render(state)
 })()
 
 firebase.auth().onAuthStateChanged(async user => {
@@ -78,8 +79,8 @@ function render (state) {
       ]),
       a({ href: './search.html', class: 'search search-bar' }, [
         span({ class: 'search-icon material-icons' },
-        'search'),
-        span('Search routes')
+          'search'),
+        span({ class: 'search-input' }, 'Search routes')
       ])
     ]),
     div({ class: 'page-content' }, [

@@ -216,38 +216,38 @@ h2 {
   color: var(--gray);
   box-shadow: var(--shadow);
   border: thin solid var(--silver);
+  border-radius: 16px;
   margin-bottom: 8px;
+  padding: 0 1rem;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
-  padding: 4px 8px;
   font-size: small;
   align-items: center;
   height: 32px;
-  border-radius: 16px;
 }
 
-.search-icon {
-  margin-right: 8px;
+.icon.-search {
+  margin-right: 0.25rem;
 }
 
 .search-input {
   flex: 1;
-}
-
-.search-input:focus::placeholder {
-  color: var(--blue);
+  font-size: 0.875rem;
+  line-height: 1rem;
 }
 
 .search:focus-within {
-  background: var(--color-bg);
   border-color: var(--blue);
-  box-shadow: 0 2px 2px var(--silver);
 }
 
-.search:focus-within .search-icon {
+.search:focus-within .icon.-search {
+  color: var(--blue);
+}
+
+.search-input:not(:placeholder-shown) {
   color: var(--blue);
 }
 

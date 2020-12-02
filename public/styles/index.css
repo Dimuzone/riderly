@@ -4,7 +4,7 @@
 
 .header .title-row {
   order: initial;
-  height: 3rem;
+  padding-bottom: 0.5rem;
 }
 
 .header .title {
