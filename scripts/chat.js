@@ -139,17 +139,17 @@ async function mount (user) {
       for (const doc of col.docs) {
         // flatten message data structure
         const msg = { ...doc.data(), id: doc.id }
-
-        // mark message as new if its document id isn't cached
-        if (!state.messages.find(cached => cached.id === msg.id)) {
+        const cached = state.messages.find(cached => cached.id === msg.id)
+        if (!cached) {
+          // we don't have this message cached; add it
           news.push(msg)
         }
       }
 
-      const messages = [...state.messages, ...news]
-
       // cache and update html if we found a new message
       if (news.length) {
+        const messages = [...state.messages, ...news]
+        messages.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.messages = JSON.stringify(messages)
         update({ messages })
       }

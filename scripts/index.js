@@ -2,8 +2,9 @@ const {
   firebase, db, timediff, fmtstn, patch, getstns,
   main, header, section, div, h1, h2, button, span, strong, a
 } = window
-
 const auth = firebase.auth()
+
+// HTML refs
 const $page = document.querySelector('main')
 
 const state = {
@@ -39,7 +40,8 @@ const switchtab = (state, newtab) =>
   ]
 
   if (stnids.length) {
-    const news = await getstns(stnids)
+    const stations = await getstns(stnids)
+    const news = stations.filter(stn => !state.stations.find(cached => cached.id === stn.id))
     if (news.length) {
       state.stations.push(...news)
       window.localStorage.stations = JSON.stringify(state.stations)
@@ -104,28 +106,37 @@ async function mount (user) {
     state.user = userdata
   }
 
+  // render page
   update()
+
   // listen for messages
   db.collection('messages')
     .orderBy('timestamp', 'desc')
     .onSnapshot(col => {
       const news = []
       for (const doc of col.docs) {
+        // flatten message data structure
         const msg = { ...doc.data(), id: doc.id }
-        if (!state.messages.find(cached => cached.id === msg.id)) {
+        const cached = state.messages.find(cached => cached.id === msg.id)
+        if (!cached) {
+          // we don't have this message cached; add it
           news.push(msg)
         }
       }
-      const messages = [...state.messages, ...news]
+
+      // cache and update html if we found a new message
       if (news.length) {
+        const messages = [...state.messages, ...news]
+        messages.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.messages = JSON.stringify(messages)
+        update({ messages })
       }
-      update({ messages })
     })
 }
 
 function update (data) {
   Object.assign(state, data)
+  console.log(...state.messages)
   patch($page, HomePage(state))
 }
 

@@ -95,16 +95,22 @@ async function mount (user) {
     .onSnapshot(col => {
       const news = []
       for (const doc of col.docs) {
+        // flatten message data structure
         const rep = { ...doc.data(), id: doc.id }
-        if (!state.reports.find(cached => cached.id === rep.id)) {
+        const cached = state.reports.find(cached => cached.id === rep.id)
+        if (!cached) {
+          // we don't have this message cached; add it
           news.push(rep)
         }
       }
-      const reports = [...state.reports, ...news]
+
+      // cache and update html if we found a new message
       if (news.length) {
+        const reports = [...state.reports, ...news]
+        reports.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.reports = JSON.stringify(reports)
+        update({ reports })
       }
-      update({ reports })
     })
 
   // listen for messages
@@ -113,16 +119,22 @@ async function mount (user) {
     .onSnapshot(col => {
       const news = []
       for (const doc of col.docs) {
+        // flatten message data structure
         const msg = { ...doc.data(), id: doc.id }
-        if (!state.messages.find(cached => cached.id === msg.id)) {
+        const cached = state.messages.find(cached => cached.id === msg.id)
+        if (!cached) {
+          // we don't have this message cached; add it
           news.push(msg)
         }
       }
-      const messages = [...state.messages, ...news]
+
+      // cache and update html if we found a new message
       if (news.length) {
+        const messages = [...state.messages, ...news]
+        messages.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.messages = JSON.stringify(messages)
+        update({ messages })
       }
-      update({ messages })
     })
 }
 
