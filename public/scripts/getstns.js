@@ -27,7 +27,7 @@ window.getstns = async function getstns (stnids) {
     // firestore only supports matching arrays in chunks of 10
     for (let i = 0; i < missing.length; i += 10) {
       const chunk = missing.slice(i, i + 10)
-      const promise = db.collection('stations').where('id', 'in', chunk).get()
+      const promise = db.collection('stops').where('id', 'in', chunk).get()
       gets.push(promise)
     }
 
