@@ -112,20 +112,23 @@ async function mount (user) {
       const news = []
       for (const doc of col.docs) {
         const msg = { ...doc.data(), id: doc.id }
-        if (!state.messages.find(cached => cached.id === msg.id)) {
+        const cached = state.messages.find(cached => cached.id === msg.id)
+        if (!cached) {
           news.push(msg)
         }
       }
       const messages = [...state.messages, ...news]
       if (news.length) {
+        messages.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.messages = JSON.stringify(messages)
+        update({ messages })
       }
-      update({ messages })
     })
 }
 
 function update (data) {
   Object.assign(state, data)
+  console.log(...state.messages)
   patch($page, HomePage(state))
 }
 
