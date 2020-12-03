@@ -210,7 +210,7 @@ function Save (save) {
   const { station, route } = save
   const [name, subname] = fmtstn(station.name)
   const addendum = subname ? [' · ', strong(subname)] : []
-  return a({ class: 'option', href: `station.html#${route}+${station.id}` }, [
+  return a({ class: 'option', href: `station.html#${route}/${station.id}` }, [
     div({ class: 'option-lhs' }, [
       span({ class: 'icon -route material-icons-outlined' },
         'place'),

@@ -30,7 +30,7 @@ const state = {
 // resolves data based on hash
 ;(async function init () {
   // extract data from hash
-  const locid = window.location.hash.slice(1).split('+')
+  const locid = window.location.hash.slice(1).split('/')
   const rtid = locid[0]
   const stnid = +locid[1]
 
