@@ -307,14 +307,14 @@ const Minimap = (station, route) => {
         left
           ? span({ class: 'station-label -left -select' }, [
               leftname,
-              span({ class: 'icon -arrow -right material-icons', onclick: switchright },
+              span({ class: 'icon -arrow -right material-icons', onclick: switchcenter },
                 'arrow_right')
             ])
           : button({ class: 'station-label -left', onclick: switchleft },
             leftname),
         right
           ? span({ class: 'station-label -right -select' }, [
-              span({ class: 'icon -arrow -left material-icons', onclick: switchleft },
+              span({ class: 'icon -arrow -left material-icons', onclick: switchcenter },
                 'arrow_left'),
               rightname
             ])
