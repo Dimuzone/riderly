@@ -157,16 +157,16 @@ function visit (state, station) {
 
   if (!map.leaflet) map.leaflet = Leaflet.mount('map')
   map.leaflet.setView([0, 0], 13)
-  map.leaflet.setView([station.lat, station.lon], 13)
+  map.leaflet.setView([station.lat, station.long], 13)
 
   // route line
-  Leaflet.polyline(route.path.map(station => [station.lat, station.lon]), {
+  Leaflet.polyline(route.path.map(station => [station.lat, station.long]), {
     color: 'rgba(0, 0, 255, 0.5)'
   }).addTo(map.leaflet)
 
   // station marker
   if (map.marker) map.marker.remove()
-  map.marker = Leaflet.marker([station.lat, station.lon])
+  map.marker = Leaflet.marker([station.lat, station.long])
     .addTo(map.leaflet)
     .bindTooltip('<strong>' + station.name + '</strong>')
     .openTooltip()
