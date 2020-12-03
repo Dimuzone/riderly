@@ -1,3 +1,4 @@
+// wrap leaflet to avoid retyping config
 window.L.mount = function mount (elid) {
   const L = window.L
   const token = 'pk.eyJ1Ijoic2VtaWJyYW4iLCJhIjoiY2tpMnc2cTMxMWl2czJ5cGRpYWR4YWExNyJ9.cNgXsMZb5K-7DKOr6jw8ag'

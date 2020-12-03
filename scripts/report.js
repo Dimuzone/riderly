@@ -15,7 +15,7 @@ const state = {
 }
 
 ;(async function init () {
-  const [rtid, stnid] = window.location.hash.slice(1).split('+')
+  const [rtid, stnid] = window.location.hash.slice(1).split('/')
 
   state.routes = await getrts()
   const route = state.routes.find(rt => rt.id === rtid)
