@@ -15,7 +15,10 @@ const state = {
 }
 
 ;(async function init () {
-  const [rtid, stnid] = window.location.hash.slice(1).split('/')
+  // extract data from hash
+  const locid = window.location.hash.slice(1).split('/')
+  const rtid = locid[0]
+  const stnid = +locid[1]
 
   state.routes = await getrts()
   const route = state.routes.find(rt => rt.id === rtid)
@@ -31,12 +34,15 @@ const state = {
 
   patch($header, Header(station, route))
 
-  // Parse form contents and submit report
+  // parse form contents and submit report
   $form.onsubmit = event => {
+    // extract form data
     const formdata = new window.FormData(event.target)
     const seating = +formdata.get('seating')
     const timing = +formdata.get('timing')
     const masking = +formdata.get('masking')
+
+    // prevent default form submission
     event.preventDefault()
 
     const report = {
@@ -49,12 +55,18 @@ const state = {
       masking
     }
 
+    // cache now since we aren't listening for reports on this page
     state.reports.push(report)
     window.sessionStorage.reports = JSON.stringify(state.reports)
-    window.db.collection('reports').add(report).then(_ => window.history.back())
+
+    // add report to collection then go back to station page
+    window.db.collection('reports').add(report)
+      .then(_ => window.history.back())
   }
 })()
 
+// Header(station, route)
+// component defining the HTML structure for the report page header
 const Header = (station, route) =>
   header({ class: 'header header-text -color -primary' }, [
     div({ class: 'title-row' }, [

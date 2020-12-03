@@ -136,7 +136,6 @@ async function mount (user) {
 
 function update (data) {
   Object.assign(state, data)
-  console.log(...state.messages)
   patch($page, HomePage(state))
 }
 
