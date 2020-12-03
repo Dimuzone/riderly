@@ -135,7 +135,7 @@ const RoutePage = (state) => {
 const Station = (station, route) => {
   const [name, subname] = fmtstn(station.name)
   const desc = `${station.id} · ${subname}`
-  const href = `/station.html#${route.id}+${station.id}`
+  const href = `station.html#${route.id}+${station.id}`
   return a({ class: 'station -' + station.id, href }, [
     div({ class: 'station-lhs' }, [
       div({ class: 'station-meta' }, [
