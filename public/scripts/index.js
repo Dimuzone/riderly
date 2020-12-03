@@ -104,21 +104,27 @@ async function mount (user) {
     state.user = userdata
   }
 
+  // render page
   update()
+
   // listen for messages
   db.collection('messages')
     .orderBy('timestamp', 'desc')
     .onSnapshot(col => {
       const news = []
       for (const doc of col.docs) {
+        // flatten message data structure
         const msg = { ...doc.data(), id: doc.id }
         const cached = state.messages.find(cached => cached.id === msg.id)
         if (!cached) {
+          // we don't have this message cached; add it
           news.push(msg)
         }
       }
-      const messages = [...state.messages, ...news]
+
+      // cache and update html if we found a new message
       if (news.length) {
+        const messages = [...state.messages, ...news]
         messages.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.messages = JSON.stringify(messages)
         update({ messages })
