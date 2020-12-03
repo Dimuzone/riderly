@@ -1,8 +1,11 @@
+// imports (for standardjs)
 const {
   firebase, db, patch, getrts, getstns,
   div, input, button, span
 } = window
+const auth = firebase.auth()
 
+// element defs
 const $main = document.querySelector('main')
 const $page = document.querySelector('.page-content')
 const $subtitle = document.querySelector('.subtitle')
@@ -11,36 +14,55 @@ let $input = null
 let $groups = null
 let $wrap = null
 
-const auth = firebase.auth()
-
+// state defs
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
   users: JSON.parse(window.sessionStorage.users || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
   stations: JSON.parse(window.localStorage.stations || '[]'),
-  routes: JSON.parse(window.localStorage.routes || '[]'),
+  routes: null,
   route: null,
   init: false
 }
 
+// init()
+// page logic entry point
+// resolves data based on hash
 ;(async function init () {
-  const [rtid, stnid] = window.location.hash.slice(1).split('+')
+  // extract data from hash
+  const locid = window.location.hash.slice(1).split('+')
+  const rtid = locid[0]
+  const stnid = +locid[1]
 
+  // resolve all routes from cache, or db if nonexistent
   state.routes = await getrts()
+
+  // break early if route isn't found in db
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch($main, 'not found')
   }
 
+  // this route exists. we can get data from it
   state.route = route
-  route.path = await getstns(route.path)
-  if (stnid) {
-    const station = route.path.find(stn => stn.id === +stnid)
-    if (!station) {
-      return patch($main, 'not found')
-    }
+
+  // break early if the station id provided
+  // isn't a part of the route
+  if (stnid && !route.path.includes(stnid)) {
+    return patch($main, 'not found')
   }
 
+  // resolve each station id inside the route path
+  route.path = await getstns(route.path)
+
+  // break early if station is a part of route
+  // but our db doesn't have data on it
+  if (stnid && !route.path.find(stn => stn.id === stnid)) {
+    return patch($main, 'not found')
+  }
+
+  // update header text
+  // more efficient than patching entire header
   $subtitle.innerText = `Route ${rtid}`
   if (stnid) {
     $back.innerText = stnid
@@ -48,6 +70,9 @@ const state = {
     $back.innerText = 'Home'
   }
 
+  // response optimization:
+  // use cached user if existent,
+  // otherwise wait for confirmation of logged in user
   if (state.user) {
     mount(state.user)
   } else {
@@ -55,32 +80,50 @@ const state = {
   }
 })()
 
+// mount(user)
+// resolves user into page state,
+// performs first render,
+// and appends listeners
 async function mount (user) {
-  // we only want to perform this procedure once
+  // we only want to perform the mount procedure once
   if (state.init) return
   state.init = true
 
   const users = state.users
 
-  // if a user we haven't cached yet is logged in
+  // if a user we haven't cached yet is logged in,
+  // get their data from the db and cache
+  // (technically not necessary for the chat page,
+  // but if we're going to cache user data for
+  // faster page loads it should be valid across
+  // all pages)
   if (user && !state.user) {
-    const userdata = (await db.collection('users').doc(user.uid).get()).data()
+    // get all the user's data from db
+    const userdoc = await db.collection('users').doc(user.uid).get()
+    const userdata = userdoc.data()
+
+    // normalize user metadata
     userdata.uid = user.uid
     userdata.id = userdata.email
     delete userdata.email
     users.push(userdata)
+
+    // cache user
     window.sessionStorage.user = JSON.stringify(userdata)
     window.sessionStorage.users = JSON.stringify(users)
+
+    // reflect user data on page
     state.user = userdata
   } else if (!user) {
+    // assign a random token to this user from localstorage
     let token = window.localStorage.token
     if (!token) {
       token = Math.random().toString().slice(2)
       window.localStorage.token = token
     }
     state.user = {
-      userid: token,
-      username: 'guest',
+      id: token,
+      name: 'guest',
       saves: []
     }
   }
@@ -94,32 +137,47 @@ async function mount (user) {
     .onSnapshot(col => {
       const news = []
       for (const doc of col.docs) {
+        // flatten message data structure
         const msg = { ...doc.data(), id: doc.id }
+
+        // mark message as new if its document id isn't cached
         if (!state.messages.find(cached => cached.id === msg.id)) {
           news.push(msg)
         }
       }
+
       const messages = [...state.messages, ...news]
+
+      // cache and update html if we found a new message
       if (news.length) {
         window.sessionStorage.messages = JSON.stringify(messages)
+        update({ messages })
       }
-      update({ messages })
     })
 }
 
+// update(data)
+// updates page state with a partial data patch,
+// then updates the page html structure
 function update (data) {
   Object.assign(state, data)
   patch($page, ChatPage(state))
+
+  // cache html elements for autoscroll hook
   if (!$wrap) $wrap = document.querySelector('.messages')
   if (!$input) $input = document.querySelector('.message-input')
   if (!$groups) $groups = document.querySelector('.message-groups')
   scroll()
 }
 
+// ChatPage(state) -> vnode
+// component defining the HTML structure for a chat page
 function ChatPage (state) {
+  // sort messages by timestamp
   const messages = state.messages
     .filter(msg => msg.route === state.route.id)
     .sort((a, b) => a.timestamp - b.timestamp)
+
   return div({ class: 'page-content' }, [
     div({ class: 'messages' }, [MessageGroups(messages, state.user.id)]),
     div({ class: 'message-bar' }, [
@@ -136,29 +194,9 @@ function ChatPage (state) {
   ])
 }
 
-function send (state) {
-  if (!$input.value) return false
-  const message = {
-    timestamp: Date.now(),
-    route: state.route.id,
-    username: state.user.name,
-    userid: state.user.id,
-    content: $input.value
-  }
-  $input.value = ''
-  db.collection('messages').add(message)
-  return true
-}
-
-function scroll () {
-  if ($groups.clientHeight > $wrap.clientHeight) {
-    $wrap.classList.add('-scroll')
-    $wrap.scrollTop = $groups.clientHeight - $wrap.clientHeight
-  } else if ($wrap.classList.contains('-scroll')) {
-    $wrap.classList.remove('-scroll')
-  }
-}
-
+// MessageGroups(messages, userid) -> vnode
+// component defining the HTML structure for all messages
+// uses userid to determine if messages are sent by this user or not
 function MessageGroups (messages, userid) {
   const groups = []
   let group = null
@@ -181,4 +219,42 @@ function MessageGroups (messages, userid) {
   }
   const el = div({ class: 'message-groups' }, groups)
   return el
+}
+
+// send(state) -> bool
+// sends a chat message
+function send (state) {
+  // don't send empty messages
+  if (!$input.value) return false
+
+  const message = {
+    timestamp: Date.now(),
+    route: state.route.id,
+    username: state.user.name,
+    userid: state.user.id,
+    content: $input.value
+  }
+
+  // clear input
+  $input.value = ''
+
+  // add message to db
+  // onsnapshot triggers for this client too,
+  // so we don't need to update the html from here
+  db.collection('messages').add(message)
+
+  // allow key input for good measure
+  return true
+}
+
+// scroll()
+// enables scrolling and autoscrolls
+// if total height of all messages exceeds the wrapper height
+function scroll () {
+  if ($groups.clientHeight > $wrap.clientHeight) {
+    $wrap.classList.add('-scroll')
+    $wrap.scrollTop = $groups.clientHeight - $wrap.clientHeight
+  } else if ($wrap.classList.contains('-scroll')) {
+    $wrap.classList.remove('-scroll')
+  }
 }
