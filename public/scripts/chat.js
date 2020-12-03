@@ -30,7 +30,9 @@ const state = {
 // resolves data based on hash
 ;(async function init () {
   // extract data from hash
-  const [rtid, stnid] = window.location.hash.slice(1).split('+')
+  const locid = window.location.hash.slice(1).split('+')
+  const rtid = locid[0]
+  const stnid = +locid[1]
 
   // resolve all routes from cache, or db if nonexistent
   state.routes = await getrts()
@@ -55,7 +57,7 @@ const state = {
 
   // break early if station is a part of route
   // but our db doesn't have data on it
-  if (stnid && !route.path.find(stn => stn.id === +stnid)) {
+  if (stnid && !route.path.find(stn => stn.id === stnid)) {
     return patch($main, 'not found')
   }
 
@@ -89,10 +91,13 @@ async function mount (user) {
 
   const users = state.users
 
-  // if a user we haven't cached yet is logged in
+  // if a user we haven't cached yet is logged in,
+  // get their data from the db and cache
+  // (technically not necessary for the chat page,
+  // but if we're going to cache user data for
+  // faster page loads it should be valid across
+  // all pages)
   if (user && !state.user) {
-    console.log(user.email)
-
     // get all the user's data from db
     const userdoc = await db.collection('users').doc(user.uid).get()
     const userdata = userdoc.data()
@@ -230,7 +235,12 @@ function send (state) {
     content: $input.value
   }
 
+  // clear input
   $input.value = ''
+
+  // add message to db
+  // onsnapshot triggers for this client too,
+  // so we don't need to update the html from here
   db.collection('messages').add(message)
 
   // allow key input for good measure
