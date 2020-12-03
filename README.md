@@ -1,7 +1,7 @@
-## BusDating
+## riderly
 A browser-based web application that enables public transit riders to get the most up-to-date data on transit conditions by emphasizing information sharing features.
 
-[View the demo](https://dimuzone.github.io/bus-dating)
+[View the demo](https://dimuzone.github.io/riderly)
 
 ## Collaborators
 - [Brandon Semilla](https://github.com/semibran)

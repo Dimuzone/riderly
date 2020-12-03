@@ -164,7 +164,7 @@ function visit (state, station) {
     color: 'rgba(0, 0, 255, 0.5)'
   }).addTo(map.leaflet)
 
-  // station marker
+  // Station marker
   if (map.marker) map.marker.remove()
   map.marker = Leaflet.marker([station.lat, station.long])
     .addTo(map.leaflet)
