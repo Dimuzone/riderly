@@ -35,15 +35,15 @@ const state = {
   update({ route })
 
   const startstn = route.path[0]
-  const startpos = [startstn.lat, startstn.lon]
+  const startpos = [startstn.lat, startstn.long]
   const endstn = route.path[route.path.length - 1]
-  const endpos = [endstn.lat, endstn.lon]
+  const endpos = [endstn.lat, endstn.long]
 
   // mount map
   const map = Leaflet.mount('map')
 
   // route line
-  const line = Leaflet.polyline(route.path.map(station => [station.lat, station.lon]), {
+  const line = Leaflet.polyline(route.path.map(station => [station.lat, station.long]), {
     color: 'rgba(0, 0, 255, 0.5)'
   }).addTo(map)
 
@@ -88,14 +88,14 @@ const RoutePage = (state) => {
     header({ class: 'header -color -primary' }, [
       div({ class: 'header-text' }, [
         div({ class: 'title-row' }, [
-          h1({ class: 'title -small' }, `${route.id} ${normname(route.name)}`),
+          h1({ class: 'title -small' }, `${route.number} ${normname(route.name)}`),
           button({ class: 'back', onclick: _ => window.history.back() }, [
             span({ class: 'icon -back material-icons' },
               'keyboard_arrow_left'),
             search.query ? 'Search' : 'Home'
           ])
         ]),
-        h2({ class: 'subtitle' }, `Route ${route.id}`)
+        h2({ class: 'subtitle' }, `Route ${route.number}${route.pattern}`)
       ])
     ]),
     div({ id: 'map', key: 'map' }),
