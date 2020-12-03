@@ -1,3 +1,6 @@
+// normname(str)
+// normalizes the name of a route or station
+// TODO: perform this procedure before uploading stops/routes to db
 window.normname = function normname (str) {
   if (str === 'U B C') return 'UBC'
   return str.split(' ')

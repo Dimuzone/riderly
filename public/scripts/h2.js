@@ -1,74 +1,41 @@
 // h2.js
-// Tiny vdom impl for lightweight web interfaces.
-// Optimized for browser inclusion.
+// tiny vdom impl for lightweight web interfaces
+// optimized for browser inclusion
 //
-// Exposes all tags from the WHATWG HTML Living Standard
-// for use as h functions, e.g. p("Hello world!")
+// exposes all tags from the WHATWG HTML Living Standard
+// for use as h functions, e.g. p('Hello world!')
 //
-// Includes a patch function for updating DOM elements to match vnodes
+// includes a patch function for updating DOM elements to match vnodes
 //
 (function (tags) {
-  // Create contextualized h functions
+  // create contextualized h functions for each tag provided
   const EMPTY_OBJ = {}
   for (let i = 0; i < tags.length; i++) {
     const tag = tags[i]
-    window[tag] = (function (h, tag) {
-      return function (data, content) {
-        if (data === undefined || Array.isArray(data) || typeof data !== 'object') {
-          content = data
-          data = EMPTY_OBJ
-        }
-        if (content === undefined) {
-          content = []
-        } else if (!Array.isArray(content)) {
-          content = [content]
-        }
-        return h(tag, data, content)
+
+    // create an h function for this tag name
+    // closure used to preserve context
+    window[tag] = function (data, content) {
+      // perform argswitch if second arg is an array or not an object
+      if (Array.isArray(data) || typeof data !== 'object') {
+        content = data
+        data = EMPTY_OBJ
       }
-    })(h, tag)
-  }
 
-  window.patch = patch
-
-  // h(tag, data, [ vnode | prim ]) -> vnode
-  // Creates a vnode.
-  function h (tag, data, content) {
-    return {
-      tag: tag,
-      data: data,
-      content: content
-    }
-  }
-
-  // manifest(vnode) -> Element
-  // Converts a vnode to an HTML element.
-  function manifest (node) {
-    if (node instanceof window.Element) return node
-    if (!node || typeof node !== 'object') {
-      return document.createTextNode(node)
-    }
-    const tag = node.tag
-    const data = node.data
-    const content = node.content
-    const element = document.createElement(tag)
-    for (const name in data) {
-      const value = data[name]
-      element[name] = value
-      if (typeof value !== 'function') {
-        element.setAttribute(name, value)
+      // if content should always be an array
+      if (content === undefined) {
+        content = []
+      } else if (!Array.isArray(content)) {
+        content = [content]
       }
+
+      return { tag, data, content }
     }
-    for (let i = 0; i < content.length; i++) {
-      if (content[i] == null) continue
-      const child = manifest(content[i])
-      element.appendChild(child)
-    }
-    return element
   }
 
   // patch(Element, vnode)
-  // Updates an existing DOM element to match the given vnode.
-  function patch (el, node) {
+  // updates an existing DOM element to match the given vnode.
+  window.patch = function patch (el, node) {
     if (!(el instanceof window.Element || el instanceof window.Text)) {
       throw new Error('Patch operation failed: Provided target is not an Element or Text node')
     }
@@ -82,6 +49,7 @@
     const content = el.childNodes
 
     // just create a new element if the new tag is different
+    // or new element is not keyed
     if (!tag || typeof tag !== typeof node.tag ||
     tag !== node.tag.toUpperCase() || el.key !== node.data.key) {
       const newel = manifest(node)
@@ -155,6 +123,46 @@
         // for textnode: just change content
         child.data = newchild
       }
+    }
+
+    return el
+  }
+
+  // manifest(vnode) -> Element
+  // converts a vnode to an HTML element.
+  function manifest (node) {
+    // ignore if node is already an element
+    // useful for stateful elements eg. canvas
+    if (node instanceof window.Element) return node
+
+    // convert primitive values to text nodes
+    if (!node || typeof node !== 'object') {
+      return document.createTextNode(node)
+    }
+
+    const tag = node.tag
+    const data = node.data
+    const content = node.content
+    const el = document.createElement(tag)
+
+    // assign attributes
+    for (const name in data) {
+      const value = data[name]
+      el[name] = value
+      // don't display eg. event handlers as attributes
+      if (typeof value !== 'function') {
+        el.setAttribute(name, value)
+      }
+    }
+
+    // add children
+    for (let i = 0; i < content.length; i++) {
+      // ignore null and undefined children
+      if (content[i] == null) continue
+
+      // recurse until all children are DOM elements
+      const child = manifest(content[i])
+      el.appendChild(child)
     }
 
     return el

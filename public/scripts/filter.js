@@ -2,6 +2,8 @@
 // gets a max of `limit` entries in `data` matching `query`
 window.filter = function filter (data, keywords, limit) {
   const res = []
+
+  // break early if no keywords provided
   if (!keywords.length) return res
 
   // search all items in given dataset

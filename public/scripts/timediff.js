@@ -1,3 +1,7 @@
+// timediff(then, now) -> str
+// normalizes a time difference to a string eg. 2h, 7m, etc.
+// values below 1s are displayed as 'now'
+// values above a factor of years are displayed as days
 window.timediff = function timediff (then, now) {
   const s = 1000
   const m = s * 60
@@ -13,6 +17,6 @@ window.timediff = function timediff (then, now) {
   } else if (delta > s) {
     return Math.floor(delta / s) + 's'
   } else {
-    return delta + 'ms'
+    return 'now'
   }
 }
