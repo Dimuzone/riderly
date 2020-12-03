@@ -2,8 +2,9 @@ const {
   firebase, db, timediff, fmtstn, patch, getstns,
   main, header, section, div, h1, h2, button, span, strong, a
 } = window
-
 const auth = firebase.auth()
+
+// HTML refs
 const $page = document.querySelector('main')
 
 const state = {
@@ -39,7 +40,8 @@ const switchtab = (state, newtab) =>
   ]
 
   if (stnids.length) {
-    const news = await getstns(stnids)
+    const stations = await getstns(stnids)
+    const news = stations.filter(stn => !state.stations.find(cached => cached.id === stn.id))
     if (news.length) {
       state.stations.push(...news)
       window.localStorage.stations = JSON.stringify(state.stations)
