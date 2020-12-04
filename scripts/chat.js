@@ -148,7 +148,7 @@ async function mount (user) {
 }
 
 // update(data)
-// updates page state with a partial data patch,
+// updates page state with a partial state patch,
 // then updates the page html structure
 function update (data) {
   Object.assign(state, data)
@@ -162,7 +162,7 @@ function update (data) {
 }
 
 // ChatPage(state) -> vnode
-// component defining the HTML structure for a chat page
+// component defining the HTML structure for the chat page
 function ChatPage (state) {
   // sort messages by timestamp
   const messages = state.messages
