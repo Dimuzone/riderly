@@ -50,17 +50,17 @@ body {
 }
 
 .east-icon {
-	font-size: 12px;
-	margin-left: 2px;
-	margin-right: 2px;
+  font-size: 12px;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 .station-wrap {
-	display: flex;
-	justify-content: space-between;
-	padding: 10px;
-	border-bottom: thin solid var(--lightgray);
-	align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: thin solid var(--lightgray);
+  align-items: center;
 }
 
 .station {
@@ -100,7 +100,7 @@ body {
   border-radius: 50%;
 }
 
-.station + .station .station-lhs::after {
+.station+.station .station-lhs::after {
   content: '';
   display: block;
   width: 2px;

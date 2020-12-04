@@ -255,7 +255,7 @@ h2 {
   color: var(--blue);
 }
 
-.header.-search + .page-content {
+.header.-search+.page-content {
   margin-top: var(--header-height-search);
 }
 
@@ -336,7 +336,7 @@ h2 {
   justify-content: space-between;
 }
 
-.option + .option {
+.option+.option {
   margin-top: 6px;
 }
 

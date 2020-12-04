@@ -51,6 +51,5 @@ window.getstns = async function getstns (stnids) {
   // update cache so we don't have to query db for this path anymore
   window.localStorage.stations = JSON.stringify(cache)
 
-  // return result
   return stns
 }
