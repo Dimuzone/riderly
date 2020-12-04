@@ -388,7 +388,7 @@ h2 {
 
 #map {
   height: 200px;
-  z-index: -1;
+  /* z-index: -1; */
   position: relative;
 }
 
