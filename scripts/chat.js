@@ -230,7 +230,7 @@ const Header = (route, stnid) =>
       button({ class: 'back', onclick: _ => window.history.back() }, [
         span({ class: 'icon -back material-icons' },
           'keyboard_arrow_left'),
-        stnid
+        stnid || 'Home'
       ])
     ]),
     span({ class: 'subtitle' }, [
