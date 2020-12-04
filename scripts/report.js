@@ -1,12 +1,15 @@
+// list deps (for standardjs)
 const {
   patch, getrts, getstns, fmtstn,
   header, div, h1, button, span, a
 } = window
 
+// HTML refs
 const $main = document.querySelector('main')
 const $header = document.querySelector('header')
 const $form = document.querySelector('.report')
 
+// state defs
 const state = {
   routes: JSON.parse(window.localStorage.routes || '[]'),
   reports: JSON.parse(window.sessionStorage.reports || '[]'),
@@ -14,6 +17,8 @@ const state = {
   path: null
 }
 
+// init()
+// logic entry point
 ;(async function init () {
   // extract data from hash
   const locid = window.location.hash.slice(1).split('/')
