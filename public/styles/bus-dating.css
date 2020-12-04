@@ -389,4 +389,19 @@ h2 {
 #map {
   height: 200px;
   z-index: -1;
+  position: relative;
+}
+
+#map .leaflet-control-container {
+  height: 100%
+}
+
+#map .leaflet-control-attribution {
+  left: 0;
+  bottom: 0;
+}
+
+#map .leaflet-tooltip {
+  font-family: var(--font-stack);
+  white-space: nowrap;
 }
