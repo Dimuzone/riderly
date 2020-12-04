@@ -216,7 +216,8 @@ const StationPage = (state) => {
           ])
         ]),
         h2({ class: 'subtitle' }, [
-          `${station.id} · ${station.subname}`,
+          search && `${station.id} · `,
+          `${station.subname}`,
           ...(search
             ? []
             : [' (', a({ href: 'route.html#' + route.id }, route.number + route.pattern), ')']
