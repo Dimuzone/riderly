@@ -1,3 +1,4 @@
+// imports (for standardjs)
 const {
   firebase, db, timediff, L: Leaflet,
   getrts, getstns, fmtstn, patch,
@@ -5,9 +6,17 @@ const {
   h1, h2, h3, span, a, strong, button
 } = window
 
+// element defs
 const auth = firebase.auth()
 const $main = document.querySelector('main')
+const levels = {
+  flags: ['-good', '-okay', '-bad'],
+  seating: ['Empty', 'Seating only', 'Full'],
+  timing: ['On time', 'Late', 'Very late'],
+  masking: ['Complete', 'Partial', 'Few']
+}
 
+// state defs
 const state = {
   routes: JSON.parse(window.localStorage.routes || '[]'),
   recents: JSON.parse(window.localStorage.recents || '[]'),
@@ -27,30 +36,36 @@ const state = {
   init: false
 }
 
-const levels = {
-  flags: ['-good', '-okay', '-bad'],
-  seating: ['Empty', 'Seating only', 'Full'],
-  timing: ['On time', 'Late', 'Very late'],
-  masking: ['Complete', 'Partial', 'Few']
-}
-
+// init()
+// page logic entry point
+// resolves data based on hash
 ;(async function init () {
+  // extract data from hash
   const [rtid, stnid] = window.location.hash.slice(1).split('/')
 
+  // resolve all routes from cache, or db if nonexistent
   state.routes = await getrts()
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch($main, 'not found')
   }
 
+  // resolve each station id inside the route path
   route.path = await getstns(route.path)
+
+  // break early if route isn't found in db
   const station = route.path.find(stn => stn.id === +stnid)
   if (!station) {
     return patch($main, 'not found')
   }
 
+  // this route and station exists. we can get data from it
   state.route = route
   state.station = station
+
+  // response optimization:
+  // use cached user if existent,
+  // otherwise wait for confirmation of logged in user
   if (state.user) {
     mount(state.user)
   } else {
@@ -58,6 +73,10 @@ const levels = {
   }
 })()
 
+// mount(user)
+// resolves user into page state,
+// performs first render,
+// and appends listeners
 async function mount (user) {
   // we only want to perform this procedure once
   if (state.init) return
@@ -65,16 +84,29 @@ async function mount (user) {
 
   const station = state.station
 
-  // if a user we haven't cached yet is logged in
+  // if a user we haven't cached yet is logged in,
+  // get their data from the db and cache
+  // (technically not necessary for the chat page,
+  // but if we're going to cache user data for
+  // faster page loads it should be valid across
+  // all pages)
   if (user && !state.user) {
+    // get all the user's data from db
     const userdoc = await db.collection('users').doc(user.uid).get()
     const userdata = userdoc.data()
+
+    // normalize user metadata
     userdata.uid = user.uid
     userdata.id = userdata.email
     delete userdata.email
+
+    // cache user
     window.sessionStorage.user = JSON.stringify(userdata)
+
+    // reflect user data on page
     state.user = userdata
   } else if (!user) {
+    // assign a random token to this user from localstorage
     let token = window.localStorage.token
     if (!token) {
       token = Math.random().toString().slice(2)
@@ -252,6 +284,8 @@ const StationPage = (state) => {
   ])
 }
 
+// Display transit report
+// component defining the HTML structure for the report section
 const Info = (report, category) => {
   const value = levels[category][report ? report[category] : 0]
   const flag = (report ? ' ' + levels.flags[report[category]] : '')
@@ -272,6 +306,8 @@ const Info = (report, category) => {
   ])
 }
 
+// Display recent message
+// component defining the HTML structure for the recent message section
 const Message = (message) => {
   const { timestamp, route: routeid, username, content } = message
   const route = state.routes.find(rt => rt.id === routeid)
@@ -371,9 +407,14 @@ const Minimap = (station, route) => {
   ])
 }
 
+// User save button
 const toggleSave = (state, id) => {
+  // define local user save
   const user = state.user
   const saves = user.saves
+
+  // check wether this station has been already saved by the user
+  // if this station is not saved, push this station to local user save
   if (!saves.includes(id)) {
     saves.push(id)
   } else {
@@ -381,6 +422,8 @@ const toggleSave = (state, id) => {
   }
   user.saves = saves
   window.sessionStorage.user = JSON.stringify(user)
+
+  // update the user saves in database with the local user save
   db.collection('users').doc(user.uid).update({ saves })
   console.log(saves)
   return { saves }
