@@ -210,9 +210,11 @@ const StationPage = (state) => {
           ])
         ]),
         h2({ class: 'subtitle' }, [
-          `${station.id} · ${station.subname} (`,
-          a({ href: 'route.html#' + route.id }, route.number + route.pattern),
-          ')'
+          `${station.id} · ${station.subname}`,
+          ...(search
+            ? []
+            : [' (', a({ href: 'route.html#' + route.id }, route.number + route.pattern), ')']
+          )
         ])
       ])
     ]),
