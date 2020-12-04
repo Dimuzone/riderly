@@ -172,7 +172,11 @@ function ChatPage (state) {
     .sort((a, b) => a.timestamp - b.timestamp)
 
   return div({ class: 'page-content' }, [
-    div({ class: 'messages' }, [MessageGroups(messages, state.user.id)]),
+    div({ class: 'messages' }, [
+      messages.length
+        ? MessageGroups(messages, state.user.id)
+        : div({ class: 'message-groups -notice' }, 'Be the first to say something.')
+    ]),
     div({ class: 'message-bar' }, [
       input({
         class: 'message-input',
