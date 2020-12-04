@@ -33,6 +33,13 @@
 	padding: 24px 0;
 }
 
+.messages:not(.-scroll) .message-groups.-notice {
+  color: gray;
+  font-size: 0.875rem;
+  text-align: center;
+  bottom: initial;
+}
+
 .message-group {
 	display: flex;
 	flex-direction: column;
