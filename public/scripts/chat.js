@@ -63,7 +63,7 @@ const state = {
 
   // update header text
   // more efficient than patching entire header
-  $subtitle.innerText = `Route ${rtid}`
+  $subtitle.innerText = `Route ${route.number}${route.pattern}`
   if (stnid) {
     $back.innerText = stnid
   } else {
