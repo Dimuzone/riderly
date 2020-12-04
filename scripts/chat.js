@@ -18,6 +18,7 @@ const state = {
   user: JSON.parse(window.sessionStorage.user || null),
   users: JSON.parse(window.sessionStorage.users || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
+  messageLastUpdate: JSON.parse(window.sessionStorage.messageLastUpdate || 0),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   routes: null,
   route: null,
@@ -127,6 +128,7 @@ async function mount (user) {
   // listen for messages
   db.collection('messages')
     .orderBy('timestamp', 'desc')
+    .where('timestamp', '>', state.messageLastUpdate)
     .onSnapshot(col => {
       const news = []
       for (const doc of col.docs) {
@@ -144,7 +146,8 @@ async function mount (user) {
         const messages = [...state.messages, ...news]
         messages.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.messages = JSON.stringify(messages)
-        update({ messages })
+        window.sessionStorage.messageLastUpdate = Date.now()
+        update({ messages, messageLastUpdate: Date.now() })
       }
     })
 }
