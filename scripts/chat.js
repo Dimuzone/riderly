@@ -1,7 +1,7 @@
 // imports (for standardjs)
 const {
   firebase, db, patch, getrts, getstns,
-  header, div, input, button, span, a
+  header, div, input, button, h1, span, a
 } = window
 const auth = firebase.auth()
 
@@ -9,8 +9,6 @@ const auth = firebase.auth()
 const $main = document.querySelector('main')
 const $header = document.querySelector('header')
 const $page = document.querySelector('.page-content')
-const $subtitle = document.querySelector('.subtitle')
-const $back = document.querySelector('.back-text')
 let $input = null
 let $groups = null
 let $wrap = null
