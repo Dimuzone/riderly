@@ -3,6 +3,7 @@
 window.getrts = async function getrts () {
   // dependencies
   const db = window.db
+  const normname = window.normname
   const routes = JSON.parse(window.localStorage.routes || '[]')
 
   // if cache is empty
@@ -12,7 +13,8 @@ window.getrts = async function getrts () {
 
     // normalize collection contents
     for (const doc of col.docs) {
-      routes.push({ ...doc.data(), id: doc.id })
+      const docdata = doc.data()
+      routes.push({ ...docdata, id: doc.id, name: normname(docdata.name) })
     }
 
     // add routes to cache
