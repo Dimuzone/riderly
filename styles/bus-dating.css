@@ -393,6 +393,7 @@ h2 {
 #map {
   height: 200px;
   position: relative;
+  z-index: 0;
 }
 
 #map .leaflet-control-container {
