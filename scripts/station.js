@@ -160,7 +160,8 @@ function visit (state, station) {
   map.leaflet.setView([station.lat, station.long], 13)
 
   // route line
-  Leaflet.polyline(route.path.map(station => [station.lat, station.long]), {
+  if (map.line) map.line.remove()
+  map.line = Leaflet.polyline(route.path.map(station => [station.lat, station.long]), {
     color: 'rgba(0, 0, 255, 0.5)'
   }).addTo(map.leaflet)
 
