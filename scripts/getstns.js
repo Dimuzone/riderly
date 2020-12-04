@@ -19,6 +19,7 @@ window.getstns = async function getstns (stnids) {
       missing.push(id)
     }
   }
+  // console.log(...missing)
 
   // only enter query procedure if we are missing any routes
   if (missing.length) {
