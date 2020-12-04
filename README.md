@@ -1,7 +1,7 @@
 ## riderly
-A browser-based web application that enables public transit riders to get the most up-to-date data on transit conditions by emphasizing information sharing features.
+A browser-based web application that crowdsources real-time transit info on COVID-19 using chat rooms and information reports.
 
-[View the demo](https://dimuzone.github.io/riderly)
+[View the demo](https://riderly-1800.web.app)
 
 ## Collaborators
 - [Brandon Semilla](https://github.com/semibran)
