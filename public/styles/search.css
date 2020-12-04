@@ -58,6 +58,6 @@
   align-items: center;
 }
 
-.result + .result {
+.result+.result {
   margin-top: 10px;
 }

@@ -4,33 +4,33 @@
 }
 
 .page-content {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
   position: relative;
   top: var(--header-height);
-	height: calc(100vh - var(--header-height));
-	overflow-y: hidden;
+  height: calc(100vh - var(--header-height));
+  overflow-y: hidden;
 }
 
 .messages {
-	padding: 0 24px;
-	flex: 1;
-	position: relative;
+  padding: 0 24px;
+  flex: 1;
+  position: relative;
 }
 
 .messages.-scroll {
-	overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 .messages:not(.-scroll) .message-groups {
-	width: calc(100% - 48px);
-	position: absolute;
-	bottom: 0;
+  width: calc(100% - 48px);
+  position: absolute;
+  bottom: 0;
 }
 
 .message-groups {
-	width: 100%;
-	padding: 24px 0;
+  width: 100%;
+  padding: 24px 0;
 }
 
 .messages:not(.-scroll) .message-groups.-notice {
@@ -41,123 +41,123 @@
 }
 
 .message-group {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.message-group + .message-group {
-	margin-top: 12px;
+.message-group+.message-group {
+  margin-top: 12px;
 }
 
 .message-group.-user {
-	margin-left: auto;
-	align-items: flex-end;
+  margin-left: auto;
+  align-items: flex-end;
 }
 
 .message-author {
-	display: block;
-	color: var(--color-content);
-	font-size: 0.825em;
-	font-weight: 500;
-	margin-bottom: 2px;
+  display: block;
+  color: var(--color-content);
+  font-size: 0.825em;
+  font-weight: 500;
+  margin-bottom: 2px;
 }
 
 .message {
-	max-width: 80%;
-	padding: 8px 12px;
-	background: var(--silver);
-	color: var(--color-content);
-	font-size: 0.875em;
-	font-weight: 500;
-	line-height: 1.25;
-	margin-bottom: 2px;
-	border-radius: 8px;
-	border-top-left-radius: 0;
-	position: relative;
-	word-break: break-word;
+  max-width: 80%;
+  padding: 8px 12px;
+  background: var(--silver);
+  color: var(--color-content);
+  font-size: 0.875em;
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 2px;
+  border-radius: 8px;
+  border-top-left-radius: 0;
+  position: relative;
+  word-break: break-word;
 }
 
 .message::before {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	right: 100%;
-	border: 4px solid transparent;
-	border-top-color: var(--silver);
-	border-right-color: var(--silver);
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 100%;
+  border: 4px solid transparent;
+  border-top-color: var(--silver);
+  border-right-color: var(--silver);
 }
 
 .message-group.-user .message {
-	background: var(--green);
-	color: white;
-	border-radius: 8px;
-	border-bottom-right-radius: 0;
+  background: var(--green);
+  color: white;
+  border-radius: 8px;
+  border-bottom-right-radius: 0;
 }
 
 .message-group.-user .message::before {
-	right: auto;
-	left: 100%;
-	top: auto;
-	bottom: 0;
-	border-color: transparent;
-	border-left-color: var(--green);
-	border-bottom-color: var(--green);
+  right: auto;
+  left: 100%;
+  top: auto;
+  bottom: 0;
+  border-color: transparent;
+  border-left-color: var(--green);
+  border-bottom-color: var(--green);
 }
 
 .message-group.-user .icon.-like {
-	left: auto;
-	right: 100%;
+  left: auto;
+  right: 100%;
 }
 
 .message-bar {
-	display: flex;
-	margin: 8px;
-	padding: 4px;
-	border-radius: 20px;
-	background: var(--silver);
-	border: thin solid var(--color-outline);
+  display: flex;
+  margin: 8px;
+  padding: 4px;
+  border-radius: 20px;
+  background: var(--silver);
+  border: thin solid var(--color-outline);
 }
 
 .message-input {
-	flex: 1;
-	padding: 8px 16px;
-	border: none;
-	outline: none;
-	background: none;
-	font-size: 14px;
-	color: var(--color-content);
+  flex: 1;
+  padding: 8px 16px;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 14px;
+  color: var(--color-content);
 }
 
 .message-input::placeholder {
-	color: var(--color-content);
+  color: var(--color-content);
 }
 
 .message-send {
-	background: var(--green);
-	color: white;
-	width: 32px;
-	height: 32px;
-	outline: none;
-	border: none;
-	border-radius: 50%;
-	text-align: center;
+  background: var(--green);
+  color: white;
+  width: 32px;
+  height: 32px;
+  outline: none;
+  border: none;
+  border-radius: 50%;
+  text-align: center;
 }
 
 .message-bar:focus-within {
-	background: white;
-	border-color: var(--green);
+  background: white;
+  border-color: var(--green);
 }
 
 .message-input:focus::placeholder {
-	color: var(--green);
+  color: var(--green);
 }
 
-.message-input:placeholder-shown + .message-send {
-	background: var(--color-outline);
+.message-input:placeholder-shown+.message-send {
+  background: var(--color-outline);
 }
 
-.message-input:focus:placeholder-shown + .message-send {
-	background: var(--silver);
+.message-input:focus:placeholder-shown+.message-send {
+  background: var(--silver);
 }

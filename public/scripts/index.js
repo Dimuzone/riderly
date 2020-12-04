@@ -1,3 +1,4 @@
+// list deps (for standardjs)
 const {
   firebase, db, timediff, fmtstn, patch, getrts, getstns, normname,
   main, header, section, div, h1, h2, button, span, strong, a
