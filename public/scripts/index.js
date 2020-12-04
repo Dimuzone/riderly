@@ -60,11 +60,13 @@ const switchtab = (state, newtab) =>
     recent.route = state.routes.find(route => route.id === recent.route)
     recent.station = state.stations.find(station => station.id === recent.station)
   }
+  state.recents.reverse()
 
   for (const save of state.saves) {
     save.route = state.routes.find(route => route.id === save.route)
     save.station = state.stations.find(station => station.id === save.station)
   }
+  state.saves.reverse()
 
   // clear search whenever user returns to search page
   if (state.search) {
@@ -100,7 +102,8 @@ async function mount (user) {
 
     const stnids = saves.map(save => save.station)
     if (stnids.length) {
-      const news = await getstns(stnids)
+      const stations = await getstns(stnids)
+      const news = stations.filter(stn => !state.stations.find(cached => cached.id === stn.id))
       if (news.length) {
         state.stations.push(...news)
         window.localStorage.stations = JSON.stringify(state.stations)
@@ -112,6 +115,7 @@ async function mount (user) {
       save.station = state.stations.find(station => station.id === save.station)
     }
 
+    state.saves.reverse()
     window.sessionStorage.user = JSON.stringify(userdata)
     window.sessionStorage.users = JSON.stringify(users)
     state.user = userdata
