@@ -207,7 +207,7 @@ function HomePage (state) {
         ]),
         tab === 'recents'
           ? recents.length
-              ? div({ class: 'section-content stations -recent' }, recents.map(Save))
+              ? div({ class: 'section-content stations -recent' }, recents.slice(0, 3).map(Save))
               : span({ class: 'section-content section-notice' },
                 'When you view a station, it will appear here.')
           : saves.length
