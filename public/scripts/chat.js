@@ -221,7 +221,7 @@ function MessageGroups (messages, userid) {
 const Header = (route, stnid) =>
   header({ class: 'header header-text -color -secondary' }, [
     div({ class: 'title-row' }, [
-      h1({ class: 'title -small' }, 'Report changes'),
+      h1({ class: 'title -small' }, 'Chat'),
       button({ class: 'back', onclick: _ => window.history.back() }, [
         span({ class: 'icon -back material-icons' },
           'keyboard_arrow_left'),
