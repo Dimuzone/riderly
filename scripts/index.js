@@ -1,5 +1,5 @@
 const {
-  firebase, db, timediff, fmtstn, patch, getstns,
+  firebase, db, timediff, fmtstn, patch, getrts, getstns, normname,
   main, header, section, div, h1, h2, button, span, strong, a
 } = window
 const auth = firebase.auth()
@@ -12,6 +12,7 @@ const state = {
   search: JSON.parse(window.sessionStorage.search || null),
   users: JSON.parse(window.sessionStorage.users || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
+  routes: JSON.parse(window.localStorage.routes || '[]'),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   recents: JSON.parse(window.localStorage.recents || '[]')
     .map(id => {
@@ -27,6 +28,12 @@ const switchtab = (state, newtab) =>
   ({ tab: newtab })
 
 ;(async function main () {
+  if (!state.routes.length) {
+    const routes = await getrts()
+    state.routes = routes.map(route =>
+      ({ ...route, name: normname(route.name) }))
+  }
+
   if (state.user) {
     state.saves = state.user.saves.map(id => {
       const [route, station] = id.split('/')
@@ -49,10 +56,12 @@ const switchtab = (state, newtab) =>
   }
 
   for (const recent of state.recents) {
+    recent.route = state.routes.find(route => route.id === recent.route)
     recent.station = state.stations.find(station => station.id === recent.station)
   }
 
   for (const save of state.saves) {
+    save.route = state.routes.find(route => route.id === save.route)
     save.station = state.stations.find(station => station.id === save.station)
   }
 
@@ -98,6 +107,7 @@ async function mount (user) {
     }
 
     for (const save of state.saves) {
+      save.route = state.routes.find(route => route.id === save.route)
       save.station = state.stations.find(station => station.id === save.station)
     }
 
@@ -220,12 +230,12 @@ function Save (save) {
   const { station, route } = save
   const [name, subname] = fmtstn(station.name)
   const addendum = subname ? [' · ', strong(subname)] : []
-  return a({ class: 'option', href: `station.html#${route}/${station.id}` }, [
+  return a({ class: 'option', href: `station.html#${route.id}/${station.id}` }, [
     div({ class: 'option-lhs' }, [
       span({ class: 'icon -route material-icons-outlined' },
         'place'),
       div({ class: 'option-meta' }, [
-        div({ class: 'option-name' }, `${name} (${route})`),
+        div({ class: 'option-name' }, `${name} (${route.number}${route.pattern})`),
         div({ class: 'option-data' },
           [station.id, ...addendum])
       ])
@@ -238,6 +248,7 @@ function Save (save) {
 
 function Message (message) {
   const { timestamp, route: routeid, username, content } = message
+  const route = state.routes.find(rt => rt.id === routeid)
   const now = Date.now()
   const ago = timediff(timestamp, now)
   return a({ class: 'option -message', href: 'chat.html#' + routeid }, [
@@ -247,7 +258,7 @@ function Message (message) {
       div({ class: 'option-meta' }, [
         div({ class: 'option-name' }, `"${content}"`),
         div({ class: 'option-data' },
-          ['from ', strong(username), ' on ', strong(routeid)])
+          ['from ', strong(username), ' on ', strong(route.number + route.pattern)])
       ])
     ]),
     div({ class: 'option-rhs' }, [

@@ -205,7 +205,7 @@ const StationPage = (state) => {
           h1({ class: 'title -small' }, station.name),
           button({ class: 'back', onclick: _ => window.history.back() }, [
             span({ class: 'icon -back material-icons' }, 'keyboard_arrow_left'),
-            search ? route.id : 'Home'
+            search ? route.number + route.pattern : 'Home'
           ])
         ]),
         h2({ class: 'subtitle' }, `${station.id} · ${station.subname}`)
@@ -234,7 +234,7 @@ const StationPage = (state) => {
       a({ class: 'button -action -chat', href: `chat.html#${route.id}/${station.id}` }, [
         span({ class: 'icon -talk material-icons-outlined' },
           'question_answer'),
-        `Chat on Route ${route.id}`
+        `Chat on Route ${route.number}${route.pattern}`
       ])
     ])
   ])
