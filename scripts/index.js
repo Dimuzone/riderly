@@ -10,7 +10,6 @@ const $page = document.querySelector('main')
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
   search: JSON.parse(window.sessionStorage.search || null),
-  users: JSON.parse(window.sessionStorage.users || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
   messageLastUpdate: JSON.parse(window.sessionStorage.messageLastUpdate || 0),
   routes: JSON.parse(window.localStorage.routes || '[]'),
@@ -84,15 +83,13 @@ async function mount (user) {
   if (state.init) return
   state.init = true
 
-  const { users } = state
-
   // if a user we haven't cached yet is logged in
   if (user && !state.user) {
-    const userdata = (await db.collection('users').doc(user.uid).get()).data()
+    const userdoc = await db.collection('users').doc(user.uid).get()
+    const userdata = userdoc.data()
     userdata.uid = user.uid
     userdata.id = userdata.email
     delete userdata.email
-    users.push(userdata)
 
     const saves = userdata.saves.map(id => {
       const [route, station] = id.split('/')
@@ -117,7 +114,6 @@ async function mount (user) {
 
     state.saves.reverse()
     window.sessionStorage.user = JSON.stringify(userdata)
-    window.sessionStorage.users = JSON.stringify(users)
     state.user = userdata
   }
 
