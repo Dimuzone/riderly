@@ -209,7 +209,11 @@ const StationPage = (state) => {
             search ? route.number + route.pattern : 'Home'
           ])
         ]),
-        h2({ class: 'subtitle' }, `${station.id} · ${station.subname}`)
+        h2({ class: 'subtitle' }, [
+          `${station.id} · ${station.subname} (`,
+          a({ href: 'route.html#' + route.id }, route.number + route.pattern),
+          ')'
+        ])
       ])
     ]),
     Minimap(station, route),
