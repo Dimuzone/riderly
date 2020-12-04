@@ -12,6 +12,7 @@ const state = {
   search: JSON.parse(window.sessionStorage.search || null),
   users: JSON.parse(window.sessionStorage.users || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
+  messageLastUpdate: JSON.parse(window.sessionStorage.messageLastUpdate || 0),
   routes: JSON.parse(window.localStorage.routes || '[]'),
   stations: JSON.parse(window.localStorage.stations || '[]'),
   recents: JSON.parse(window.localStorage.recents || '[]')
@@ -121,12 +122,14 @@ async function mount (user) {
 
   // listen for messages
   db.collection('messages')
+    .where('timestamp', '>', state.messageLastUpdate)
     .orderBy('timestamp', 'desc')
     .onSnapshot(col => {
       const news = []
       for (const doc of col.docs) {
         // flatten message data structure
         const msg = { ...doc.data(), id: doc.id }
+        console.log(msg)
         const cached = state.messages.find(cached => cached.id === msg.id)
         if (!cached) {
           // we don't have this message cached; add it
@@ -139,7 +142,8 @@ async function mount (user) {
         const messages = [...state.messages, ...news]
         messages.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.messages = JSON.stringify(messages)
-        update({ messages })
+        window.sessionStorage.messageLastUpdate = Date.now()
+        update({ messages, messageLastUpdate: Date.now() })
       }
     })
 }

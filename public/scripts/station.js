@@ -12,7 +12,9 @@ const state = {
   routes: JSON.parse(window.localStorage.routes || '[]'),
   recents: JSON.parse(window.localStorage.recents || '[]'),
   reports: JSON.parse(window.sessionStorage.reports || '[]'),
+  reportLastUpdate: JSON.parse(window.sessionStorage.reportLastUpdate || 0),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
+  messageLastUpdate: JSON.parse(window.sessionStorage.messageLastUpdate || 0),
   users: JSON.parse(window.sessionStorage.users || '[]'),
   user: JSON.parse(window.sessionStorage.user || null),
   search: JSON.parse(window.sessionStorage.search || null),
@@ -92,30 +94,33 @@ async function mount (user) {
   // listen for reports
   db.collection('reports')
     .orderBy('timestamp', 'desc')
+    .where('timestamp', '>', state.reportLastUpdate)
     .onSnapshot(col => {
       const news = []
       for (const doc of col.docs) {
-        // flatten message data structure
+        // flatten report data structure
         const rep = { ...doc.data(), id: doc.id }
         const cached = state.reports.find(cached => cached.id === rep.id)
         if (!cached) {
-          // we don't have this message cached; add it
+          // we don't have this report cached; add it
           news.push(rep)
         }
       }
 
-      // cache and update html if we found a new message
+      // cache and update html if we found a new report
       if (news.length) {
         const reports = [...state.reports, ...news]
         reports.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.reports = JSON.stringify(reports)
-        update({ reports })
+        window.sessionStorage.reportLastUpdate = Date.now()
+        update({ reports, reportLastUpdate: Date.now() })
       }
     })
 
   // listen for messages
   db.collection('messages')
     .orderBy('timestamp', 'desc')
+    .where('timestamp', '>', state.messageLastUpdate)
     .onSnapshot(col => {
       const news = []
       for (const doc of col.docs) {
@@ -133,7 +138,8 @@ async function mount (user) {
         const messages = [...state.messages, ...news]
         messages.sort((a, b) => b.timestamp - a.timestamp)
         window.sessionStorage.messages = JSON.stringify(messages)
-        update({ messages })
+        window.sessionStorage.messageLastUpdate = Date.now()
+        update({ messages, messageLastUpdate: Date.now() })
       }
     })
 }
