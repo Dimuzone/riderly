@@ -25,14 +25,29 @@ const state = {
   const rtid = locid[0]
   const stnid = +locid[1]
 
+  // resolve all routes from cache, or db if nonexistent
   state.routes = await getrts()
+
+  // break early if route isn't found in db
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch($main, 'not found')
   }
 
+  // this route exists. we can get data from it
+  state.route = route
+
+  // break early if the station id provided
+  // isn't a part of the route
+  if (stnid && !route.path.includes(stnid)) {
+    return patch($main, 'not found')
+  }
+
+  // resolve each station id inside the route path
   route.path = await getstns(route.path)
-  const station = route.path.find(stn => stn.id === +stnid)
+
+  // break early if we don't have data on the provided station
+  const station = route.path.find(stn => stn.id === stnid)
   if (!station) {
     return patch($main, 'not found')
   }

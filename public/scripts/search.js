@@ -4,6 +4,7 @@ const {
 } = window
 
 const $input = document.querySelector('.search-input')
+const $close = document.querySelector('.search-close')
 const $results = document.querySelector('.search-results')
 
 const state = {
@@ -26,20 +27,31 @@ const state = {
     $input.value = state.search.query
   }
 
+  $close.onclick = _ => {
+    $input.value = ''
+    $input.focus()
+    update({ search: { ...state.search, query: '', keywords: [], results: [] } })
+    delete window.sessionStorage.search
+  }
+
   $input.oninput = _ => {
     const query = $input.value
     const keywords = kwsplit(query)
     const results = !query ? [] : filter(state.routes, keywords)
-    update({ search: { ...state.search, query, keywords, results } })
+    const search = { ...state.search, query, keywords, results }
+    update({ search })
+    window.sessionStorage.search = JSON.stringify(search)
   }
 })()
 
 function update (data) {
   Object.assign(state, data)
   patch($results, Results(state))
-  window.sessionStorage.search = JSON.stringify(state.search)
+  $close.style.display = state.search.query ? 'block' : 'none'
 }
 
+// Results(state) -> vnode
+//
 function Results (state) {
   const search = state.search
   const keywords = search.keywords
@@ -54,6 +66,9 @@ function Results (state) {
         ])
 }
 
+// Result(route, str[]) -> vnode
+// component defining the HTML structure for a search result
+// uses keywords for text highlighting
 function Result (route, keywords) {
   const name = route.number + ' ' + route.name
   const tokens = tokenize(name, keywords)
@@ -66,6 +81,8 @@ function Result (route, keywords) {
   ])
 }
 
+// tokenize(str, str[]) -> str[]
+// lexes a string into a list of strings separated by the provided keywords
 function tokenize (string, keywords) {
   const tokens = []
   const source = string.toUpperCase()

@@ -49,6 +49,10 @@ body {
   color: white;
 }
 
+.search-close {
+  color: var(--lightblue);
+}
+
 .east-icon {
   font-size: 12px;
   margin-left: 2px;

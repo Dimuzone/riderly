@@ -243,6 +243,10 @@ h2 {
   color: var(--gray);
 }
 
+.search-close {
+  font-size: 1.25rem;
+}
+
 .search:focus-within {
   border-color: var(--blue);
 }
@@ -388,12 +392,11 @@ h2 {
 
 #map {
   height: 200px;
-  /* z-index: -1; */
   position: relative;
 }
 
 #map .leaflet-control-container {
-  height: 100%
+  height: 100%;
 }
 
 #map .leaflet-control-attribution {
