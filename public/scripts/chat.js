@@ -1,12 +1,13 @@
 // imports (for standardjs)
 const {
   firebase, db, patch, getrts, getstns,
-  div, input, button, span
+  header, div, input, button, span, a
 } = window
 const auth = firebase.auth()
 
 // element defs
 const $main = document.querySelector('main')
+const $header = document.querySelector('header')
 const $page = document.querySelector('.page-content')
 const $subtitle = document.querySelector('.subtitle')
 const $back = document.querySelector('.back-text')
@@ -62,13 +63,7 @@ const state = {
   }
 
   // update header text
-  // more efficient than patching entire header
-  $subtitle.innerText = `Route ${route.number}${route.pattern}`
-  if (stnid) {
-    $back.innerText = stnid
-  } else {
-    $back.innerText = 'Home'
-  }
+  patch($header, Header(route, stnid))
 
   // response optimization:
   // use cached user if existent,
@@ -220,6 +215,24 @@ function MessageGroups (messages, userid) {
   const el = div({ class: 'message-groups' }, groups)
   return el
 }
+
+// Header(route)
+// component defining the HTML structure for the chat page header
+const Header = (route, stnid) =>
+  header({ class: 'header header-text -color -secondary' }, [
+    div({ class: 'title-row' }, [
+      h1({ class: 'title -small' }, 'Report changes'),
+      button({ class: 'back', onclick: _ => window.history.back() }, [
+        span({ class: 'icon -back material-icons' },
+          'keyboard_arrow_left'),
+        stnid
+      ])
+    ]),
+    span({ class: 'subtitle' }, [
+      'Route ',
+      a({ href: `station.html#${route.id}/${stnid}` }, route.number + route.pattern)
+    ])
+  ])
 
 // send(state) -> bool
 // sends a chat message
