@@ -5,6 +5,12 @@ node_modules
 *.code-workspace
 *.swp
 
+.firebase
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
+
 # Compiled class file
 *.class
 
