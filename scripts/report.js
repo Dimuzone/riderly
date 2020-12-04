@@ -79,6 +79,6 @@ const Header = (station, route) =>
     ]),
     span({ class: 'subtitle' }, [
       fmtstn(station.name)[0],
-      ' (', a({ href: 'route.html#' + route.id }, route.id), ')'
+      ' (', a({ href: 'route.html#' + route.id }, route.number + route.pattern), ')'
     ])
   ])
