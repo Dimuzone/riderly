@@ -1,6 +1,6 @@
 // list deps (for standardjs)
 const {
-  firebase, db, timediff, fmtstn, patch, getrts, getstns, normname,
+  firebase, db, timediff, fmtstn, patch, getrts, getstns,
   main, header, section, div, h1, h2, button, span, strong, a
 } = window
 const auth = firebase.auth()
@@ -8,6 +8,7 @@ const auth = firebase.auth()
 // HTML refs
 const $page = document.querySelector('main')
 
+// state defs
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
   search: JSON.parse(window.sessionStorage.search || null),
@@ -29,12 +30,13 @@ const switchtab = (state, newtab) =>
   ({ tab: newtab })
 
 ;(async function main () {
+  // get all routes on first page load
+  // TODO: optimize to only get routes needed
   if (!state.routes.length) {
-    const routes = await getrts()
-    state.routes = routes.map(route =>
-      ({ ...route, name: normname(route.name) }))
+    await getrts()
   }
 
+  // extract saves from user
   if (state.user) {
     state.saves = state.user.saves.map(id => {
       const [route, station] = id.split('/')
@@ -42,11 +44,13 @@ const switchtab = (state, newtab) =>
     })
   }
 
+  // determine station deps
   const stnids = [
     ...state.recents.map(save => save.station),
     ...state.saves.map(save => save.station)
   ]
 
+  // resolve and cache station ids
   if (stnids.length) {
     const stations = await getstns(stnids)
     const news = stations.filter(stn => !state.stations.find(cached => cached.id === stn.id))
@@ -56,12 +60,14 @@ const switchtab = (state, newtab) =>
     }
   }
 
+  // resolve stations and routes referenced in recents
   for (const recent of state.recents) {
     recent.route = state.routes.find(route => route.id === recent.route)
     recent.station = state.stations.find(station => station.id === recent.station)
   }
   state.recents.reverse()
 
+  // resolve stations and routes referenced in saves
   for (const save of state.saves) {
     save.route = state.routes.find(route => route.id === save.route)
     save.station = state.stations.find(station => station.id === save.station)
@@ -73,6 +79,9 @@ const switchtab = (state, newtab) =>
     delete window.sessionStorage.search
   }
 
+  // response optimization:
+  // use cached user if existent,
+  // otherwise wait for confirmation of logged in user
   if (state.user) {
     mount(state.user)
   } else {
@@ -80,24 +89,31 @@ const switchtab = (state, newtab) =>
   }
 })()
 
+// mount(user)
+// resolves user into page state,
+// performs first render,
+// and appends listeners
 async function mount (user) {
   if (state.init) return
   state.init = true
 
   // if a user we haven't cached yet is logged in
   if (user && !state.user) {
+    // resolve user data
     const userdoc = await db.collection('users').doc(user.uid).get()
     const userdata = userdoc.data()
     userdata.uid = user.uid
     userdata.id = userdata.email
     delete userdata.email
 
+    // determine route/station deps from user saves
     const saves = userdata.saves.map(id => {
       const [route, station] = id.split('/')
       return { route, station: +station }
     })
     state.saves.push(...saves)
 
+    // resolve and cache station ids
     const stnids = saves.map(save => save.station)
     if (stnids.length) {
       const stations = await getstns(stnids)
@@ -108,12 +124,14 @@ async function mount (user) {
       }
     }
 
+    // resolve stations and routes referenced in saves
     for (const save of state.saves) {
       save.route = state.routes.find(route => route.id === save.route)
       save.station = state.stations.find(station => station.id === save.station)
     }
-
     state.saves.reverse()
+
+    // cache user and use in state
     window.sessionStorage.user = JSON.stringify(userdata)
     state.user = userdata
   }
@@ -130,7 +148,6 @@ async function mount (user) {
       for (const doc of col.docs) {
         // flatten message data structure
         const msg = { ...doc.data(), id: doc.id }
-        console.log(msg)
         const cached = state.messages.find(cached => cached.id === msg.id)
         if (!cached) {
           // we don't have this message cached; add it
@@ -149,11 +166,16 @@ async function mount (user) {
     })
 }
 
+// update(data)
+// updates page state with a partial data patch,
+// then updates the page html structure
 function update (data) {
   Object.assign(state, data)
   patch($page, HomePage(state))
 }
 
+// HomePage(state)
+// component defining the HTML structure for the home page
 function HomePage (state) {
   const { user, tab, recents, saves, messages } = state
   const name = user ? user.name.split(' ')[0] : ''
@@ -231,6 +253,8 @@ function HomePage (state) {
   ])
 }
 
+// Save(save)
+// component defining the HTML structure for a station save
 function Save (save) {
   const { station, route } = save
   const [name, subname] = fmtstn(station.name)
@@ -251,6 +275,8 @@ function Save (save) {
   ])
 }
 
+// Message(message)
+// component defining the HTML structure for a message preview
 function Message (message) {
   const { timestamp, route: routeid, username, content } = message
   const route = state.routes.find(rt => rt.id === routeid)
