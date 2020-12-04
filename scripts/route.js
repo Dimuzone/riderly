@@ -1,11 +1,15 @@
+// list deps (for standardjs)
 const {
   getrts, getstns, fmtstn, normname, L: Leaflet, kwsplit, filter: filterBy,
   patch, main, header, div, h1, h2, span, a, button, input
 } = window
 
+// HTML References
 const $main = document.querySelector('main')
+
 let $input = null
 
+// state definitions
 const state = {
   stations: JSON.parse(window.localStorage.stations || '[]'),
   routes: JSON.parse(window.localStorage.routes || '[]'),
@@ -18,15 +22,23 @@ const state = {
   path: null
 }
 
+// init()
+// logic entry point
 ;(async function init () {
+  // extract date from hash
   const rtid = window.location.hash.slice(1)
 
+  // resolve all routes from cache, or db if nonexistent
   state.routes = await getrts()
+
+  // break early if route isn't found in db
   const route = state.routes.find(rt => rt.id === rtid)
   if (!route) {
     return patch($main, 'not found')
   }
 
+  // resolve each station id inside the route path
+  // break early if station is not found in db
   route.path = await getstns(route.path)
   if (!route.path.length) {
     return patch($main, 'not found')
@@ -34,6 +46,7 @@ const state = {
 
   update({ route })
 
+  // extract start and end position for route
   const startstn = route.path[0]
   const startpos = [startstn.lat, startstn.long]
   const endstn = route.path[route.path.length - 1]
@@ -64,6 +77,9 @@ const state = {
     .openTooltip()
 })()
 
+// update(data)
+// updates page with partial state patch
+// updates page html structure
 function update (data) {
   Object.assign(state, data)
   patch($main, RoutePage(state))
@@ -76,10 +92,13 @@ function update (data) {
   }
 }
 
+// RoutePage(state) -> vnode
+// component defining the html for route page
 const RoutePage = (state) => {
   const { route, search, filter } = state
   const stations = route.path
 
+  // clears search bar when user clicks x button
   const onclear = _ => {
     $input.value = ''
     $input.focus()
@@ -87,6 +106,7 @@ const RoutePage = (state) => {
     delete window.sessionStorage.filter
   }
 
+  // search function for route page
   const oninput = _ => {
     const query = $input.value
     const keywords = kwsplit(query)
@@ -96,6 +116,7 @@ const RoutePage = (state) => {
     window.sessionStorage.filter = JSON.stringify(filter)
   }
 
+  // creates html for route page based on data
   return main({ class: `page -route -${route.id}` }, [
     header({ class: 'header -color -primary' }, [
       div({ class: 'header-text' }, [
@@ -146,6 +167,8 @@ const RoutePage = (state) => {
   ])
 }
 
+// Station(staion, route)
+// component defining html structore for route page
 const Station = (station, route) => {
   const [name, subname] = fmtstn(station.name)
   const desc = `${station.id} · ${subname}`
