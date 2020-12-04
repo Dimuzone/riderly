@@ -16,7 +16,6 @@ let $wrap = null
 // state defs
 const state = {
   user: JSON.parse(window.sessionStorage.user || null),
-  users: JSON.parse(window.sessionStorage.users || '[]'),
   messages: JSON.parse(window.sessionStorage.messages || '[]'),
   messageLastUpdate: JSON.parse(window.sessionStorage.messageLastUpdate || 0),
   stations: JSON.parse(window.localStorage.stations || '[]'),
@@ -83,8 +82,6 @@ async function mount (user) {
   if (state.init) return
   state.init = true
 
-  const users = state.users
-
   // if a user we haven't cached yet is logged in,
   // get their data from the db and cache
   // (technically not necessary for the chat page,
@@ -100,11 +97,9 @@ async function mount (user) {
     userdata.uid = user.uid
     userdata.id = userdata.email
     delete userdata.email
-    users.push(userdata)
 
     // cache user
     window.sessionStorage.user = JSON.stringify(userdata)
-    window.sessionStorage.users = JSON.stringify(users)
 
     // reflect user data on page
     state.user = userdata
