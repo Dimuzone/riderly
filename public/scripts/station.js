@@ -263,6 +263,7 @@ const Info = (report, category) => {
 
 const Message = (message) => {
   const { timestamp, route: routeid, username, content } = message
+  const route = state.routes.find(rt => rt.id === routeid)
   const now = Date.now()
   const ago = timediff(timestamp, now)
   return a({ class: 'option -message', href: 'chat.html#' + routeid }, [
@@ -272,7 +273,7 @@ const Message = (message) => {
       div({ class: 'option-meta' }, [
         div({ class: 'option-name' }, `"${content}"`),
         div({ class: 'option-data' },
-          ['from ', strong(username), ' on ', strong(routeid)])
+          ['from ', strong(username), ' on ', strong(route.number + route.pattern)])
       ])
     ]),
     div({ class: 'option-rhs' }, [
