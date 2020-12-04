@@ -69,7 +69,10 @@ function update (data) {
   patch($main, RoutePage(state))
   if (!$input) {
     $input = document.querySelector('.search-input')
-    if (state.filter) $input.value = state.filter.query
+    if (state.filter) {
+      $input.value = state.filter.query
+      $input.focus()
+    }
   }
 }
 
@@ -77,11 +80,20 @@ const RoutePage = (state) => {
   const { route, search, filter } = state
   const stations = route.path
 
-  const oninput = evt => {
+  const onclear = _ => {
+    $input.value = ''
+    $input.focus()
+    update({ filter: { ...state.filter, query: '', keywords: [], results: [] } })
+    delete window.sessionStorage.filter
+  }
+
+  const oninput = _ => {
     const query = $input.value
     const keywords = kwsplit(query)
     const results = !query ? [] : filterBy(stations, keywords)
-    update({ filter: { ...state.filter, query, keywords, results } })
+    const filter = { ...state.filter, query, keywords, results }
+    update({ filter })
+    window.sessionStorage.filter = JSON.stringify(filter)
   }
 
   return main({ class: `page -route -${route.id}` }, [
@@ -121,8 +133,10 @@ const RoutePage = (state) => {
               oninput
             }),
             filter.query
-              ? span({ class: 'icon -close material-icons', onclick: evt => evt },
-                  'close')
+              ? span({
+                  class: 'search-close icon -close material-icons',
+                  onclick: onclear
+                }, 'close')
               : null
           ]),
           div({ class: 'stations' },
